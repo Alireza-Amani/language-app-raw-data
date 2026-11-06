@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Raw Vault Data
+data/vault/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Environment & IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Home directory / VM artifacts
+.bash_logout
+.bashrc
+.gemini
+.profile
+.local/
+upload/
+raw_vault_setup_plan.md
