@@ -307,7 +307,7 @@ class VaultManager:
     ) -> List[Dict[str, Any]]:
         """Search raw transcripts using FTS5 full-text search.
         
-        Returns matching records with snippets and rank.
+        Returns matching records with snippets, item metadata (title, URL), and rank.
         """
         cleaned_query = query.strip()
         if not cleaned_query:
@@ -332,6 +332,8 @@ class VaultManager:
         SELECT
             p.id AS payload_id,
             p.item_id,
+            i.title AS item_title,
+            i.url AS item_url,
             p.payload_type,
             p.language_iso1,
             p.origin_type,
@@ -342,6 +344,7 @@ class VaultManager:
             bm25(payloads_fts) AS rank
         FROM payloads_fts
         JOIN payloads p ON payloads_fts.rowid = p.rowid
+        LEFT JOIN items i ON p.item_id = i.id
         WHERE payloads_fts MATCH ?
         """
         params: List[Any] = [fts_query]

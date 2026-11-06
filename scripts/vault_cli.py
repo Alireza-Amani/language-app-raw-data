@@ -129,8 +129,10 @@ def cmd_search(args: argparse.Namespace) -> int:
             return 0
 
         for idx, match in enumerate(results, start=1):
-            print(f"[{idx}] Payload: {match['payload_id'][:12]}... | Item: {match['item_id']}")
-            print(f"    Language: {match['language_iso1']} | Origin: {match['origin_type']} | Type: {match['payload_type']}")
+            print(f"[{idx}] Item ID : {match['item_id']}")
+            print(f"    Title   : {match.get('item_title') or 'N/A'}")
+            print(f"    URL     : {match.get('item_url') or 'N/A'}")
+            print(f"    Payload : {match['payload_id'][:12]}... (format: {match['format']}, lang: {match['language_iso1']}, origin: {match['origin_type']})")
             snippet = match.get("snippet", "").replace("\n", " ")
             print(f"    Snippet : {snippet}")
             print("-" * 60)
@@ -138,6 +140,44 @@ def cmd_search(args: argparse.Namespace) -> int:
     except Exception as e:
         print(f"[!] Search failed: {e}", file=sys.stderr)
         return 1
+
+
+def cmd_inspect(args: argparse.Namespace) -> int:
+    """Inspect a specific item, its URL, and its payloads."""
+    db_path = Path(args.db_path)
+    if not db_path.exists():
+        print(f"[!] Database file not found at {db_path}.", file=sys.stderr)
+        return 1
+
+    with VaultManager(db_path=db_path) as vm:
+        item = vm.get_item(args.item_id)
+        if not item:
+            # Try prepending 'yt:' if user typed bare id
+            item = vm.get_item(f"yt:{args.item_id}")
+        if not item:
+            print(f"[!] Item '{args.item_id}' not found in vault.", file=sys.stderr)
+            return 1
+
+        payloads = vm.get_payloads_by_item(item["id"])
+        source = vm.get_source(item["source_id"])
+
+    print("=" * 60)
+    print(f"ITEM DETAILS: {item['id']}")
+    print("=" * 60)
+    print(f"Title         : {item['title']}")
+    print(f"Direct URL    : {item['url']}")
+    print(f"Source        : {item['source_id']} ({source['name'] if source else 'N/A'})")
+    print(f"Published At  : {item['published_at']}")
+    print(f"Duration      : {item['duration_seconds']} seconds ({item['duration_seconds'] / 60.0:.1f} mins)")
+    print(f"View Count    : {item['view_count']:,}" if item['view_count'] else "View Count    : N/A")
+    print(f"Payloads Found: {len(payloads)}")
+    print("-" * 60)
+    for p in payloads:
+        print(f"  * Payload ID   : {p['id'][:16]}...")
+        print(f"    Type/Origin  : {p['payload_type']} | {p['origin_type']} | format: {p['format']}")
+        print(f"    Sample Cues  :\n{p['raw_content'][:200]}...")
+    print("=" * 60)
+    return 0
 
 
 def main() -> int:
@@ -179,6 +219,10 @@ def main() -> int:
     p_search.add_argument("--limit", type=int, default=20, help="Maximum number of results to display")
     p_search.add_argument("--json", action="store_true", help="Output raw JSON")
 
+    # inspect
+    p_inspect = subparsers.add_parser("inspect", parents=[parent_parser], help="Inspect an item and view direct URL")
+    p_inspect.add_argument("item_id", help="Item ID (e.g. yt:VY9xO-tUQFc or VY9xO-tUQFc)")
+
     args = parser.parse_args()
 
     if args.command == "init":
@@ -187,6 +231,8 @@ def main() -> int:
         return cmd_stats(args)
     elif args.command == "search":
         return cmd_search(args)
+    elif args.command == "inspect":
+        return cmd_inspect(args)
     else:
         parser.print_help()
         return 1
