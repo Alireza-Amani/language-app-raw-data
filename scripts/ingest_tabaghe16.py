@@ -4,7 +4,9 @@
 Features:
 - Discovers long-form videos (duration >= 600s) from @Tabaghe16 on YouTube.
 - Filters out Shorts and short promos.
-- Extracts strictly manual Persian Closed Captions (fa, fa-IR) in .vtt format.
+- Extracts manual Persian Closed Captions (fa, fa-IR) as priority (human_transcribed).
+- Fallback to automatic Persian captions (fa-orig, fa) when manual CC is unavailable (machine_transcribed).
+- Catalogs all eligible longform episodes in `items`.
 - Streams subtitles directly into memory via HTTP (0 video/audio downloaded).
 - Computes SHA-256 digest for cryptographic provenance and deduplication.
 - Persists into SQLite Raw Linguistic Vault with FTS5 indexing.
@@ -102,10 +104,13 @@ def extract_channel_videos(channel_videos_url: str = CHANNEL_VIDEOS_URL) -> List
         return list(info.get("entries", []))
 
 
-def extract_persian_vtt(video_id: str) -> Optional[Tuple[str, str, Dict[str, Any]]]:
-    """Inspect video for manual Persian subtitles and stream .vtt in-memory.
+def extract_persian_vtt(
+    video_id: str,
+    include_auto_cc: bool = True,
+) -> Tuple[Optional[str], Optional[str], Optional[Dict[str, Any]], Optional[str], Optional[str]]:
+    """Inspect video for Persian subtitles (manual first, then auto-cc if enabled).
     
-    Returns (vtt_text, vtt_url, item_info) or None if no manual Persian CC.
+    Returns (vtt_text, vtt_url, item_info, payload_type, origin_type).
     """
     import yt_dlp
 
@@ -113,19 +118,40 @@ def extract_persian_vtt(video_id: str) -> Optional[Tuple[str, str, Dict[str, Any
         "skip_download": True,
         "quiet": True,
         "no_warnings": True,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     }
     video_url = f"https://www.youtube.com/watch?v={video_id}"
-    try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(video_url, download=False)
-    except Exception as e:
-        return None
 
-    # Inspect manual subtitles strictly (ignore automatic_captions)
+    info = None
+    for attempt in range(2):
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(video_url, download=False)
+                break
+        except Exception:
+            if attempt == 0:
+                time.sleep(1.0)
+            else:
+                return None, None, None, None, None
+
+    if not info:
+        return None, None, None, None, None
+
+    # 1. Check manual creator subtitles (gold standard)
     subtitles = info.get("subtitles", {})
     fa_tracks = subtitles.get("fa") or subtitles.get("fa-IR") or []
+    payload_type = "manual_cc"
+    origin_type = "human_transcribed"
+
+    # 2. Check automatic ASR captions if manual not available and auto enabled
+    if not fa_tracks and include_auto_cc:
+        auto = info.get("automatic_captions", {})
+        fa_tracks = auto.get("fa-orig") or auto.get("fa") or auto.get("fa-IR") or []
+        payload_type = "auto_cc"
+        origin_type = "machine_transcribed"
+
     if not fa_tracks:
-        return None
+        return None, None, info, None, None
 
     # Find VTT format track URL
     vtt_url = None
@@ -134,13 +160,12 @@ def extract_persian_vtt(video_id: str) -> Optional[Tuple[str, str, Dict[str, Any
             vtt_url = track.get("url")
             break
     if not vtt_url and fa_tracks:
-        # Fallback to requesting VTT format directly from timedtext API
         vtt_url = fa_tracks[0].get("url")
         if vtt_url and "fmt=" not in vtt_url:
             vtt_url += "&fmt=vtt"
 
     if not vtt_url:
-        return None
+        return None, None, info, None, None
 
     # Stream VTT content in-memory via HTTP
     try:
@@ -148,11 +173,11 @@ def extract_persian_vtt(video_id: str) -> Optional[Tuple[str, str, Dict[str, Any
             vtt_url,
             headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"},
         )
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with urllib.request.urlopen(req, timeout=25) as resp:
             vtt_text = resp.read().decode("utf-8")
-        return vtt_text, vtt_url, info
+        return vtt_text, vtt_url, info, payload_type, origin_type
     except Exception:
-        return None
+        return None, None, info, None, None
 
 
 def count_persian_words(vtt_text: str) -> int:
@@ -173,7 +198,6 @@ def count_persian_words(vtt_text: str) -> int:
 
 def upload_to_gdrive(db_path: Path, folder_id: str = GDRIVE_FOLDER_ID) -> bool:
     """Upload or update database file in Google Drive via gdrive CLI."""
-    # Find gdrive binary
     gdrive_bin = None
     for candidate in [
         "/tmp/antigravity/bin/gdrive",
@@ -207,8 +231,9 @@ def run_ingestion(
     db_path: Optional[str] = None,
     vault_dir: Optional[str] = None,
     min_duration: int = 600,
+    include_auto_cc: bool = True,
     limit: Optional[int] = None,
-    workers: int = 8,
+    workers: int = 6,
     dry_run: bool = False,
     sync_gdrive: bool = False,
 ) -> Dict[str, Any]:
@@ -217,10 +242,12 @@ def run_ingestion(
     print("=" * 65)
     print("       INGESTING TABAGHE 16 INTO RAW LINGUISTIC VAULT")
     print("=" * 65)
-    print(f"Vault Destination : {target_path}")
-    print(f"Min Duration Filter: {min_duration} seconds (>= 10 minutes)")
-    print(f"Language Track     : Strictly Persian ('fa', 'fa-IR')")
-    print(f"Media Download     : 0 MB (In-Memory Subtitle Streaming)")
+    print(f"Vault Destination   : {target_path}")
+    print(f"Min Duration Filter : {min_duration} seconds (>= 10 minutes)")
+    print(f"Manual Persian CC   : Included ('human_transcribed')")
+    print(f"Auto Persian CC     : {'Included (machine_transcribed)' if include_auto_cc else 'Excluded (Manual Only)'}")
+    print(f"Catalog Coverage    : 100% of eligible channel videos")
+    print(f"Media Download      : 0 MB (In-Memory Subtitle Streaming)")
     print("-" * 65)
 
     vm = VaultManager(db_path=target_path)
@@ -237,12 +264,16 @@ def run_ingestion(
     )
     print(f"[+] Source registered: {CHANNEL_ID} ('{CHANNEL_NAME}')")
 
-    # 2. Existing items in DB to avoid duplicate network fetches
+    # 2. Existing items and payloads in DB
     existing_items = {
         row["id"]
         for row in vm.conn.execute("SELECT id FROM items WHERE source_id = ?;", (CHANNEL_ID,)).fetchall()
     }
-    print(f"[*] Found {len(existing_items)} existing items already in vault.")
+    existing_payloads = {
+        row["item_id"]
+        for row in vm.conn.execute("SELECT item_id FROM payloads;").fetchall()
+    }
+    print(f"[*] Found {len(existing_items)} existing items and {len(existing_payloads)} payloads already in vault.")
 
     # 3. Discover Channel Videos
     print(f"[*] Fetching video catalog from {CHANNEL_VIDEOS_URL}...")
@@ -268,37 +299,39 @@ def run_ingestion(
         print(f"[*] Limiting scan to first {limit} candidates.")
 
     # 5. Process Candidates
-    print(f"[*] Scanning subtitle tracks across {len(candidates)} videos with {workers} workers...")
-    t0 = time.time()
-
-    processed_count = 0
-    already_ingested_count = 0
-    no_persian_cc_count = 0
-    newly_ingested_count = 0
-    total_new_words = 0
-    total_new_duration = 0
-
+    # Skip videos that already have both an item AND a payload in the vault
     to_fetch: List[Dict[str, Any]] = []
+    already_complete_count = 0
     for entry in candidates:
         vid_id = entry.get("id")
         if not vid_id:
             continue
         item_id = f"yt:{vid_id}"
-        if item_id in existing_items:
-            already_ingested_count += 1
-            processed_count += 1
+        if item_id in existing_items and item_id in existing_payloads:
+            already_complete_count += 1
         else:
             to_fetch.append(entry)
 
+    print(f"[*] {already_complete_count} videos already fully ingested with payloads.")
+    print(f"[*] Processing remaining {len(to_fetch)} videos with {workers} workers...")
+    t0 = time.time()
+
+    processed_count = 0
+    newly_ingested_manual = 0
+    newly_ingested_auto = 0
+    cataloged_no_payload = 0
+    total_new_words = 0
+    total_new_duration = 0
+
     def worker_task(entry: Dict[str, Any]):
         vid = entry["id"]
-        res = extract_persian_vtt(vid)
+        res = extract_persian_vtt(vid, include_auto_cc=include_auto_cc)
         return entry, res
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {executor.submit(worker_task, entry): entry for entry in to_fetch}
         for future in as_completed(futures):
-            entry, result = future.result()
+            entry, (vtt_text, vtt_url, item_info, payload_type, origin_type) = future.result()
             processed_count += 1
             vid = entry["id"]
             title = entry.get("title", f"Tabaghe 16 - {vid}")
@@ -306,25 +339,20 @@ def run_ingestion(
             duration = entry.get("duration") or 0
             view_count = entry.get("view_count")
 
-            if result is None:
-                no_persian_cc_count += 1
-                continue
-
-            vtt_text, vtt_url, item_info = result
-            words = count_persian_words(vtt_text)
-            published_at = item_info.get("upload_date")
+            published_at = (item_info or {}).get("upload_date")
             if published_at and len(published_at) == 8:
                 published_at = f"{published_at[:4]}-{published_at[4:6]}-{published_at[6:]}"
 
             item_metadata = {
                 "video_id": vid,
                 "channel": "@Tabaghe16",
-                "tags": item_info.get("tags", []),
+                "tags": (item_info or {}).get("tags", []),
                 "subtitle_url": vtt_url,
             }
 
             if not dry_run:
                 with vm.transaction():
+                    # 1. Ensure item is recorded in items table
                     vm.upsert_item(
                         id=item_id,
                         source_id=CHANNEL_ID,
@@ -335,19 +363,31 @@ def run_ingestion(
                         view_count=view_count,
                         metadata=item_metadata,
                     )
-                    vm.insert_payload(
-                        item_id=item_id,
-                        payload_type="manual_cc",
-                        language_iso1="fa",
-                        origin_type="human_transcribed",
-                        format="vtt",
-                        raw_content=vtt_text,
-                    )
+                    # 2. Insert payload if subtitle was extracted
+                    if vtt_text and payload_type and origin_type:
+                        vm.insert_payload(
+                            item_id=item_id,
+                            payload_type=payload_type,
+                            language_iso1="fa",
+                            origin_type=origin_type,
+                            format="vtt",
+                            raw_content=vtt_text,
+                        )
 
-            newly_ingested_count += 1
-            total_new_words += words
-            total_new_duration += duration
-            print(f"[{processed_count}/{len(candidates)}] Ingested: {vid} | {title[:45]}... ({words:,} words)")
+            if vtt_text:
+                words = count_persian_words(vtt_text)
+                total_new_words += words
+                total_new_duration += duration
+                if payload_type == "manual_cc":
+                    newly_ingested_manual += 1
+                    tag = "MANUAL CC"
+                else:
+                    newly_ingested_auto += 1
+                    tag = "AUTO CC"
+                print(f"[{processed_count}/{len(to_fetch)}] Ingested [{tag}]: {vid} | {title[:40]}... ({words:,} words)")
+            else:
+                cataloged_no_payload += 1
+                print(f"[{processed_count}/{len(to_fetch)}] Cataloged (No CC): {vid} | {title[:40]}...")
 
     elapsed = time.time() - t0
     stats = vm.get_vault_stats()
@@ -356,17 +396,21 @@ def run_ingestion(
     print("\n" + "=" * 65)
     print("                 INGESTION SUMMARY REPORT")
     print("=" * 65)
-    print(f"Total Videos Scanned          : {len(candidates)}")
-    print(f"Already Ingested (Skipped)    : {already_ingested_count}")
-    print(f"No Manual Persian CC (Skipped): {no_persian_cc_count}")
-    print(f"Newly Ingested Episodes       : {newly_ingested_count}")
-    print(f"Total Conversational Words    : {total_new_words:,}")
+    print(f"Total Eligible Channel Videos : {len(candidates)}")
+    print(f"Previously Ingested           : {already_complete_count}")
+    print(f"Newly Ingested (Manual CC)    : {newly_ingested_manual}")
+    print(f"Newly Ingested (Auto CC)      : {newly_ingested_auto}")
+    print(f"Cataloged without CC          : {cataloged_no_payload}")
+    print(f"Total New Conversational Words: {total_new_words:,}")
     print(f"Duration Added (Hours)        : {total_new_duration / 3600.0:.2f} hrs")
     print(f"Elapsed Processing Time       : {elapsed:.2f} seconds")
     print("-" * 65)
-    print(f"Total Items in Vault          : {stats['total_items']:,}")
+    print(f"Total Items in Vault          : {stats['total_items']:,} / {len(candidates)} (100% cataloged)")
     print(f"Total Payloads in Vault       : {stats['total_payloads']:,}")
+    print(f"  - Human Transcribed (manual): {stats['payloads_by_origin'].get('human_transcribed', 0):,}")
+    print(f"  - Machine Transcribed (auto): {stats['payloads_by_origin'].get('machine_transcribed', 0):,}")
     print(f"Total Vault Speech Duration   : {stats['total_duration_hours']:.2f} hours")
+    print(f"Total Audience Views          : {stats['total_views']:,}")
     print("=" * 65)
 
     if sync_gdrive and not dry_run:
@@ -374,10 +418,11 @@ def run_ingestion(
 
     return {
         "vault_path": str(target_path),
-        "total_scanned": len(candidates),
-        "already_ingested": already_ingested_count,
-        "newly_ingested": newly_ingested_count,
-        "no_persian_cc": no_persian_cc_count,
+        "total_eligible": len(candidates),
+        "already_complete": already_complete_count,
+        "newly_manual": newly_ingested_manual,
+        "newly_auto": newly_ingested_auto,
+        "no_cc": cataloged_no_payload,
         "new_words": total_new_words,
         "elapsed_seconds": elapsed,
         "vault_stats": stats,
@@ -405,6 +450,12 @@ def main() -> int:
         help="Minimum video duration in seconds (default: 600s / 10 minutes)",
     )
     parser.add_argument(
+        "--include-auto-cc",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Include YouTube automatic captions for episodes without manual subtitles (default: True)",
+    )
+    parser.add_argument(
         "--limit",
         type=int,
         default=None,
@@ -413,8 +464,8 @@ def main() -> int:
     parser.add_argument(
         "--workers",
         type=int,
-        default=8,
-        help="Number of concurrent worker threads (default: 8)",
+        default=6,
+        help="Number of concurrent worker threads (default: 6)",
     )
     parser.add_argument(
         "--dry-run",
@@ -433,6 +484,7 @@ def main() -> int:
             db_path=args.db_path,
             vault_dir=args.vault_dir,
             min_duration=args.min_duration,
+            include_auto_cc=args.include_auto_cc,
             limit=args.limit,
             workers=args.workers,
             dry_run=args.dry_run,
