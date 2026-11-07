@@ -107,7 +107,21 @@ def sync_vault_to_gdrive(vault_path: Path, folder_id: str = GDRIVE_FOLDER_ID) ->
     env["ANTIGRAVITY_APP_DATA_DIR"] = "/tmp/antigravity"
     env["HOME"] = str(Path.home())
 
-    cmd = [gdrive_bin, "mutate", "upload", str(vault_path), "--parent", folder_id]
+    # Check if raw_vault.db already exists in the target Drive folder
+    target_file_id = None
+    ls_res = subprocess.run([gdrive_bin, "readonly", "ls", folder_id], capture_output=True, text=True, env=env)
+    if ls_res.returncode == 0:
+        for line in ls_res.stdout.splitlines():
+            parts = line.split()
+            if len(parts) >= 2 and parts[1] == vault_path.name:
+                target_file_id = parts[0]
+                break
+
+    if target_file_id:
+        cmd = [gdrive_bin, "mutate", "update", target_file_id, str(vault_path)]
+    else:
+        cmd = [gdrive_bin, "mutate", "upload", str(vault_path), "--parent", folder_id]
+
     res = subprocess.run(cmd, capture_output=True, text=True, env=env)
     if res.returncode == 0:
         logger.info(f"[+] Successfully synced vault to Google Drive: {res.stdout.strip()}")
