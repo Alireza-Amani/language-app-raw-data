@@ -58,3 +58,4 @@ data/staging/
 upload/
 raw_vault_setup_plan.md
 .agents/
+.gitconfig
