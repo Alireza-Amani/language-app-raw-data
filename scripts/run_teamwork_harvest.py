@@ -50,6 +50,8 @@ def run_shard_worker(
     min_duration: int,
     workers: int,
     dry_run: bool,
+    vault_path: str = "",
+    live: bool = True,
 ) -> Tuple[int, int, float, str]:
     """Execute a single shard harvester in a subprocess.
 
@@ -75,6 +77,10 @@ def run_shard_worker(
     ]
     if all_videos:
         cmd.append("--all-videos")
+    if live:
+        cmd.append("--live")
+    if vault_path:
+        cmd.extend(["--vault-path", str(vault_path)])
     if dry_run:
         cmd.append("--dry-run")
 
@@ -146,6 +152,7 @@ def run_orchestration(
     parallel: bool = True,
     dry_run: bool = False,
     sync_gdrive: bool = False,
+    live: bool = True,
 ) -> Dict[str, Any]:
     """Execute complete multi-agent harvest orchestration."""
     start_time = time.time()
@@ -165,6 +172,7 @@ def run_orchestration(
     print(f"Duration Threshold  : >= {min_duration}s (>= 10 minutes)")
     print(f"Execution Mode      : {'Parallel' if parallel else 'Sequential'}")
     print(f"Auto-Merge Enabled  : {auto_merge}")
+    print(f"Live Discovery      : {live}")
     print("-" * 70)
 
     # Step 1: Partition Channels
@@ -192,6 +200,8 @@ def run_orchestration(
                     min_duration=min_duration,
                     workers=workers_per_shard,
                     dry_run=dry_run,
+                    vault_path=str(vault_p),
+                    live=live,
                 )
                 for i in range(1, shards + 1)
             ]
@@ -208,6 +218,8 @@ def run_orchestration(
                 min_duration=min_duration,
                 workers=workers_per_shard,
                 dry_run=dry_run,
+                vault_path=str(vault_p),
+                live=live,
             )
             shard_results.append(res)
 
@@ -340,6 +352,12 @@ def main() -> int:
         action="store_true",
         help="Upload/sync canonical vault to Google Drive after merger",
     )
+    parser.add_argument(
+        "--live",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Perform live flat playlist extraction from YouTube (default: True)",
+    )
 
     args = parser.parse_args()
     try:
@@ -358,6 +376,7 @@ def main() -> int:
             parallel=args.parallel,
             dry_run=args.dry_run,
             sync_gdrive=args.sync_gdrive,
+            live=args.live,
         )
         return 0 if res["status"] == "SUCCESS" else 1
     except Exception as e:

@@ -50,10 +50,14 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 
 # Canonical handle anomaly remediation mapping
 HANDLE_REMEDIATIONS: Dict[str, str] = {
+    "kouman": "@Kouman",
+    "@kouman": "@Kouman",
     "kouman_official": "@Kouman",
     "@kouman_official": "@Kouman",
     "radiomarz": "@radio-marz",
     "@radiomarz": "@radio-marz",
+    "radio-marz": "@radio-marz",
+    "@radio-marz": "@radio-marz",
     "tabaghe16": "@Tabaghe16",
     "@tabaghe16": "@Tabaghe16",
     "channelbpodcast": "@ChannelBPodcast",
@@ -292,6 +296,8 @@ def harvest_channel_shard(
     vtt_provider: Optional[Callable[[str, str], Optional[str]]] = None,
     channel_video_provider: Optional[Callable[[str], List[Dict[str, Any]]]] = None,
     workers: int = 1,
+    live_extraction: bool = False,
+    vault_path: Optional[Union[str, Path]] = None,
 ) -> Dict[str, Any]:
     """Execute harvesting for an isolated shard with genuine SQLite writes.
 
@@ -394,6 +400,16 @@ def harvest_channel_shard(
         existing_payload_items = {
             row[0] for row in conn.execute("SELECT item_id FROM payloads;").fetchall()
         }
+        if vault_path and Path(vault_path).is_file():
+            try:
+                vconn = sqlite3.connect(str(vault_path))
+                for row in vconn.execute("SELECT id FROM items;").fetchall():
+                    existing_item_ids.add(row[0])
+                for row in vconn.execute("SELECT item_id FROM payloads;").fetchall():
+                    existing_payload_items.add(row[0])
+                vconn.close()
+            except Exception:
+                pass
     else:
         existing_item_ids = set()
         existing_payload_items = set()
@@ -440,7 +456,11 @@ def harvest_channel_shard(
                 videos = channel_video_provider(f"@{norm_handle}") or []
             elif not videos and norm_handle.startswith("@"):
                 videos = channel_video_provider(norm_handle.lstrip("@")) or []
-        elif norm_handle.lower() in catalog_videos_by_channel:
+        elif (
+            not live_extraction
+            and norm_handle.lower() in catalog_videos_by_channel
+            and catalog_videos_by_channel[norm_handle.lower()]
+        ):
             videos = catalog_videos_by_channel[norm_handle.lower()]
         elif not dry_run:
             # Live flat playlist extraction with yt_dlp
@@ -451,11 +471,15 @@ def harvest_channel_shard(
                     "extract_flat": True,
                     "quiet": True,
                     "no_warnings": True,
+                    "extractor_args": {"youtube": {"player_client": ["android"]}},
                 }
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                    info = ydl.extract_info(
-                        f"https://www.youtube.com/{norm_handle}/videos", download=False
-                    )
+                    channel_url = f"https://www.youtube.com/{norm_handle}/videos"
+                    try:
+                        info = ydl.extract_info(channel_url, download=False)
+                    except Exception:
+                        channel_url = f"https://www.youtube.com/{norm_handle}"
+                        info = ydl.extract_info(channel_url, download=False)
                     videos = list(info.get("entries", [])) if info else []
             except Exception as exc:
                 logger.warning("yt_dlp extraction failed for %s: %s", norm_handle, exc)
@@ -542,12 +566,22 @@ def harvest_channel_shard(
                     try:
                         import yt_dlp
 
-                        with yt_dlp.YoutubeDL(
-                            {"skip_download": True, "quiet": True, "no_warnings": True}
-                        ) as ydl:
-                            full_info = ydl.extract_info(v_url, download=False)
-                            if full_info:
-                                vtt_url, p_type, o_type = resolve_persian_subtitles(full_info)
+                        ydl_sub_opts = {
+                            "skip_download": True,
+                            "quiet": True,
+                            "no_warnings": True,
+                            "extractor_args": {"youtube": {"player_client": ["android"]}},
+                        }
+                        for attempt in range(3):
+                            try:
+                                with yt_dlp.YoutubeDL(ydl_sub_opts) as ydl:
+                                    full_info = ydl.extract_info(v_url, download=False)
+                                    if full_info:
+                                        vtt_url, p_type, o_type = resolve_persian_subtitles(full_info)
+                                break
+                            except Exception:
+                                if attempt < 2:
+                                    time.sleep(0.5 * (attempt + 1))
                     except Exception:
                         pass
 
@@ -666,6 +700,17 @@ def build_parser() -> ShardHarvestArgumentParser:
         default=False,
         help="Simulate harvesting without writing to disk.",
     )
+    parser.add_argument(
+        "--live",
+        action="store_true",
+        default=False,
+        help="Perform live flat playlist extraction from YouTube instead of catalog samples.",
+    )
+    parser.add_argument(
+        "--vault-path",
+        default="data/vault/language-app-raw-data/raw_vault.db",
+        help="Path to canonical vault to pre-populate existing items for skipping.",
+    )
     return parser
 
 
@@ -718,6 +763,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             catalog_path=args.catalog,
             dry_run=args.dry_run,
             workers=args.workers,
+            live_extraction=args.live,
+            vault_path=args.vault_path,
         )
         print(json.dumps(metrics, indent=2))
         return 0
