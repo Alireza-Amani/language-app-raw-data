@@ -859,3 +859,65 @@ def test_cli_subprocess_invocation(tmp_staging_dir: Path):
     data = json.loads(proc.stdout)
     assert data["shard_id"] == 1
     assert data["sources_processed"] == 1
+
+
+def test_french_regional_subtitle_resolution_and_harvest(tmp_staging_dir: Path):
+    """Verify resolve_subtitles and harvest_channel_shard for French regional tracks (fr-CA, fr-FR)."""
+    from scripts.harvest_channel_shard import resolve_subtitles
+
+    meta_ca = {
+        "subtitles": {
+            "fr-FR": [{"ext": "vtt", "url": "https://yt.test/fr_fr.vtt", "name": "Français (France)"}],
+            "fr-CA": [{"ext": "vtt", "url": "https://yt.test/fr_ca.vtt", "name": "Français (Canada)"}],
+        }
+    }
+    # When country_code="CA" is provided, fr-CA is prioritized over fr-FR
+    url, p_type, o_type, loc, track_meta = resolve_subtitles(meta_ca, language_iso1="fr", country_code="CA")
+    assert url == "https://yt.test/fr_ca.vtt"
+    assert p_type == "manual_cc"
+    assert o_type == "human_transcribed"
+    assert loc == "fr-CA"
+    assert track_meta["track_name"] == "Français (Canada)"
+
+    # Harvest a French-Canadian channel into shard DB
+    channels_input = [
+        {
+            "handle": "@RadCa",
+            "country_code": "CA",
+            "region": "Quebec",
+            "register": "broadcast",
+            "interaction_type": "dialogue",
+        }
+    ]
+    sample_vtt = "WEBVTT\n\n00:00:01.000 --> 00:00:04.000\nBonjour tout le monde à Montréal.\n"
+    metrics = harvest_channel_shard(
+        shard_id=9,
+        channels=channels_input,
+        staging_dir=tmp_staging_dir,
+        language_iso1="fr",
+        country_code="CA",
+        channel_video_provider=lambda _h: [
+            {
+                "id": "qc_vid_01",
+                "title": "Reportage à Québec",
+                "duration": 900,
+                "view_count": 50000,
+                "subtitles": {
+                    "fr-CA": [{"ext": "vtt", "url": "https://yt.test/qc_vid_01.vtt", "name": "Français (Canada)"}]
+                },
+            }
+        ],
+        vtt_provider=lambda _vid, _url: sample_vtt,
+    )
+    assert metrics["payloads_inserted"] == 1
+    with VaultManager(db_path=tmp_staging_dir / "shard_9.db") as vm:
+        src = vm.get_source("yt:@RadCa")
+        assert src["language_iso1"] == "fr"
+        assert src["country_code"] == "CA"
+        assert json.loads(src["metadata_json"])["region"] == "Quebec"
+        payloads = vm.get_payloads_by_item("yt:qc_vid_01")
+        assert len(payloads) == 1
+        assert payloads[0]["language_iso1"] == "fr"
+        assert payloads[0]["locale"] == "fr-CA"
+        assert json.loads(payloads[0]["metadata_json"])["track_name"] == "Français (Canada)"
+

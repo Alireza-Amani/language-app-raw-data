@@ -62,9 +62,9 @@ Falsely tagging machine-generated transcripts as `human_transcribed` invalidates
 ## Schema Reference for Ingestion Agents
 
 ```sql
-sources (id, platform, language_iso1, name, url, metadata_json, created_at)
+sources (id, platform, language_iso1, country_code, name, url, metadata_json, created_at)
   └── items (id, source_id, title, url, published_at, duration_seconds, view_count, metadata_json, created_at)
-        └── payloads (id [SHA-256], item_id, payload_type, language_iso1, origin_type, format, raw_content, fetched_at)
+        └── payloads (id [SHA-256], item_id, payload_type, language_iso1, locale, origin_type, format, raw_content, metadata_json, fetched_at)
 ```
 
 ## Permitted Values Matrix
@@ -75,4 +75,22 @@ sources (id, platform, language_iso1, name, url, metadata_json, created_at)
 | `payload_type` | `manual_cc`, `auto_cc`, `whisper`, `article_text`, `book_chapter`, `comment_thread` | Identifies ingestion channel |
 | `origin_type` | `human_transcribed`, `machine_transcribed`, `human_written`, `machine_translated` | Mandatory origin verification |
 | `format` | `vtt`, `srt`, `json3`, `txt`, `html`, `json` | File format of `raw_content` |
-| `language_iso1` | Valid ISO-639-1 code (`fa`, `es`, `en`, `de`, `ar`, etc.) | Target language of payload |
+| `language_iso1` | Valid ISO-639-1 code (`fa`, `fr`, `es`, `en`, `de`, `ar`, `zh`, etc.) | Base 2-letter language code |
+| `country_code` | Valid ISO 3166-1 alpha-2 code (`FR`, `CA`, `BE`, `CH`, `SN`, `CI`, `IR`, etc.) | Country of origin for source/creator |
+| `locale` | Valid BCP-47 tag (`fr-CA`, `fr-FR`, `fr-BE`, `fr-CH`, `fa-IR`, `zh-Hans`, etc.) | Dialect, regional variety, or script tag |
+
+## Standardized `metadata_json` Conventions
+
+To support multi-register and multi-region linguistic analysis without relational schema bloat, agents should populate the following keys in `metadata_json` when known:
+
+- **`sources.metadata_json`**:
+  - `country_code`: ISO 3166-1 alpha-2 (`"FR"`, `"CA"`, `"BE"`, `"CH"`, `"SN"`)
+  - `region`: Sub-national or cultural region (`"Quebec"`, `"Wallonia"`, `"Romandy"`, `"West Africa"`)
+  - `register`: `"conversational"`, `"broadcast"`, `"formal"`, `"narrative"`, `"academic"`
+  - `interaction_type`: `"dialogue"`, `"monologue"`, `"panel"`
+  - `domain`: Content category (`"comedy_podcast"`, `"news"`, `"street_interview"`, `"documentary"`)
+- **`payloads.metadata_json`**:
+  - `track_key`: Upstream subtitle language key (`"fr-CA"`, `"fr-orig"`)
+  - `track_name`: Upstream human-readable track label (`"Français (Canada)"`)
+  - `asr_model`: Model identifier if machine-transcribed (`"youtube_asr"`, `"whisper-large-v3"`)
+  - `code_switching`: Optional list of secondary language codes if mixed speech occurs (`["en"]`, `["wo"]`)

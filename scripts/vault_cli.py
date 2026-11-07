@@ -77,6 +77,13 @@ def cmd_stats(args: argparse.Namespace) -> int:
         else:
             print("  (none)")
 
+        print("\n--- Sources by Country ---")
+        if stats.get("sources_by_country"):
+            for country, count in stats["sources_by_country"].items():
+                print(f"  {country:<20}: {count:>8,}")
+        else:
+            print("  (none)")
+
         print("\n--- Payloads by Type ---")
         if stats["payloads_by_type"]:
             for p_type, count in stats["payloads_by_type"].items():
@@ -95,6 +102,13 @@ def cmd_stats(args: argparse.Namespace) -> int:
         if stats["payloads_by_language"]:
             for lang, count in stats["payloads_by_language"].items():
                 print(f"  {lang:<20}: {count:>8,}")
+        else:
+            print("  (none)")
+
+        print("\n--- Payloads by Locale ---")
+        if stats.get("payloads_by_locale"):
+            for loc, count in stats["payloads_by_locale"].items():
+                print(f"  {loc:<20}: {count:>8,}")
         else:
             print("  (none)")
         print("=" * 60)
@@ -117,6 +131,8 @@ def cmd_search(args: argparse.Namespace) -> int:
                 query=args.query,
                 language_iso1=getattr(args, "lang", None),
                 limit=getattr(args, "limit", 20),
+                locale=getattr(args, "locale", None),
+                country_code=getattr(args, "country", None),
             )
 
         if getattr(args, "json", False):
@@ -132,7 +148,9 @@ def cmd_search(args: argparse.Namespace) -> int:
             print(f"[{idx}] Item ID : {match['item_id']}")
             print(f"    Title   : {match.get('item_title') or 'N/A'}")
             print(f"    URL     : {match.get('item_url') or 'N/A'}")
-            print(f"    Payload : {match['payload_id'][:12]}... (format: {match['format']}, lang: {match['language_iso1']}, origin: {match['origin_type']})")
+            loc_str = match.get("locale") or match["language_iso1"]
+            country_str = f", country: {match['country_code']}" if match.get("country_code") else ""
+            print(f"    Payload : {match['payload_id'][:12]}... (format: {match['format']}, lang: {match['language_iso1']}, locale: {loc_str}{country_str}, origin: {match['origin_type']})")
             snippet = match.get("snippet", "").replace("\n", " ")
             print(f"    Snippet : {snippet}")
             print("-" * 60)
@@ -166,7 +184,8 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     print("=" * 60)
     print(f"Title         : {item['title']}")
     print(f"Direct URL    : {item['url']}")
-    print(f"Source        : {item['source_id']} ({source['name'] if source else 'N/A'})")
+    src_country = f" [{source.get('country_code')}]" if source and source.get("country_code") else ""
+    print(f"Source        : {item['source_id']} ({source['name'] if source else 'N/A'}{src_country})")
     print(f"Published At  : {item['published_at']}")
     print(f"Duration      : {item['duration_seconds']} seconds ({item['duration_seconds'] / 60.0:.1f} mins)")
     print(f"View Count    : {item['view_count']:,}" if item['view_count'] else "View Count    : N/A")
@@ -174,7 +193,8 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     print("-" * 60)
     for p in payloads:
         print(f"  * Payload ID   : {p['id'][:16]}...")
-        print(f"    Type/Origin  : {p['payload_type']} | {p['origin_type']} | format: {p['format']}")
+        loc_info = f" | locale: {p['locale']}" if p.get("locale") else ""
+        print(f"    Type/Origin  : {p['payload_type']} | {p['origin_type']} | format: {p['format']}{loc_info}")
         print(f"    Sample Cues  :\n{p['raw_content'][:200]}...")
     print("=" * 60)
     return 0
@@ -215,7 +235,9 @@ def main() -> int:
     # search
     p_search = subparsers.add_parser("search", parents=[parent_parser], help="Full-text search (FTS5) across payloads")
     p_search.add_argument("query", help="Text, phrase, or term to search")
-    p_search.add_argument("--lang", default=None, help="Filter by ISO-639-1 language code (e.g. fa, es)")
+    p_search.add_argument("--lang", default=None, help="Filter by ISO-639-1 language code (e.g. fa, fr, es)")
+    p_search.add_argument("--locale", default=None, help="Filter by BCP-47 locale tag (e.g. fr-CA, fr-FR, fa-IR)")
+    p_search.add_argument("--country", default=None, help="Filter by source ISO-3166-1 country code (e.g. FR, CA, BE)")
     p_search.add_argument("--limit", type=int, default=20, help="Maximum number of results to display")
     p_search.add_argument("--json", action="store_true", help="Output raw JSON")
 

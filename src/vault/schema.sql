@@ -7,10 +7,11 @@ PRAGMA busy_timeout = 5000;
 CREATE TABLE IF NOT EXISTS sources (
     id TEXT PRIMARY KEY,                       -- e.g. "yt:@Tabaghe16", "web:bbc_persian"
     platform TEXT NOT NULL,                    -- "youtube", "podcast", "book", "web", "subtitle"
-    language_iso1 TEXT NOT NULL,               -- e.g. "fa", "es", "de"
+    language_iso1 TEXT NOT NULL,               -- e.g. "fa", "fr", "es", "de"
+    country_code TEXT DEFAULT NULL,            -- ISO 3166-1 alpha-2 e.g. "FR", "CA", "BE", "CH", "SN", "IR"
     name TEXT NOT NULL,                        -- Human-readable name: "طبقه 16"
     url TEXT NOT NULL,                         -- Source homepage / feed URL
-    metadata_json TEXT DEFAULT '{}',           -- Arbitrary JSON metadata (subscribers, tags)
+    metadata_json TEXT DEFAULT '{}',           -- Arbitrary JSON metadata (subscribers, register, tags)
     created_at TEXT NOT NULL                   -- ISO-8601 UTC timestamp
 );
 
@@ -33,21 +34,25 @@ CREATE TABLE IF NOT EXISTS payloads (
     id TEXT PRIMARY KEY,                       -- SHA-256 hex digest of raw_content bytes
     item_id TEXT NOT NULL,                     -- FK -> items.id
     payload_type TEXT NOT NULL,                -- "manual_cc", "auto_cc", "whisper", "article_text"
-    language_iso1 TEXT NOT NULL,               -- Target language code
+    language_iso1 TEXT NOT NULL,               -- Target language code (base ISO-639-1)
+    locale TEXT DEFAULT NULL,                  -- BCP-47 locale/dialect tag e.g. "fr-CA", "fr-FR", "fa-IR"
     origin_type TEXT NOT NULL,                 -- "human_transcribed", "machine_transcribed", "human_written", "machine_translated"
     format TEXT NOT NULL,                      -- "vtt", "json3", "srt", "txt", "html"
     raw_content TEXT NOT NULL,                 -- Raw unmodified transcript / text payload
+    metadata_json TEXT DEFAULT '{}',           -- Track metadata (track_name, asr_model, code_switching)
     fetched_at TEXT NOT NULL,                  -- ISO-8601 UTC timestamp of fetch
     FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );
 
 -- Indexes for lightning-fast queries
 CREATE INDEX IF NOT EXISTS idx_sources_lang ON sources (language_iso1);
+CREATE INDEX IF NOT EXISTS idx_sources_country ON sources (country_code);
 CREATE INDEX IF NOT EXISTS idx_items_source ON items (source_id);
 CREATE INDEX IF NOT EXISTS idx_items_views ON items (view_count DESC);
 CREATE INDEX IF NOT EXISTS idx_payloads_item ON payloads (item_id);
 CREATE INDEX IF NOT EXISTS idx_payloads_type ON payloads (payload_type);
 CREATE INDEX IF NOT EXISTS idx_payloads_origin ON payloads (origin_type);
+CREATE INDEX IF NOT EXISTS idx_payloads_locale ON payloads (locale);
 
 -- Full-Text Search (FTS5) for instant lexical / idiom discovery across transcripts
 CREATE VIRTUAL TABLE IF NOT EXISTS payloads_fts USING fts5(

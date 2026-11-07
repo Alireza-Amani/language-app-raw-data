@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sqlite3
 import subprocess
 import sys
@@ -400,3 +401,152 @@ def test_cli_execution(temp_db_path: Path):
     )
     assert res_search.returncode == 0
     assert "Found: 1 matches" in res_search.stdout
+
+
+def test_multi_region_french_country_locale_and_metadata(vault: VaultManager):
+    """Verify country_code on sources, locale and metadata_json on payloads, and filtered FTS search."""
+    vault.upsert_source(
+        id="yt:@innerFrench",
+        platform="youtube",
+        language_iso1="fr",
+        country_code="FR",
+        name="innerFrench",
+        url="https://youtube.com/@innerFrench",
+        metadata={"region": "Metropolitan France", "register": "conversational"},
+    )
+    vault.upsert_source(
+        id="yt:@SousEcoute",
+        platform="youtube",
+        language_iso1="fr",
+        name="Mike Ward Sous Écoute",
+        url="https://youtube.com/@SousEcoute",
+        metadata={"country_code": "ca", "region": "Quebec", "register": "colloquial", "interaction_type": "dialogue"},
+    )
+    vault.upsert_source(
+        id="yt:@RTBF",
+        platform="youtube",
+        language_iso1="fr",
+        country_code="BE",
+        name="RTBF",
+        url="https://youtube.com/@RTBF",
+    )
+
+    # Verify country_code normalization (explicit and extracted from metadata dict)
+    src_fr = vault.get_source("yt:@innerFrench")
+    src_ca = vault.get_source("yt:@SousEcoute")
+    assert src_fr["country_code"] == "FR"
+    assert src_ca["country_code"] == "CA"
+
+    vault.upsert_item("yt:fr_vid1", "yt:@innerFrench", "Comprendre les Français", "https://youtube.com/watch?v=fr_vid1")
+    vault.upsert_item("yt:ca_vid1", "yt:@SousEcoute", "Épisode à Montréal", "https://youtube.com/watch?v=ca_vid1")
+    vault.upsert_item("yt:be_vid1", "yt:@RTBF", "Journal parlé à Bruxelles", "https://youtube.com/watch?v=be_vid1")
+
+    pid_fr = vault.insert_payload(
+        item_id="yt:fr_vid1",
+        payload_type="manual_cc",
+        language_iso1="fr",
+        locale="fr-FR",
+        origin_type="human_transcribed",
+        format="vtt",
+        raw_content="WEBVTT\n\n00:00:01.000 --> 00:00:04.000\nAujourd'hui nous parlons de la francophonie internationale.",
+        metadata={"track_key": "fr-FR", "track_name": "Français (France)"},
+    )
+    pid_ca = vault.insert_payload(
+        item_id="yt:ca_vid1",
+        payload_type="manual_cc",
+        language_iso1="fr",
+        locale="fr-CA",
+        origin_type="human_transcribed",
+        format="vtt",
+        raw_content="WEBVTT\n\n00:00:01.000 --> 00:00:04.000\nAujourd'hui au Québec on jase de la francophonie internationale.",
+        metadata={"track_key": "fr-CA", "track_name": "Français (Canada)", "code_switching": ["en"]},
+    )
+    pid_be = vault.insert_payload(
+        item_id="yt:be_vid1",
+        payload_type="auto_cc",
+        language_iso1="fr",
+        locale="fr-BE",
+        origin_type="machine_transcribed",
+        format="vtt",
+        raw_content="WEBVTT\n\n00:00:01.000 --> 00:00:04.000\nÀ Bruxelles on célèbre septante ans de francophonie internationale.",
+        metadata={"track_key": "fr-BE", "asr_model": "youtube_asr"},
+    )
+
+    payload_ca = vault.get_payload(pid_ca)
+    assert payload_ca["locale"] == "fr-CA"
+    assert json.loads(payload_ca["metadata_json"])["track_name"] == "Français (Canada)"
+
+    # Search across all French varieties
+    all_fr = vault.search_text("francophonie internationale", language_iso1="fr")
+    assert len(all_fr) == 3
+
+    # Filter by country_code
+    only_ca = vault.search_text("francophonie internationale", language_iso1="fr", country_code="CA")
+    assert len(only_ca) == 1
+    assert only_ca[0]["payload_id"] == pid_ca
+    assert only_ca[0]["country_code"] == "CA"
+    assert only_ca[0]["locale"] == "fr-CA"
+
+    # Filter by locale
+    only_be = vault.search_text("francophonie internationale", locale="fr-BE")
+    assert len(only_be) == 1
+    assert only_be[0]["payload_id"] == pid_be
+    assert only_be[0]["country_code"] == "BE"
+
+    # Verify stats breakdowns
+    stats = vault.get_vault_stats()
+    assert stats["sources_by_country"] == {"FR": 1, "CA": 1, "BE": 1}
+    assert stats["payloads_by_locale"] == {"fr-FR": 1, "fr-CA": 1, "fr-BE": 1}
+
+
+def test_legacy_schema_auto_migration(temp_db_path: Path):
+    """Verify that opening a pre-existing legacy DB without country_code/locale migrates cleanly."""
+    conn = sqlite3.connect(str(temp_db_path))
+    conn.executescript(
+        """
+        CREATE TABLE sources (
+            id TEXT PRIMARY KEY,
+            platform TEXT NOT NULL,
+            language_iso1 TEXT NOT NULL,
+            name TEXT NOT NULL,
+            url TEXT NOT NULL,
+            metadata_json TEXT DEFAULT '{}',
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE items (
+            id TEXT PRIMARY KEY,
+            source_id TEXT NOT NULL,
+            title TEXT NOT NULL,
+            url TEXT NOT NULL,
+            published_at TEXT,
+            duration_seconds INTEGER,
+            view_count INTEGER,
+            metadata_json TEXT DEFAULT '{}',
+            created_at TEXT NOT NULL
+        );
+        CREATE TABLE payloads (
+            id TEXT PRIMARY KEY,
+            item_id TEXT NOT NULL,
+            payload_type TEXT NOT NULL,
+            language_iso1 TEXT NOT NULL,
+            origin_type TEXT NOT NULL,
+            format TEXT NOT NULL,
+            raw_content TEXT NOT NULL,
+            fetched_at TEXT NOT NULL
+        );
+        INSERT INTO sources VALUES ('yt:@Legacy', 'youtube', 'fa', 'Legacy', 'https://yt.com', '{}', '2026-11-01T00:00:00Z');
+        """
+    )
+    conn.commit()
+    conn.close()
+
+    with VaultManager(db_path=temp_db_path) as vm:
+        vm.init_db()
+        legacy_src = vm.get_source("yt:@Legacy")
+        assert legacy_src is not None
+        assert legacy_src["country_code"] is None
+
+        # Upsert with country_code on migrated DB
+        vm.upsert_source("yt:@Legacy", "youtube", "fa", "Legacy", "https://yt.com", country_code="IR")
+        assert vm.get_source("yt:@Legacy")["country_code"] == "IR"
+

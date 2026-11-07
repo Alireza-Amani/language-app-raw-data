@@ -117,25 +117,47 @@ def normalize_uploader_handle(raw_handle: str) -> str:
 # 1. Subtitle Resolution Contract
 # =============================================================================
 
-def resolve_persian_subtitles(
+LANGUAGE_SUBTITLE_KEYS: Dict[str, Tuple[str, ...]] = {
+    "fa": ("fa", "fa-IR", "fas"),
+    "fr": (
+        "fr",
+        "fr-FR",
+        "fr-CA",
+        "fr-BE",
+        "fr-CH",
+        "fr-SN",
+        "fr-CI",
+        "fr-CM",
+        "fr-CD",
+        "fr-MA",
+        "fr-DZ",
+        "fr-TN",
+        "fr-HT",
+        "fra",
+        "fre",
+    ),
+    "es": ("es", "es-ES", "es-MX", "es-419", "es-AR", "es-CO", "spa"),
+    "de": ("de", "de-DE", "de-AT", "de-CH", "deu", "ger"),
+    "ar": ("ar", "ar-EG", "ar-SA", "ar-AE", "ar-LB", "ar-MA", "ara"),
+    "en": ("en", "en-US", "en-GB", "en-CA", "en-AU", "eng"),
+}
+
+
+def resolve_subtitles(
     video_metadata: Optional[Dict[str, Any]],
-) -> Tuple[Optional[str], str, str]:
-    """Inspect video metadata for Persian subtitles (manual CC priority over auto CC).
+    language_iso1: str = "fa",
+    country_code: Optional[str] = None,
+) -> Tuple[Optional[str], str, str, Optional[str], Dict[str, Any]]:
+    """Inspect video metadata for target language subtitles (manual CC priority over auto CC).
 
-    Priority:
-    - Priority 1: Manual Persian CC: keys ('fa', 'fa-IR', 'fas') in video_metadata.get("subtitles")
-      -> (vtt_url, "manual_cc", "human_transcribed").
-    - Priority 2: Auto Persian CC fallback: keys ('fa', 'fa-IR', 'fas', 'fa-orig') in
-      video_metadata.get("automatic_captions") -> (vtt_url, "auto_cc", "machine_transcribed").
-    - Priority 3: Neither exists -> (None, "none", "none").
-
-    Format Resolution:
-    - Prefer track with ext == "vtt".
-    - If missing or URL lacks format query parameter, append &fmt=vtt (or ?fmt=vtt if no query string).
-    - Defensive: safely handles None, empty dicts, missing keys, and malformed list elements.
+    Returns:
+        (vtt_url, payload_type, origin_type, locale, track_metadata)
     """
     if not isinstance(video_metadata, dict):
-        return None, "none", "none"
+        return None, "none", "none", None, {}
+
+    lang_base = (language_iso1 or "fa").strip().lower()
+    norm_country = country_code.strip().upper() if isinstance(country_code, str) and country_code.strip() else None
 
     manual_subs = video_metadata.get("subtitles")
     auto_subs = video_metadata.get("automatic_captions")
@@ -145,9 +167,9 @@ def resolve_persian_subtitles(
     if not isinstance(auto_subs, dict):
         auto_subs = {}
 
-    def _extract_vtt_url(tracks: Any) -> Optional[str]:
+    def _extract_vtt_url_and_meta(tracks: Any, track_key: str) -> Tuple[Optional[str], Dict[str, Any]]:
         if not isinstance(tracks, list) or not tracks:
-            return None
+            return None, {}
 
         # Pass 1: Prefer track with ext == "vtt" and valid URL (excluding machine translations with tlang=)
         for track in tracks:
@@ -157,7 +179,10 @@ def resolve_persian_subtitles(
                     continue
                 if "fmt=" in url:
                     url = re.sub(r"fmt=[^&]+", "fmt=vtt", url)
-                return url
+                meta: Dict[str, Any] = {"track_key": track_key}
+                if track.get("name"):
+                    meta["track_name"] = str(track["name"])
+                return url, meta
 
         # Pass 2: Fall back to first valid track URL and append or replace format query parameter (excluding tlang=)
         for track in tracks:
@@ -170,26 +195,73 @@ def resolve_persian_subtitles(
                 else:
                     delimiter = "&" if "?" in url else "?"
                     url = f"{url}{delimiter}fmt=vtt"
-                return url
+                meta = {"track_key": track_key}
+                if track.get("name"):
+                    meta["track_name"] = str(track["name"])
+                return url, meta
 
-        return None
+        return None, {}
 
-    # Priority 1: Manual Persian CC ('fa', 'fa-IR', 'fas')
-    for lang in ("fa", "fa-IR", "fas"):
-        if lang in manual_subs and manual_subs[lang]:
-            vtt_url = _extract_vtt_url(manual_subs[lang])
+    def _resolve_locale(matched_key: str) -> str:
+        if "-" in matched_key and not matched_key.lower().endswith("-orig"):
+            parts = matched_key.split("-", 1)
+            return f"{parts[0].lower()}-{parts[1].upper()}" if len(parts[1]) == 2 else matched_key
+        if norm_country:
+            return f"{lang_base}-{norm_country}"
+        return lang_base
+
+    base_candidates = list(LANGUAGE_SUBTITLE_KEYS.get(lang_base, (lang_base,)))
+    if norm_country:
+        regional_tag = f"{lang_base}-{norm_country}"
+        if regional_tag in base_candidates:
+            base_candidates.remove(regional_tag)
+        base_candidates.insert(0, regional_tag)
+
+    # Include any additional regional keys present in manual_subs (e.g. fr-LU)
+    manual_candidates = list(base_candidates)
+    for k in manual_subs.keys():
+        if isinstance(k, str) and k.lower().startswith(f"{lang_base}-") and not k.lower().endswith("-orig"):
+            if k not in manual_candidates:
+                manual_candidates.append(k)
+
+    # Priority 1: Manual CC
+    for lang_key in manual_candidates:
+        if lang_key in manual_subs and manual_subs[lang_key]:
+            vtt_url, track_meta = _extract_vtt_url_and_meta(manual_subs[lang_key], lang_key)
             if vtt_url:
-                return vtt_url, "manual_cc", "human_transcribed"
+                return vtt_url, "manual_cc", "human_transcribed", _resolve_locale(lang_key), track_meta
 
-    # Priority 2: Auto Persian CC ('fa', 'fa-IR', 'fas', 'fa-orig')
-    for lang in ("fa", "fa-IR", "fas", "fa-orig"):
-        if lang in auto_subs and auto_subs[lang]:
-            vtt_url = _extract_vtt_url(auto_subs[lang])
+    # Priority 2: Auto CC
+    auto_candidates = list(base_candidates) + [f"{lang_base}-orig"]
+    for k in auto_subs.keys():
+        if isinstance(k, str) and k.lower().startswith(f"{lang_base}-"):
+            if k not in auto_candidates:
+                auto_candidates.append(k)
+
+    for lang_key in auto_candidates:
+        if lang_key in auto_subs and auto_subs[lang_key]:
+            vtt_url, track_meta = _extract_vtt_url_and_meta(auto_subs[lang_key], lang_key)
             if vtt_url:
-                return vtt_url, "auto_cc", "machine_transcribed"
+                return vtt_url, "auto_cc", "machine_transcribed", _resolve_locale(lang_key), track_meta
 
-    # Priority 3: No Persian subtitles found
-    return None, "none", "none"
+    # Priority 3: No matching subtitles found
+    return None, "none", "none", None, {}
+
+
+def resolve_persian_subtitles(
+    video_metadata: Optional[Dict[str, Any]],
+) -> Tuple[Optional[str], str, str]:
+    """Inspect video metadata for Persian subtitles (manual CC priority over auto CC).
+
+    Priority:
+    - Priority 1: Manual Persian CC: keys ('fa', 'fa-IR', 'fas') in video_metadata.get("subtitles")
+      -> (vtt_url, "manual_cc", "human_transcribed").
+    - Priority 2: Auto Persian CC fallback: keys ('fa', 'fa-IR', 'fas', 'fa-orig') in
+      video_metadata.get("automatic_captions") -> (vtt_url, "auto_cc", "machine_transcribed").
+    - Priority 3: Neither exists -> (None, "none", "none").
+    """
+    vtt_url, p_type, o_type, _, _ = resolve_subtitles(video_metadata, language_iso1="fa")
+    return vtt_url, p_type, o_type
 
 
 # =============================================================================
@@ -307,33 +379,31 @@ def harvest_channel_shard(
     workers: int = 1,
     live_extraction: bool = False,
     vault_path: Optional[Union[str, Path]] = None,
+    language_iso1: str = "fa",
+    country_code: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """Execute harvesting for an isolated shard with genuine SQLite writes.
-
-    Specifications:
-    - Normalizes channel handles (comma-separated string, list of handles, or JSON shard/partition file).
-    - Sets up isolated SQLite DB at Path(staging_dir) / f"shard_{shard_id}.db".
-    - Initializes DB with VaultManager(db_path=db_file).init_db().
-    - Enforces WAL mode, foreign_keys = ON, busy_timeout = 5000.
-    - Evaluates existing items and payloads for idempotent resumption.
-    - Upserts source in sources table.
-    - Obtains video list from channel_video_provider, catalog lookup, or yt_dlp live extraction.
-    - Strictly filters candidate videos by duration >= min_duration (skipping Shorts < 60s, promos, None).
-    - Capping policy: sorts candidates by view_count DESC (None sorts last), slices top cap_per_channel
-      unless all_videos is True. Applied independently per channel.
-    - Processes videos: skips completed (increments resumed_skipped_count), catalogs item, resolves
-      Persian subtitles, streams VTT in memory, inserts payload with SHA-256 provenance, updates FTS5.
-    - Resilient: VTT fetch errors catalog item, log warning, and continue without crashing shard.
-    - Returns complete metrics dictionary.
-    """
+    """Execute harvesting for an isolated shard with genuine SQLite writes."""
     numeric_shard_id = int(shard_id) if str(shard_id).isdigit() else shard_id
     staging_p = Path(staging_dir)
     staging_p.mkdir(parents=True, exist_ok=True)
     db_file = staging_p / f"shard_{shard_id}.db"
 
-    # 1. Normalize channels argument into list of handles
+    # 1. Normalize channels argument into list of handles and capture channel-level metadata
     normalized_channels: List[str] = []
+    channel_meta_by_handle: Dict[str, Dict[str, Any]] = {}
     is_json_file = False
+
+    def _record_channel_entry(ch_entry: Any) -> None:
+        if isinstance(ch_entry, dict):
+            raw_h = ch_entry.get("handle") or ch_entry.get("uploader_id") or ch_entry.get("channel_id") or ""
+            h = normalize_uploader_handle(raw_h)
+            if h:
+                normalized_channels.append(h)
+                channel_meta_by_handle.setdefault(h.lower(), {}).update(ch_entry)
+        else:
+            h = normalize_uploader_handle(str(ch_entry))
+            if h:
+                normalized_channels.append(h)
 
     if isinstance(channels, (str, Path)):
         p = Path(channels)
@@ -343,36 +413,28 @@ def harvest_channel_shard(
                 content = json.load(f)
 
             if isinstance(content, dict) and "shards" in content:
-                # Partitions export file: find matching shard
                 target_shard = next(
                     (s for s in content["shards"] if str(s.get("shard_id")) == str(shard_id)),
                     None,
                 )
                 if target_shard and "channels" in target_shard:
                     for ch in target_shard["channels"]:
-                        h = ch.get("handle") or ch.get("uploader_id") if isinstance(ch, dict) else str(ch)
-                        normalized_channels.append(normalize_uploader_handle(h))
+                        _record_channel_entry(ch)
             elif isinstance(content, dict) and "channels" in content:
                 for ch in content["channels"]:
-                    h = ch.get("handle") or ch.get("uploader_id") if isinstance(ch, dict) else str(ch)
-                    normalized_channels.append(normalize_uploader_handle(h))
+                    _record_channel_entry(ch)
             elif isinstance(content, list):
                 for ch in content:
-                    h = ch.get("handle") or ch.get("uploader_id") if isinstance(ch, dict) else str(ch)
-                    normalized_channels.append(normalize_uploader_handle(h))
+                    _record_channel_entry(ch)
 
     if not is_json_file:
         if isinstance(channels, str):
             raw_list = [c.strip() for c in channels.split(",") if c.strip()]
             for item in raw_list:
-                normalized_channels.append(normalize_uploader_handle(item))
+                _record_channel_entry(item)
         elif isinstance(channels, list):
             for item in channels:
-                if isinstance(item, dict):
-                    h = item.get("handle") or item.get("uploader_id") or item.get("channel_id") or ""
-                    normalized_channels.append(normalize_uploader_handle(h))
-                else:
-                    normalized_channels.append(normalize_uploader_handle(str(item)))
+                _record_channel_entry(item)
 
     # Deduplicate normalized handles while preserving order
     unique_channels: List[str] = []
@@ -382,7 +444,7 @@ def harvest_channel_shard(
             seen_channels.add(h.lower())
             unique_channels.append(h)
 
-    # 2. Pre-load catalog video entries if catalog_path is present
+    # 2. Pre-load catalog video entries and channel metadata if catalog_path is present
     catalog_videos_by_channel: Dict[str, List[Dict[str, Any]]] = {}
     if catalog_path and Path(catalog_path).is_file():
         try:
@@ -394,6 +456,10 @@ def harvest_channel_shard(
                 )
                 if h:
                     catalog_videos_by_channel[h.lower()] = ch.get("videos", [])
+                    meta_copy = {k: v for k, v in ch.items() if k != "videos"}
+                    existing_meta = channel_meta_by_handle.setdefault(h.lower(), {})
+                    for mk, mv in meta_copy.items():
+                        existing_meta.setdefault(mk, mv)
         except Exception as exc:
             logger.warning("Failed to load catalog from %s: %s", catalog_path, exc)
 
@@ -441,19 +507,32 @@ def harvest_channel_shard(
     # 4. Process each channel
     for ch_handle in unique_channels:
         norm_handle = normalize_uploader_handle(ch_handle)
+        ch_meta = channel_meta_by_handle.get(norm_handle.lower(), {})
+        ch_lang = str(ch_meta.get("language_iso1") or language_iso1 or "fa").strip().lower()
+        ch_country_raw = ch_meta.get("country_code") or ch_meta.get("country") or country_code
+        ch_country = str(ch_country_raw).strip().upper() if ch_country_raw else None
+
         source_id = f"yt:{norm_handle}"
-        source_name = norm_handle.lstrip("@")
-        source_url = f"https://www.youtube.com/{norm_handle}"
+        source_name = ch_meta.get("channel_title") or ch_meta.get("name") or norm_handle.lstrip("@")
+        source_url = ch_meta.get("channel_url") or f"https://www.youtube.com/{norm_handle}"
+
+        source_metadata: Dict[str, Any] = {"handle": norm_handle, "shard_id": numeric_shard_id}
+        for optional_key in ("country_code", "region", "register", "interaction_type", "domain", "dialect"):
+            if optional_key in ch_meta and ch_meta[optional_key] is not None:
+                source_metadata[optional_key] = ch_meta[optional_key]
+        if ch_country and "country_code" not in source_metadata:
+            source_metadata["country_code"] = ch_country
 
         if not dry_run:
             with db_lock:
                 vm.upsert_source(
                     id=source_id,
                     platform="youtube",
-                    language_iso1="fa",
+                    language_iso1=ch_lang,
+                    country_code=ch_country,
                     name=source_name,
                     url=source_url,
-                    metadata={"handle": norm_handle, "shard_id": numeric_shard_id},
+                    metadata=source_metadata,
                 )
         metrics["sources_processed"] += 1
 
@@ -565,12 +644,16 @@ def harvest_channel_shard(
                     metrics["items_cataloged"] += 1
 
             # Subtitle resolution
-            vtt_url, p_type, o_type = resolve_persian_subtitles(vid)
+            vtt_url, p_type, o_type, matched_locale, track_meta = resolve_subtitles(
+                vid, language_iso1=ch_lang, country_code=ch_country
+            )
             if not vtt_url:
                 if "vtt_content" in vid:
                     vtt_url = f"https://mock.local/{v_id_str}.vtt"
                     p_type = "manual_cc"
                     o_type = "human_transcribed"
+                    matched_locale = vid.get("locale") or (f"{ch_lang}-{ch_country}" if ch_country else ch_lang)
+                    track_meta = {}
                 elif channel_video_provider is None and not dry_run:
                     try:
                         import yt_dlp
@@ -587,7 +670,9 @@ def harvest_channel_shard(
                                 with yt_dlp.YoutubeDL(ydl_sub_opts) as ydl:
                                     full_info = ydl.extract_info(v_url, download=False)
                                     if full_info:
-                                        vtt_url, p_type, o_type = resolve_persian_subtitles(full_info)
+                                        vtt_url, p_type, o_type, matched_locale, track_meta = resolve_subtitles(
+                                            full_info, language_iso1=ch_lang, country_code=ch_country
+                                        )
                                 break
                             except Exception:
                                 if attempt < 2:
@@ -617,10 +702,12 @@ def harvest_channel_shard(
                         vm.insert_payload(
                             item_id=item_id,
                             payload_type=p_type,
-                            language_iso1="fa",
+                            language_iso1=ch_lang,
+                            locale=matched_locale,
                             origin_type=o_type,
                             format="vtt",
                             raw_content=vtt_text,
+                            metadata=track_meta,
                         )
                         metrics["payloads_inserted"] += 1
                         if p_type == "manual_cc":
@@ -651,7 +738,7 @@ def harvest_channel_shard(
 def build_parser() -> ShardHarvestArgumentParser:
     """Construct CLI argument parser for shard harvester."""
     parser = ShardHarvestArgumentParser(
-        description="Harvest and catalog Persian YouTube channel shards into isolated SQLite staging DB.",
+        description="Harvest and catalog YouTube channel shards into isolated SQLite staging DB.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -668,7 +755,17 @@ def build_parser() -> ShardHarvestArgumentParser:
     parser.add_argument(
         "--catalog",
         default="data/persian_channels_catalog.json",
-        help="Path to Persian channels catalog JSON.",
+        help="Path to channels catalog JSON.",
+    )
+    parser.add_argument(
+        "--lang",
+        default="fa",
+        help="Target ISO-639-1 language code (e.g. fa, fr).",
+    )
+    parser.add_argument(
+        "--country",
+        default=None,
+        help="Default ISO 3166-1 alpha-2 country code (e.g. FR, CA, BE, CH, SN, IR).",
     )
     parser.add_argument(
         "--cap-per-channel",
@@ -775,6 +872,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             workers=args.workers,
             live_extraction=args.live,
             vault_path=args.vault_path,
+            language_iso1=args.lang,
+            country_code=args.country,
         )
         print(json.dumps(metrics, indent=2))
         return 0

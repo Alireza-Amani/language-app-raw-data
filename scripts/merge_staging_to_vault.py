@@ -296,13 +296,32 @@ def merge_staging_to_vault(
         try:
             conn.execute("ATTACH DATABASE ? AS shard;", (shard_path_str,))
             attached = True
+            shard_src_cols = {
+                r[1] for r in conn.execute("PRAGMA shard.table_info(sources);").fetchall()
+            }
+            shard_pay_cols = {
+                r[1] for r in conn.execute("PRAGMA shard.table_info(payloads);").fetchall()
+            }
+            country_expr = "country_code" if "country_code" in shard_src_cols else "NULL"
+            locale_expr = "locale" if "locale" in shard_pay_cols else "NULL"
+            meta_expr = "metadata_json" if "metadata_json" in shard_pay_cols else "'{}'"
+
             with vm.transaction():
                 # Step 1: Sources first (FK root)
-                conn.execute("INSERT OR IGNORE INTO sources SELECT * FROM shard.sources;")
+                conn.execute(
+                    f"INSERT OR IGNORE INTO sources (id, platform, language_iso1, country_code, name, url, metadata_json, created_at) "
+                    f"SELECT id, platform, language_iso1, {country_expr}, name, url, metadata_json, created_at FROM shard.sources;"
+                )
                 # Step 2: Items second (FK to sources)
-                conn.execute("INSERT OR IGNORE INTO items SELECT * FROM shard.items;")
+                conn.execute(
+                    "INSERT OR IGNORE INTO items (id, source_id, title, url, published_at, duration_seconds, view_count, metadata_json, created_at) "
+                    "SELECT id, source_id, title, url, published_at, duration_seconds, view_count, metadata_json, created_at FROM shard.items;"
+                )
                 # Step 3: Payloads third (FK to items)
-                conn.execute("INSERT OR IGNORE INTO payloads SELECT * FROM shard.payloads;")
+                conn.execute(
+                    f"INSERT OR IGNORE INTO payloads (id, item_id, payload_type, language_iso1, locale, origin_type, format, raw_content, metadata_json, fetched_at) "
+                    f"SELECT id, item_id, payload_type, language_iso1, {locale_expr}, origin_type, format, raw_content, {meta_expr}, fetched_at FROM shard.payloads;"
+                )
             successfully_merged_shards.append(shard_file)
         except sqlite3.OperationalError as e:
             err_msg = str(e).lower()

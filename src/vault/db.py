@@ -117,8 +117,39 @@ class VaultManager:
             finally:
                 self._tx_depth -= 1
 
+    @staticmethod
+    def _ensure_migrated_columns(conn: sqlite3.Connection) -> None:
+        """Idempotently add country_code, locale, and metadata_json to legacy tables if missing."""
+        existing_tables = {
+            row[0]
+            for row in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table';"
+            ).fetchall()
+        }
+        if "sources" in existing_tables:
+            src_cols = {
+                row[1] for row in conn.execute("PRAGMA table_info(sources);").fetchall()
+            }
+            if "country_code" not in src_cols:
+                conn.execute("ALTER TABLE sources ADD COLUMN country_code TEXT DEFAULT NULL;")
+            conn.execute(
+                "CREATE INDEX IF NOT EXISTS idx_sources_country ON sources (country_code);"
+            )
+
+        if "payloads" in existing_tables:
+            pay_cols = {
+                row[1] for row in conn.execute("PRAGMA table_info(payloads);").fetchall()
+            }
+            if "locale" not in pay_cols:
+                conn.execute("ALTER TABLE payloads ADD COLUMN locale TEXT DEFAULT NULL;")
+            if "metadata_json" not in pay_cols:
+                conn.execute("ALTER TABLE payloads ADD COLUMN metadata_json TEXT DEFAULT '{}';")
+            conn.execute(
+                "CREATE INDEX IF NOT EXISTS idx_payloads_locale ON payloads (locale);"
+            )
+
     def init_db(self, schema_file: Optional[Union[str, Path]] = None) -> None:
-        """Initialize the database schema idempotently."""
+        """Initialize or migrate the database schema idempotently."""
         if schema_file is None:
             schema_file = Path(__file__).parent / "schema.sql"
         schema_path = Path(schema_file)
@@ -128,7 +159,11 @@ class VaultManager:
         schema_sql = schema_path.read_text(encoding="utf-8")
         with self._lock:
             conn = self.conn
+            # Migrate pre-existing tables before executescript so new indexes succeed
+            self._ensure_migrated_columns(conn)
             conn.executescript(schema_sql)
+            # Also ensure columns exist if a custom legacy schema_file was provided
+            self._ensure_migrated_columns(conn)
             self._maybe_commit()
 
     def upsert_source(
@@ -140,24 +175,43 @@ class VaultManager:
         url: str,
         metadata: Optional[Union[Dict[str, Any], str]] = None,
         created_at: Optional[str] = None,
+        country_code: Optional[str] = None,
     ) -> str:
         """Insert or update a source record."""
+        if country_code is None and isinstance(metadata, dict):
+            raw_cc = metadata.get("country_code") or metadata.get("country")
+            if isinstance(raw_cc, str) and raw_cc.strip():
+                country_code = raw_cc.strip().upper()
+        elif isinstance(country_code, str) and country_code.strip():
+            country_code = country_code.strip().upper()
+
         meta_json = _sanitize_metadata(metadata)
         created_time = created_at or _utc_now_iso()
 
         sql = """
-        INSERT INTO sources (id, platform, language_iso1, name, url, metadata_json, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO sources (id, platform, language_iso1, country_code, name, url, metadata_json, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(id) DO UPDATE SET
             platform = excluded.platform,
             language_iso1 = excluded.language_iso1,
+            country_code = COALESCE(excluded.country_code, sources.country_code),
             name = excluded.name,
             url = excluded.url,
             metadata_json = excluded.metadata_json;
         """
         with self._lock:
             self.conn.execute(
-                sql, (id, platform, language_iso1, name, url, meta_json, created_time)
+                sql,
+                (
+                    id,
+                    platform,
+                    language_iso1,
+                    country_code,
+                    name,
+                    url,
+                    meta_json,
+                    created_time,
+                ),
             )
             self._maybe_commit()
         return id
@@ -217,6 +271,8 @@ class VaultManager:
         format: str,
         raw_content: str,
         fetched_at: Optional[str] = None,
+        locale: Optional[str] = None,
+        metadata: Optional[Union[Dict[str, Any], str]] = None,
     ) -> str:
         """Atomically insert a payload with SHA-256 deduplication.
         
@@ -227,11 +283,12 @@ class VaultManager:
 
         payload_id = hashlib.sha256(raw_content.encode("utf-8")).hexdigest()
         fetched_time = fetched_at or _utc_now_iso()
+        meta_json = _sanitize_metadata(metadata)
 
         sql = """
         INSERT OR IGNORE INTO payloads (
-            id, item_id, payload_type, language_iso1, origin_type, format, raw_content, fetched_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+            id, item_id, payload_type, language_iso1, locale, origin_type, format, raw_content, metadata_json, fetched_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
         with self._lock:
             self.conn.execute(
@@ -241,9 +298,11 @@ class VaultManager:
                     item_id,
                     payload_type,
                     language_iso1,
+                    locale,
                     origin_type,
                     format,
                     raw_content,
+                    meta_json,
                     fetched_time,
                 ),
             )
@@ -304,10 +363,12 @@ class VaultManager:
         query: str,
         language_iso1: Optional[str] = None,
         limit: int = 50,
+        locale: Optional[str] = None,
+        country_code: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         """Search raw transcripts using FTS5 full-text search.
         
-        Returns matching records with snippets, item metadata (title, URL), and rank.
+        Returns matching records with snippets, item/source metadata (title, URL, country_code, locale), and rank.
         """
         cleaned_query = query.strip()
         if not cleaned_query:
@@ -334,17 +395,21 @@ class VaultManager:
             p.item_id,
             i.title AS item_title,
             i.url AS item_url,
+            s.country_code AS country_code,
             p.payload_type,
             p.language_iso1,
+            p.locale,
             p.origin_type,
             p.format,
             p.raw_content,
+            p.metadata_json,
             p.fetched_at,
             snippet(payloads_fts, 2, '<b>', '</b>', '...', 15) AS snippet,
             bm25(payloads_fts) AS rank
         FROM payloads_fts
         JOIN payloads p ON payloads_fts.rowid = p.rowid
         LEFT JOIN items i ON p.item_id = i.id
+        LEFT JOIN sources s ON i.source_id = s.id
         WHERE payloads_fts MATCH ?
         """
         params: List[Any] = [fts_query]
@@ -352,6 +417,14 @@ class VaultManager:
         if language_iso1:
             sql += " AND p.language_iso1 = ?"
             params.append(language_iso1)
+
+        if locale:
+            sql += " AND p.locale = ?"
+            params.append(locale)
+
+        if country_code:
+            sql += " AND s.country_code = ?"
+            params.append(country_code.strip().upper())
 
         sql += " ORDER BY rank ASC LIMIT ?;"
         params.append(limit)
@@ -369,7 +442,7 @@ class VaultManager:
                 return [dict(row) for row in cur.fetchall()]
 
     def get_vault_stats(self) -> Dict[str, Any]:
-        """Return comprehensive metrics on sources, items, payloads, and breakdown by language/origin."""
+        """Return comprehensive metrics on sources, items, payloads, and breakdown by language/country/locale/origin."""
         with self._lock:
             total_sources = self.conn.execute("SELECT COUNT(*) FROM sources;").fetchone()[0]
             total_items = self.conn.execute("SELECT COUNT(*) FROM items;").fetchone()[0]
@@ -386,6 +459,13 @@ class VaultManager:
             sources_by_language = dict(
                 self.conn.execute(
                     "SELECT language_iso1, COUNT(*) FROM sources GROUP BY language_iso1 ORDER BY COUNT(*) DESC;"
+                ).fetchall()
+            )
+
+            # Sources by country
+            sources_by_country = dict(
+                self.conn.execute(
+                    "SELECT COALESCE(country_code, 'unknown'), COUNT(*) FROM sources GROUP BY COALESCE(country_code, 'unknown') ORDER BY COUNT(*) DESC;"
                 ).fetchall()
             )
 
@@ -410,6 +490,13 @@ class VaultManager:
                 ).fetchall()
             )
 
+            # Payloads by locale
+            payloads_by_locale = dict(
+                self.conn.execute(
+                    "SELECT COALESCE(locale, language_iso1), COUNT(*) FROM payloads GROUP BY COALESCE(locale, language_iso1) ORDER BY COUNT(*) DESC;"
+                ).fetchall()
+            )
+
             # Duration and views
             totals_row = self.conn.execute(
                 "SELECT SUM(duration_seconds), SUM(view_count) FROM items;"
@@ -423,9 +510,11 @@ class VaultManager:
                 "total_payloads": total_payloads,
                 "sources_by_platform": sources_by_platform,
                 "sources_by_language": sources_by_language,
+                "sources_by_country": sources_by_country,
                 "payloads_by_type": payloads_by_type,
                 "payloads_by_origin": payloads_by_origin,
                 "payloads_by_language": payloads_by_language,
+                "payloads_by_locale": payloads_by_locale,
                 "total_duration_seconds": total_duration_sec,
                 "total_duration_hours": round(total_duration_sec / 3600.0, 2),
                 "total_views": total_views,
