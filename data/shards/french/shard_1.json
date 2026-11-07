@@ -1,0 +1,175 @@
+{
+  "generated_at_utc": "2026-11-07T19:38:19.400667+00:00",
+  "language_iso1": "fr",
+  "shard_id": 1,
+  "squad_name": "FR - Interviews & Deep Dialogue",
+  "country_code": "FR",
+  "description": "Longform interviews, deep dialogues, intellectual and entrepreneurship talk shows",
+  "total_channels_audited": 3,
+  "total_videos_audited": 9,
+  "total_manual_fr_cc_videos": 0,
+  "channels": [
+    {
+      "channel_title": "LEGEND",
+      "channel_url": "https://www.youtube.com/@Legendmedia",
+      "channel_id": "UCIh7PDUAP226Pa_NtjN9Jqw",
+      "uploader_id": "@Legendmedia",
+      "country_code": "FR",
+      "region": "Metropolitan France",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "interview_talkshow",
+      "audited_videos_count": 3,
+      "manual_fr_cc_count": 0,
+      "manual_fr_cc_pct": 0.0,
+      "auto_fr_cc_count": 0,
+      "any_manual_cc": false,
+      "status": "audited",
+      "soft_score": 6.59,
+      "videos": [
+        {
+          "video_id": "nFYXC6JKMYA",
+          "video_url": "https://www.youtube.com/watch?v=nFYXC6JKMYA",
+          "title": "MÉDIUM ET CROQUE-MORT : ELLE PARLE AUX MORTS DONT ELLE S’OCCUPE ET NOUS RACONTE LEURS PIRES SECRETS",
+          "duration_seconds": 5375,
+          "view_count": 512637,
+          "upload_date": "20261104",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "Fri7rgHQ4QM",
+          "video_url": "https://www.youtube.com/watch?v=Fri7rgHQ4QM",
+          "title": "PENDANT UNE SOIRÉE, ILS T*ENT SON FRÈRE ET ENTERRENT SON CORPS AU FOND DU JARDIN",
+          "duration_seconds": 3344,
+          "view_count": 479425,
+          "upload_date": "20261103",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "D33uoBY0M14",
+          "video_url": "https://www.youtube.com/watch?v=D33uoBY0M14",
+          "title": "CHRISTOPHE HONDELATTE NOUS RACONTE LES HISTOIRES CRIMINELLES QUI L’ONT LE PLUS CHOQUÉ !",
+          "duration_seconds": 5033,
+          "view_count": 979158,
+          "upload_date": "20261101",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        }
+      ],
+      "handle": "@Legendmedia"
+    },
+    {
+      "channel_title": "Thinkerview",
+      "channel_url": "https://www.youtube.com/@ThinkerView",
+      "channel_id": "UCQgWpmt02UtJkyO32HGUASQ",
+      "uploader_id": "@ThinkerView",
+      "country_code": "FR",
+      "region": "Metropolitan France",
+      "register": "formal",
+      "interaction_type": "dialogue",
+      "domain": "interview_geopolitics",
+      "audited_videos_count": 3,
+      "manual_fr_cc_count": 0,
+      "manual_fr_cc_pct": 0.0,
+      "auto_fr_cc_count": 0,
+      "any_manual_cc": false,
+      "status": "audited",
+      "soft_score": 6.33,
+      "videos": [
+        {
+          "video_id": "DNKpou9EhaQ",
+          "video_url": "https://www.youtube.com/watch?v=DNKpou9EhaQ",
+          "title": "Métadonnées, l'arme invisible, Sommes nous déjà tous fichés ? Alexis Roussel",
+          "duration_seconds": 6776,
+          "view_count": 310494,
+          "upload_date": "20250329",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "Hjgm_mJ5nrs",
+          "video_url": "https://www.youtube.com/watch?v=Hjgm_mJ5nrs",
+          "title": "Francophobie en Afrique et dans les DOM-TOM ? Kemi Seba [EN DIRECT]",
+          "duration_seconds": 7947,
+          "view_count": 512393,
+          "upload_date": "20241124",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "CUOufgN4438",
+          "video_url": "https://www.youtube.com/watch?v=CUOufgN4438",
+          "title": "[VO] Mégamenaces, un avenir sombre, des politiques dans le déni ? Nouriel Roubini [EN DIRECT]",
+          "duration_seconds": 7319,
+          "view_count": 241295,
+          "upload_date": "20230116",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        }
+      ],
+      "handle": "@ThinkerView"
+    },
+    {
+      "channel_title": "Louie Media",
+      "channel_url": "https://www.youtube.com/@LouieMedia",
+      "channel_id": "UCwJNx4ppGcWABZJZc2rMvdw",
+      "uploader_id": "@LouieMedia",
+      "country_code": "FR",
+      "region": "Metropolitan France",
+      "register": "narrative",
+      "interaction_type": "dialogue",
+      "domain": "narrative_podcast",
+      "audited_videos_count": 3,
+      "manual_fr_cc_count": 0,
+      "manual_fr_cc_pct": 0.0,
+      "auto_fr_cc_count": 0,
+      "any_manual_cc": false,
+      "status": "audited",
+      "soft_score": 5.04,
+      "videos": [
+        {
+          "video_id": "EXctfNA0J3M",
+          "video_url": "https://www.youtube.com/watch?v=EXctfNA0J3M",
+          "title": "Les 5 langages de l'amour : les grands entretiens d'Émotions avec Serge Hefez | ÉMOTIONS",
+          "duration_seconds": 3229,
+          "view_count": 15442,
+          "upload_date": "20261103",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "83U80YaVRxc",
+          "video_url": "https://www.youtube.com/watch?v=83U80YaVRxc",
+          "title": "Les enfants de mon père | PASSAGES, le podcast d'histoires vraies",
+          "duration_seconds": 3522,
+          "view_count": 30192,
+          "upload_date": "20261101",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "2Dv6BUPhLq4",
+          "video_url": "https://www.youtube.com/watch?v=2Dv6BUPhLq4",
+          "title": "Je dois faire l'autopsie d'un oubli | Ma Tonkinoise (2/4) | une série d'INJUSTICES",
+          "duration_seconds": 1467,
+          "view_count": 8992,
+          "upload_date": "20261028",
+          "has_manual_fr_cc": false,
+          "has_auto_fr_cc": false,
+          "all_manual_sub_langs": []
+        }
+      ],
+      "handle": "@LouieMedia"
+    }
+  ]
+}
