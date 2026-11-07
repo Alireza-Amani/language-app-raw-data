@@ -152,13 +152,18 @@ def resolve_persian_subtitles(
         # Pass 1: Prefer track with ext == "vtt" and valid URL
         for track in tracks:
             if isinstance(track, dict) and track.get("ext") == "vtt" and track.get("url"):
-                return str(track["url"])
+                url = str(track["url"])
+                if "fmt=" in url:
+                    url = re.sub(r"fmt=[^&]+", "fmt=vtt", url)
+                return url
 
-        # Pass 2: Fall back to first valid track URL and append format query parameter
+        # Pass 2: Fall back to first valid track URL and append or replace format query parameter
         for track in tracks:
             if isinstance(track, dict) and track.get("url"):
                 url = str(track["url"])
-                if "fmt=" not in url:
+                if "fmt=" in url:
+                    url = re.sub(r"fmt=[^&]+", "fmt=vtt", url)
+                else:
                     delimiter = "&" if "?" in url else "?"
                     url = f"{url}{delimiter}fmt=vtt"
                 return url
@@ -396,23 +401,23 @@ def harvest_channel_shard(
         conn.execute("PRAGMA foreign_keys = ON;")
         conn.execute("PRAGMA journal_mode = WAL;")
         conn.execute("PRAGMA busy_timeout = 5000;")
-        existing_item_ids = {row[0] for row in conn.execute("SELECT id FROM items;").fetchall()}
-        existing_payload_items = {
+        shard_item_ids = {row[0] for row in conn.execute("SELECT id FROM items;").fetchall()}
+        shard_payload_items = {
             row[0] for row in conn.execute("SELECT item_id FROM payloads;").fetchall()
         }
+        vault_completed_items = set()
         if vault_path and Path(vault_path).is_file():
             try:
                 vconn = sqlite3.connect(str(vault_path))
-                for row in vconn.execute("SELECT id FROM items;").fetchall():
-                    existing_item_ids.add(row[0])
                 for row in vconn.execute("SELECT item_id FROM payloads;").fetchall():
-                    existing_payload_items.add(row[0])
+                    vault_completed_items.add(row[0])
                 vconn.close()
             except Exception:
                 pass
     else:
-        existing_item_ids = set()
-        existing_payload_items = set()
+        shard_item_ids = set()
+        shard_payload_items = set()
+        vault_completed_items = set()
 
     metrics: Dict[str, Any] = {
         "shard_id": numeric_shard_id,
@@ -471,7 +476,7 @@ def harvest_channel_shard(
                     "extract_flat": True,
                     "quiet": True,
                     "no_warnings": True,
-                    "extractor_args": {"youtube": {"player_client": ["android"]}},
+                    "extractor_args": {"youtube": {"player_client": ["mweb", "web", "android"]}},
                 }
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     channel_url = f"https://www.youtube.com/{norm_handle}/videos"
@@ -532,14 +537,14 @@ def harvest_channel_shard(
             )
             view_count = vid.get("view_count")
 
-            # Check idempotent resumption: already has both item and payload
+            # Check idempotent resumption: already has payload in vault or in current shard
             with db_lock:
-                if item_id in existing_item_ids and item_id in existing_payload_items:
+                if item_id in vault_completed_items or item_id in shard_payload_items:
                     metrics["resumed_skipped_count"] += 1
                     return
 
                 if not dry_run:
-                    if item_id not in existing_item_ids:
+                    if item_id not in shard_item_ids:
                         vm.upsert_item(
                             id=item_id,
                             source_id=source_id,
@@ -550,7 +555,7 @@ def harvest_channel_shard(
                             view_count=view_count,
                             metadata={"video_id": v_id_str, "shard_id": numeric_shard_id},
                         )
-                        existing_item_ids.add(item_id)
+                        shard_item_ids.add(item_id)
                         metrics["items_cataloged"] += 1
                 else:
                     metrics["items_cataloged"] += 1
@@ -570,7 +575,8 @@ def harvest_channel_shard(
                             "skip_download": True,
                             "quiet": True,
                             "no_warnings": True,
-                            "extractor_args": {"youtube": {"player_client": ["android"]}},
+                            "ignore_no_formats_error": True,
+                            "extractor_args": {"youtube": {"player_client": ["mweb", "web"]}},
                         }
                         for attempt in range(3):
                             try:
@@ -581,7 +587,7 @@ def harvest_channel_shard(
                                 break
                             except Exception:
                                 if attempt < 2:
-                                    time.sleep(0.5 * (attempt + 1))
+                                    time.sleep(1.0 * (attempt + 1))
                     except Exception:
                         pass
 
@@ -619,7 +625,7 @@ def harvest_channel_shard(
                             metrics["auto_cc_count"] += 1
                         wc = count_persian_words_in_vtt(vtt_text)
                         metrics["total_persian_words"] += wc
-                        existing_payload_items.add(item_id)
+                        shard_payload_items.add(item_id)
                 except Exception as exc:
                     logger.warning("Failed to insert payload for %s: %s", item_id, exc)
 

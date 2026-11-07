@@ -1,6 +1,10 @@
 version = 1
 revision = 5
 requires-python = ">=3.10"
+resolution-markers = [
+    "python_full_version >= '3.11'",
+    "python_full_version < '3.11'",
+]
 
 [[package]]
 name = "colorama"
@@ -10,20 +14,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
 ]
-
-[[package]]
-name = "data-brochure"
-version = "0.1.0"
-source = { editable = "." }
-
-[package.optional-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" }]
-provides-extras = ["dev"]
 
 [[package]]
 name = "exceptiongroup"
@@ -90,6 +80,27 @@ sdist = { url = "https://files.pythonhosted.org/packages/79/42/bb4641652e58dedea
 wheels = [
     { url = "https://files.pythonhosted.org/packages/51/39/1f5d8c8877a0fa327db959c19341d4be61660de1ab6b7391f9eb805bcd67/pytest-9.2.0-py3-none-any.whl", hash = "sha256:07acdcf88ec174f907dc01af70bf52d49b014bbab03faeeade31c96b18c2e588", size = 411776, upload-time = "2026-10-27T21:30:19.131Z" },
 ]
+
+[[package]]
+name = "raw-linguistic-vault"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "yt-dlp", version = "2026.10.21", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "yt-dlp", version = "2026.10.26", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
+    { name = "yt-dlp", specifier = ">=2024.0.0" },
+]
+provides-extras = ["dev"]
 
 [[package]]
 name = "tomli"
@@ -170,4 +181,28 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f6/cc/6253133b5bb138fc3306cebfbda2c520f545d36b5be2c7255cc528bb45d6/typing_extensions-4.16.0.tar.gz", hash = "sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5", size = 113555, upload-time = "2026-07-02T08:40:05.92Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl", hash = "sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", size = 45571, upload-time = "2026-07-02T08:40:04.659Z" },
+]
+
+[[package]]
+name = "yt-dlp"
+version = "2026.10.21"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.11'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/06/13/d2ea252871826205dc4965cb70e6037ab93697fcabf4feda49fe981f6da0/yt_dlp-2026.10.21.tar.gz", hash = "sha256:cbf748d7d17cd37647c4b9f07b6c25f24384bfd4361407ee5ec519e753d22539", size = 3057326, upload-time = "2026-10-21T21:54:53.563Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/75/ae700ddc7e0b1095fd06cf7e251627dcf4cafcaff460cce92cdc08023b13/yt_dlp-2026.10.21-py3-none-any.whl", hash = "sha256:94a3a3e2c423129d0bbd2f1be000c4171fa1226c29e251c84aff868f2851c247", size = 3188012, upload-time = "2026-10-21T21:54:50.808Z" },
+]
+
+[[package]]
+name = "yt-dlp"
+version = "2026.10.26"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.11'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/83/31/4be3987022a6244550ab6a3afe45ad10ac10b5e5ab8874bd8eecc7f8b937/yt_dlp-2026.10.26.tar.gz", hash = "sha256:abe5c6b94c3b2f0560500add1c42e0a97641752743a5b65588ac2007a6e23eb6", size = 3048880, upload-time = "2026-10-26T22:25:26.931Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7f/3d/16ea7d5638cf585991f2c5705e8083688dde633d32d0871f2404e0f4d827/yt_dlp-2026.10.26-py3-none-any.whl", hash = "sha256:a05c5b5d8562f7e8a62f5334348b406af4930d56d3a65f8021d14af0e22339ae", size = 3186201, upload-time = "2026-10-26T22:25:24.877Z" },
 ]
