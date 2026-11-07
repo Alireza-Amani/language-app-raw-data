@@ -149,18 +149,22 @@ def resolve_persian_subtitles(
         if not isinstance(tracks, list) or not tracks:
             return None
 
-        # Pass 1: Prefer track with ext == "vtt" and valid URL
+        # Pass 1: Prefer track with ext == "vtt" and valid URL (excluding machine translations with tlang=)
         for track in tracks:
             if isinstance(track, dict) and track.get("ext") == "vtt" and track.get("url"):
                 url = str(track["url"])
+                if "tlang=" in url:
+                    continue
                 if "fmt=" in url:
                     url = re.sub(r"fmt=[^&]+", "fmt=vtt", url)
                 return url
 
-        # Pass 2: Fall back to first valid track URL and append or replace format query parameter
+        # Pass 2: Fall back to first valid track URL and append or replace format query parameter (excluding tlang=)
         for track in tracks:
             if isinstance(track, dict) and track.get("url"):
                 url = str(track["url"])
+                if "tlang=" in url:
+                    continue
                 if "fmt=" in url:
                     url = re.sub(r"fmt=[^&]+", "fmt=vtt", url)
                 else:
