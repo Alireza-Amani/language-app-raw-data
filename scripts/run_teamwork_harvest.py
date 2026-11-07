@@ -64,6 +64,8 @@ def run_shard_worker(
         str(PROJECT_ROOT / "scripts" / "harvest_channel_shard.py"),
         "--shard-id",
         str(shard_id),
+        "--channels",
+        str(Path(staging_dir) / "partitions.json"),
         "--catalog",
         str(catalog_path),
         "--staging-dir",
