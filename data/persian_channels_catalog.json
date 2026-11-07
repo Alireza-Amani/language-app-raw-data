@@ -1,0 +1,1344 @@
+{
+  "generated_at_utc": "2026-11-05T21:14:28.605578+00:00",
+  "total_channels_audited": 25,
+  "channels_with_any_manual_fa_cc": 5,
+  "channels_with_all_manual_fa_cc": 4,
+  "total_videos_audited": 84,
+  "total_manual_fa_cc_videos": 19,
+  "channels": [
+    {
+      "channel_title": "ECO COOK (آشپزی های پلاس مگ )",
+      "channel_url": "https://www.youtube.com/channel/UCZgQTPO27tddTU_MvMOO4gg",
+      "channel_id": "UCZgQTPO27tddTU_MvMOO4gg",
+      "uploader_id": "@ECO_COOK",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "XOecL0wgnY0",
+          "video_url": "https://www.youtube.com/watch?v=XOecL0wgnY0",
+          "title": "ترشى بادمجون كبابى حرفه اى در خانه (با اين ترفند!)",
+          "duration_seconds": 315,
+          "view_count": 19774,
+          "upload_date": "20261031",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "91zY9HgfH8A",
+          "video_url": "https://www.youtube.com/watch?v=91zY9HgfH8A",
+          "title": "دیگه آش رشته تکراری نپز! خوشمزه ، مقوی و جا افتاده",
+          "duration_seconds": 287,
+          "view_count": 23858,
+          "upload_date": "20261011",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "BflS8NxdNrk",
+          "video_url": "https://www.youtube.com/watch?v=BflS8NxdNrk",
+          "title": "دیگه بادمجون تکراری نپز! غذای جدید و خوشمزه با بادمجان",
+          "duration_seconds": 549,
+          "view_count": 8242,
+          "upload_date": "20260927",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "DljMnlz4zIE",
+          "video_url": "https://www.youtube.com/watch?v=DljMnlz4zIE",
+          "title": "یلدای امسال انار رو ساده نخور! ❌ اگه دو تا انار تو خونه داری، این ویدیو رو از دست نده!",
+          "duration_seconds": 344,
+          "view_count": 17809,
+          "upload_date": "20251216",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "SkillVid",
+      "channel_url": "https://www.youtube.com/channel/UC9aYF7SavRo_A9psgpEmw0A",
+      "channel_id": "UC9aYF7SavRo_A9psgpEmw0A",
+      "uploader_id": "@SkillVid",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "ErQar36pGjg",
+          "video_url": "https://www.youtube.com/watch?v=ErQar36pGjg",
+          "title": "الگوریتم یوتیوب زیر و رو شد: راهکار دیده‌شدن کانال‌های کوچک",
+          "duration_seconds": 964,
+          "view_count": 64844,
+          "upload_date": "20261028",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "t6NTP883fBE",
+          "video_url": "https://www.youtube.com/watch?v=t6NTP883fBE",
+          "title": "چرا این مدت در یوتیوب فعال نبودم؟  رونمایی از ابزارهای رایگان جدید",
+          "duration_seconds": 567,
+          "view_count": 54083,
+          "upload_date": "20261018",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "sVqKmuW3sKw",
+          "video_url": "https://www.youtube.com/watch?v=sVqKmuW3sKw",
+          "title": "چرا یوتیوب کانال شما را مانیتایز نمی‌کنه؟ (۳ دلیل اصلی)",
+          "duration_seconds": 504,
+          "view_count": 32201,
+          "upload_date": "20260923",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "GgoqRW7Q4Gw",
+          "video_url": "https://www.youtube.com/watch?v=GgoqRW7Q4Gw",
+          "title": "چطور کانال یوتیوب بدون چهره با هوش مصنوعی بسازیم که به درآمد برسد؟",
+          "duration_seconds": 812,
+          "view_count": 71491,
+          "upload_date": "20260901",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "طبقه 16",
+      "channel_url": "https://www.youtube.com/@Tabaghe16",
+      "channel_id": "Tabaghe16",
+      "uploader_id": "Tabaghe16",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 4,
+      "manual_fa_cc_pct": 100.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": true,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "VY9xO-tUQFc",
+          "video_url": "https://www.youtube.com/watch?v=VY9xO-tUQFc",
+          "title": "EP 214 - نوید آقاصادقی | از بوستون داینامیکس تا تأسیس شیراز",
+          "duration_seconds": 4841,
+          "view_count": 28805,
+          "upload_date": "20261030",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "en-US",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "ue57gElJNUM",
+          "video_url": "https://www.youtube.com/watch?v=ue57gElJNUM",
+          "title": "EP 213 - Ramis Movassagh | Quantum Computing Explained by MIT PhD, ex-Google/IBM",
+          "duration_seconds": 5729,
+          "view_count": 62560,
+          "upload_date": "20261023",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "en",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "WrBG81V6ZqI",
+          "video_url": "https://www.youtube.com/watch?v=WrBG81V6ZqI",
+          "title": "EP 212 - Shirin Mojarad | Building Personal AI at Google",
+          "duration_seconds": 6076,
+          "view_count": 113164,
+          "upload_date": "20261017",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "en",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "IcTyv8VyPPY",
+          "video_url": "https://www.youtube.com/watch?v=IcTyv8VyPPY",
+          "title": "EP 211 - کوروش کوچکیان صبور | ایجنت‌های هوش مصنوعی و تحول مهندسی در متا",
+          "duration_seconds": 6999,
+          "view_count": 52615,
+          "upload_date": "20261009",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "en",
+            "fa"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "Channel B Podcast",
+      "channel_url": "https://www.youtube.com/@ChannelBPodcast",
+      "channel_id": "ChannelBPodcast",
+      "uploader_id": "ChannelBPodcast",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 4,
+      "manual_fa_cc_pct": 100.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": true,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "ffPiZ5EQPus",
+          "video_url": "https://www.youtube.com/watch?v=ffPiZ5EQPus",
+          "title": "محاکمه‌های جادوگران و چالش بزرگ رولینگ",
+          "duration_seconds": 981,
+          "view_count": 15306,
+          "upload_date": "20230522",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "W6GaRPZEBOg",
+          "video_url": "https://www.youtube.com/watch?v=W6GaRPZEBOg",
+          "title": "گفتگوی علی بندری با پادکست سکه",
+          "duration_seconds": 4768,
+          "view_count": 10862,
+          "upload_date": "20220916",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "en",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "CbI2fDvpWSY",
+          "video_url": "https://www.youtube.com/watch?v=CbI2fDvpWSY",
+          "title": "با کامنت‌های منفی چه کار کنیم",
+          "duration_seconds": 1007,
+          "view_count": 10451,
+          "upload_date": "20220829",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "jQaY0FVndbM",
+          "video_url": "https://www.youtube.com/watch?v=jQaY0FVndbM",
+          "title": "با اشتیاقم در شروع کار چی می‌سازم که نجاتم بده",
+          "duration_seconds": 966,
+          "view_count": 20604,
+          "upload_date": "20220809",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "Bplus Podcast",
+      "channel_url": "https://www.youtube.com/@BplusPodcast",
+      "channel_id": "BplusPodcast",
+      "uploader_id": "BplusPodcast",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 3,
+      "manual_fa_cc_pct": 75.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": true,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "ry6w8zsq_fw",
+          "video_url": "https://www.youtube.com/watch?v=ry6w8zsq_fw",
+          "title": "رهبر انقلاب و نماد مشروعیت حکومت: معمای تصویر مائو در چین",
+          "duration_seconds": 3894,
+          "view_count": 17742,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "5IvybwDBREc",
+          "video_url": "https://www.youtube.com/watch?v=5IvybwDBREc",
+          "title": "مقایسهٔ هم‌زمان تاریخ سه تمدن ایران، روم و چین",
+          "duration_seconds": 3758,
+          "view_count": 278104,
+          "upload_date": "20261029",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "ar",
+            "en",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "PwxiQQDSi0o",
+          "video_url": "https://www.youtube.com/watch?v=PwxiQQDSi0o",
+          "title": "ترکیه‌ اردوغان؛ ادامه‌ی جمهوری آتاتورک یا بازگشت عثمانی؟",
+          "duration_seconds": 3828,
+          "view_count": 181452,
+          "upload_date": "20261022",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "ar",
+            "en",
+            "fa"
+          ]
+        },
+        {
+          "video_id": "lVKzHDfVXSE",
+          "video_url": "https://www.youtube.com/watch?v=lVKzHDfVXSE",
+          "title": "آیا می‌شود با تردید زندگی کرد؟ از نگاه فیلسوفی ببینیم که به همه چیز شک داشت",
+          "duration_seconds": 3856,
+          "view_count": 232427,
+          "upload_date": "20261015",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "ar",
+            "en",
+            "fa"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "Radio Marz",
+      "channel_url": "https://www.youtube.com/@radiomarz",
+      "channel_id": "radiomarz",
+      "uploader_id": "radiomarz",
+      "audited_videos_count": 0,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 0,
+      "any_manual_cc": false,
+      "videos": [],
+      "status": "no_videos_resolved"
+    },
+    {
+      "channel_title": "Kouman",
+      "channel_url": "https://www.youtube.com/@Kouman_Official",
+      "channel_id": "Kouman_Official",
+      "uploader_id": "Kouman_Official",
+      "audited_videos_count": 0,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 0,
+      "any_manual_cc": false,
+      "videos": [],
+      "status": "no_videos_resolved"
+    },
+    {
+      "channel_title": "Mia Plays",
+      "channel_url": "https://www.youtube.com/@MiaPlays",
+      "channel_id": "MiaPlays",
+      "uploader_id": "MiaPlays",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "uF-LMjz4VA0",
+          "video_url": "https://www.youtube.com/watch?v=uF-LMjz4VA0",
+          "title": "FIRST EVER AEMIA CONCERT! ولاگ کنسرتمون: بهترین شب زندگیم + روز پاییزی",
+          "duration_seconds": 1861,
+          "view_count": 647309,
+          "upload_date": "20261024",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "6r5TkR0huII",
+          "video_url": "https://www.youtube.com/watch?v=6r5TkR0huII",
+          "title": "همه ی اتفاقای ماه گذشته!",
+          "duration_seconds": 1546,
+          "view_count": 842092,
+          "upload_date": "20260811",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "fuhEMYMUzwI",
+          "video_url": "https://www.youtube.com/watch?v=fuhEMYMUzwI",
+          "title": "یه هفته با من! BOOKISH CHATTY VLOG",
+          "duration_seconds": 1425,
+          "view_count": 617725,
+          "upload_date": "20260624",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "ehRAvdhS6CI",
+          "video_url": "https://www.youtube.com/watch?v=ehRAvdhS6CI",
+          "title": "درد دل + ویدیوهای قدیمی",
+          "duration_seconds": 1153,
+          "view_count": 445860,
+          "upload_date": "20260528",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Javad Javadi",
+      "channel_url": "https://www.youtube.com/@ChefJavadJavadi",
+      "channel_id": "ChefJavadJavadi",
+      "uploader_id": "ChefJavadJavadi",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "lO9BXv5iPP8",
+          "video_url": "https://www.youtube.com/watch?v=lO9BXv5iPP8",
+          "title": "Australia Is Too Expensive! 🇦🇺The Real Cost of Living Before You Moveهزینه های استرالیا بیچاره شدیم",
+          "duration_seconds": 2104,
+          "view_count": 26608,
+          "upload_date": "20261031",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "hxKBRvDRlkk",
+          "video_url": "https://www.youtube.com/watch?v=hxKBRvDRlkk",
+          "title": "فیلم جدید رازهای پیاز داغ چیپسی جوادجوادی",
+          "duration_seconds": 494,
+          "view_count": 40006,
+          "upload_date": "20261030",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "_9fyFNl2YXg",
+          "video_url": "https://www.youtube.com/watch?v=_9fyFNl2YXg",
+          "title": "فیلم جدید راز ماکارونی قرمز ده شصت جوادجوادی",
+          "duration_seconds": 793,
+          "view_count": 11860,
+          "upload_date": "20261024",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "fsB9eewphBQ",
+          "video_url": "https://www.youtube.com/watch?v=fsB9eewphBQ",
+          "title": "راز سوسیس بندری مهدی بندری با جوادجوادیSecret 30-Year Bandari Sausage Revealed",
+          "duration_seconds": 839,
+          "view_count": 21954,
+          "upload_date": "20261018",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Navid Kashani",
+      "channel_url": "https://www.youtube.com/@navidkashani",
+      "channel_id": "navidkashani",
+      "uploader_id": "navidkashani",
+      "audited_videos_count": 0,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 0,
+      "any_manual_cc": false,
+      "videos": [],
+      "status": "no_videos_resolved"
+    },
+    {
+      "channel_title": "Mehran Rowshan",
+      "channel_url": "https://www.youtube.com/@MehranRowshan",
+      "channel_id": "MehranRowshan",
+      "uploader_id": "MehranRowshan",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "72Kw-CqROFA",
+          "video_url": "https://www.youtube.com/watch?v=72Kw-CqROFA",
+          "title": "Is Youth Football Actually Worth the Sacrifice?",
+          "duration_seconds": 604,
+          "view_count": 631,
+          "upload_date": "20261103",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "resOO067rds",
+          "video_url": "https://www.youtube.com/watch?v=resOO067rds",
+          "title": "It Was Not a Choice | Alistair Overeem",
+          "duration_seconds": 2210,
+          "view_count": 1838,
+          "upload_date": "20261030",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "RdI-Avt-ltY",
+          "video_url": "https://www.youtube.com/watch?v=RdI-Avt-ltY",
+          "title": "What Makes a Football Coach Unforgettable",
+          "duration_seconds": 563,
+          "view_count": 854,
+          "upload_date": "20261028",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "Cw3AyIab5tk",
+          "video_url": "https://www.youtube.com/watch?v=Cw3AyIab5tk",
+          "title": "Why Small Things Set You Off | Shorouk Abdallah",
+          "duration_seconds": 4669,
+          "view_count": 3475,
+          "upload_date": "20261021",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Fiction Podcast",
+      "channel_url": "https://www.youtube.com/@FictionPodcast",
+      "channel_id": "FictionPodcast",
+      "uploader_id": "FictionPodcast",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 4,
+      "manual_fa_cc_pct": 100.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": true,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "8WMQBJEYkNc",
+          "video_url": "https://www.youtube.com/watch?v=8WMQBJEYkNc",
+          "title": "یک میلیون دلار جایزه برای پیدا کردن قاتل!",
+          "duration_seconds": 4644,
+          "view_count": 51709,
+          "upload_date": "20261102",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "KPkLKnyNLE0",
+          "video_url": "https://www.youtube.com/watch?v=KPkLKnyNLE0",
+          "title": "قاتلان سریالی دیوانه در آمریکا | چرا پلیس کالیفرنیا آنها را نمی‌دید؟",
+          "duration_seconds": 4967,
+          "view_count": 66153,
+          "upload_date": "20261026",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "zgkB5TlDFH4",
+          "video_url": "https://www.youtube.com/watch?v=zgkB5TlDFH4",
+          "title": "قتل با تبری که بعد از چهل سال حل شد!",
+          "duration_seconds": 3320,
+          "view_count": 51684,
+          "upload_date": "20261019",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "HVxVRpfQkt0",
+          "video_url": "https://www.youtube.com/watch?v=HVxVRpfQkt0",
+          "title": "جدیدترین قاتل سریالی جهان | ریموند هورش",
+          "duration_seconds": 5292,
+          "view_count": 101558,
+          "upload_date": "20261012",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "پادکست فارسی فیکشن Fiction Podcast",
+      "channel_url": "https://www.youtube.com/channel/UCH_Bp7VV_o3Ur21vww3ktcQ",
+      "channel_id": "UCH_Bp7VV_o3Ur21vww3ktcQ",
+      "uploader_id": "@FictionPodcast",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 4,
+      "manual_fa_cc_pct": 100.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": true,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "8WMQBJEYkNc",
+          "video_url": "https://www.youtube.com/watch?v=8WMQBJEYkNc",
+          "title": "یک میلیون دلار جایزه برای پیدا کردن قاتل!",
+          "duration_seconds": 4644,
+          "view_count": 51709,
+          "upload_date": "20261102",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "KPkLKnyNLE0",
+          "video_url": "https://www.youtube.com/watch?v=KPkLKnyNLE0",
+          "title": "قاتلان سریالی دیوانه در آمریکا | چرا پلیس کالیفرنیا آنها را نمی‌دید؟",
+          "duration_seconds": 4967,
+          "view_count": 66153,
+          "upload_date": "20261026",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "zgkB5TlDFH4",
+          "video_url": "https://www.youtube.com/watch?v=zgkB5TlDFH4",
+          "title": "قتل با تبری که بعد از چهل سال حل شد!",
+          "duration_seconds": 3320,
+          "view_count": 51684,
+          "upload_date": "20261019",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        },
+        {
+          "video_id": "HVxVRpfQkt0",
+          "video_url": "https://www.youtube.com/watch?v=HVxVRpfQkt0",
+          "title": "جدیدترین قاتل سریالی جهان | ریموند هورش",
+          "duration_seconds": 5292,
+          "view_count": 101558,
+          "upload_date": "20261012",
+          "has_manual_fa_cc": true,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "fa"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "Dastan Land داستان لند ",
+      "channel_url": "https://www.youtube.com/channel/UCyfrH9TolTSV-tmrLLbJbJQ",
+      "channel_id": "UCyfrH9TolTSV-tmrLLbJbJQ",
+      "uploader_id": "@Dastan_land",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "xdoSnIyTZe0",
+          "video_url": "https://www.youtube.com/watch?v=xdoSnIyTZe0",
+          "title": "داستان واقعی : من امده ام وای وای من امده ام 😍😂 پادکست امشب برای تو که جون منی ❤️ #dastanland",
+          "duration_seconds": 8917,
+          "view_count": 30361,
+          "upload_date": "20261102",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "HEq8SArjJEw",
+          "video_url": "https://www.youtube.com/watch?v=HEq8SArjJEw",
+          "title": "داستان ارسالی : زندگی روستایی و خان و رعیت امیدوارم لذت ببرید عزیزترین هام 💜 #dastanland #داستان",
+          "duration_seconds": 7685,
+          "view_count": 44408,
+          "upload_date": "20261022",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "7yi_edGi2CA",
+          "video_url": "https://www.youtube.com/watch?v=7yi_edGi2CA",
+          "title": "پادکست امشب هدیه روز دختره و متفاوت از همه داستانهایی که تا بحال شنیدین 🥹😍 #dastanland #داستانلند",
+          "duration_seconds": 6903,
+          "view_count": 38369,
+          "upload_date": "20261012",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "WnOdjYffC_k",
+          "video_url": "https://www.youtube.com/watch?v=WnOdjYffC_k",
+          "title": "داستان واقعی : قشنگ ترین پادکست 😍🥹 حمایت یادتون نره سوگولی ها 💋 #dastanland #داستان",
+          "duration_seconds": 8122,
+          "view_count": 61307,
+          "upload_date": "20261006",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Shahre Farang",
+      "channel_url": "https://www.youtube.com/channel/UCGJYRj8ambMYl1_t5imzS9g",
+      "channel_id": "UCGJYRj8ambMYl1_t5imzS9g",
+      "uploader_id": "@ShahreFarangs",
+      "audited_videos_count": 2,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 2,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "d_l9E6J42Rw",
+          "video_url": "https://www.youtube.com/watch?v=d_l9E6J42Rw",
+          "title": "گل به خودی | شقایق فراهانی و رایان سرلک | فیلم فانتزی و موزیکال | Gol Be Khodi - Full Movie",
+          "duration_seconds": 5203,
+          "view_count": 1141,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "J5ykq3_A8T0",
+          "video_url": "https://www.youtube.com/watch?v=J5ykq3_A8T0",
+          "title": "سریال معمایی جنایی نیم‌رخ - قسمت 6 | Serial Nimrokh - Episode 6",
+          "duration_seconds": 3447,
+          "view_count": 7520,
+          "upload_date": "20261104",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        }
+      ]
+    },
+    {
+      "channel_title": "طنز ایرانی / Tanz Irani",
+      "channel_url": "https://www.youtube.com/channel/UCtHKXtO5KdvqHzW_Q5HPTbQ",
+      "channel_id": "UCtHKXtO5KdvqHzW_Q5HPTbQ",
+      "uploader_id": "@IraniTanz",
+      "audited_videos_count": 3,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 3,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "3h-PjyiIkcM",
+          "video_url": "https://www.youtube.com/watch?v=3h-PjyiIkcM",
+          "title": "پر پر بشه اون غنچه ای که تو باشی | فصل سوم هوش برتر | طنز ایرانی",
+          "duration_seconds": 440,
+          "view_count": 3788,
+          "upload_date": "20261104",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "I6Y8xZ6RsLc",
+          "video_url": "https://www.youtube.com/watch?v=I6Y8xZ6RsLc",
+          "title": "سیب دست رویا از موز تو ارزش بیشتری داره | تاکسی خنده | طنز ایرانی",
+          "duration_seconds": 1275,
+          "view_count": 379,
+          "upload_date": "20261103",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "zneTfwC_Jis",
+          "video_url": "https://www.youtube.com/watch?v=zneTfwC_Jis",
+          "title": "یکی از یکی خنگ تر | فصل سوم هوش برتر | طنز ایرانی",
+          "duration_seconds": 483,
+          "view_count": 16605,
+          "upload_date": "20261101",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Vista Media - ویستا مدیا",
+      "channel_url": "https://www.youtube.com/channel/UCTGsGh823MJ4l9Yf8xWmCfA",
+      "channel_id": "UCTGsGh823MJ4l9Yf8xWmCfA",
+      "uploader_id": "@Vistamediaa",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "5hwCA309Bcw",
+          "video_url": "https://www.youtube.com/watch?v=5hwCA309Bcw",
+          "title": "اسکار - فصل 6 - قسمت 4",
+          "duration_seconds": 2434,
+          "view_count": 44640,
+          "upload_date": "20250721",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "onUr1EiKupA",
+          "video_url": "https://www.youtube.com/watch?v=onUr1EiKupA",
+          "title": "سی و پنج میلیمتری - فصل 1 - قسمت 13 (گلاره عباسی)",
+          "duration_seconds": 2719,
+          "view_count": 3837,
+          "upload_date": "20250716",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "zAxi_AD8pEo",
+          "video_url": "https://www.youtube.com/watch?v=zAxi_AD8pEo",
+          "title": "اسکار - فصل 6 - قسمت 3",
+          "duration_seconds": 2062,
+          "view_count": 50153,
+          "upload_date": "20250714",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "NK87I7cyK2g",
+          "video_url": "https://www.youtube.com/watch?v=NK87I7cyK2g",
+          "title": "سی و پنج میلیمتری - فصل 1 - قسمت 12 (سروش صحت)",
+          "duration_seconds": 3549,
+          "view_count": 25899,
+          "upload_date": "20250709",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Bahare Salehnia ",
+      "channel_url": "https://www.youtube.com/channel/UCgugI-DNJo3Wyu3Q2uByc-g",
+      "channel_id": "UCgugI-DNJo3Wyu3Q2uByc-g",
+      "uploader_id": "@Bahare",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 2,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "x4HM0WiBLbQ",
+          "video_url": "https://www.youtube.com/watch?v=x4HM0WiBLbQ",
+          "title": "آموزش تغییر رنگ رژ لب در فتوشاپ 💄✨",
+          "duration_seconds": 100,
+          "view_count": 755,
+          "upload_date": "20261026",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "DrydnCmj7ao",
+          "video_url": "https://www.youtube.com/watch?v=DrydnCmj7ao",
+          "title": "آموزش تغییر رنگ اجسام در فتوشاپ 🎨✨",
+          "duration_seconds": 140,
+          "view_count": 735,
+          "upload_date": "20261024",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "rrpj-v_qwCE",
+          "video_url": "https://www.youtube.com/watch?v=rrpj-v_qwCE",
+          "title": "آموزش کوچک کردن بینی در فتوشاپ ✨",
+          "duration_seconds": 73,
+          "view_count": 542,
+          "upload_date": "20261023",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "qYr1zNZu5uE",
+          "video_url": "https://www.youtube.com/watch?v=qYr1zNZu5uE",
+          "title": "آموزش روتوش صورت در فتوشاپ ✨",
+          "duration_seconds": 106,
+          "view_count": 663,
+          "upload_date": "20261022",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "BBC Persian",
+      "channel_url": "https://www.youtube.com/channel/UCHZk9MrT3DGWmVqdsj5y0EA",
+      "channel_id": "UCHZk9MrT3DGWmVqdsj5y0EA",
+      "uploader_id": "@BBCNewsPersian",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 0,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "-M2B_u75GJ0",
+          "video_url": "https://www.youtube.com/watch?v=-M2B_u75GJ0",
+          "title": "خبرنگاران: آیا واشنگتن خود را برای ازسرگیری حملات به ایران آماده می‌کند؟",
+          "duration_seconds": 1626,
+          "view_count": 6189,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "5to6vXhT7TA",
+          "video_url": "https://www.youtube.com/watch?v=5to6vXhT7TA",
+          "title": "درباره تحرکات نظامی آمریکا در منطقه چه می‌دانیم؟",
+          "duration_seconds": 301,
+          "view_count": 7233,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "0COYXAQ-Zbo",
+          "video_url": "https://www.youtube.com/watch?v=0COYXAQ-Zbo",
+          "title": "رنگآهنگ: اجرای جی‌دال",
+          "duration_seconds": 1519,
+          "view_count": 891,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "ig4Y5kFPF-s",
+          "video_url": "https://www.youtube.com/watch?v=ig4Y5kFPF-s",
+          "title": "پادکست انتخابات آمریکا: «موج آبی» انتخابات آمریکا جنگ ایران را به کدام سو می برد؟",
+          "duration_seconds": 1514,
+          "view_count": 7534,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": false,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Filmbaz",
+      "channel_url": "https://www.youtube.com/channel/UC-nMGguUrzd6pYfZ37zQgPw",
+      "channel_id": "UC-nMGguUrzd6pYfZ37zQgPw",
+      "uploader_id": "@Filmbaz",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "rhjlqXKWVP8",
+          "video_url": "https://www.youtube.com/watch?v=rhjlqXKWVP8",
+          "title": "بررسی و موشکافی فیلم رزیدنت اویل 2026   - Resident Evil",
+          "duration_seconds": 1167,
+          "view_count": 39953,
+          "upload_date": "20261104",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "O1ZBtXaOMHs",
+          "video_url": "https://www.youtube.com/watch?v=O1ZBtXaOMHs",
+          "title": "خط داستانی جهان رزیدنت اویل از ابتدا تا داستان فیلم 2026 - Resident Evil",
+          "duration_seconds": 1233,
+          "view_count": 101267,
+          "upload_date": "20261102",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "qA8pFBIUAzI",
+          "video_url": "https://www.youtube.com/watch?v=qA8pFBIUAzI",
+          "title": "آخرین و جدید ترین اخبار سینمای جهان در هفته اول آبان ماه 1405",
+          "duration_seconds": 1983,
+          "view_count": 105205,
+          "upload_date": "20261030",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "EsAKInAr74o",
+          "video_url": "https://www.youtube.com/watch?v=EsAKInAr74o",
+          "title": "بررسی و موشکافی سریال شرق بهشت   - East of Eden",
+          "duration_seconds": 1495,
+          "view_count": 69839,
+          "upload_date": "20261028",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "FilmNama",
+      "channel_url": "https://www.youtube.com/channel/UCzeFiN6-kn1f06l3rmO8ISg",
+      "channel_id": "UCzeFiN6-kn1f06l3rmO8ISg",
+      "uploader_id": "@FilmNama",
+      "audited_videos_count": 3,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 3,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "s6K1QVNKeRM",
+          "video_url": "https://www.youtube.com/watch?v=s6K1QVNKeRM",
+          "title": "فیلم مظنون | کاوه خداشناس، علی مرادی و فرهاد بشارتی | درام معمایی و پرتنش | Maznoon Full Movie",
+          "duration_seconds": 2479,
+          "view_count": 6589,
+          "upload_date": "20261104",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "nLjetVXIXk0",
+          "video_url": "https://www.youtube.com/watch?v=nLjetVXIXk0",
+          "title": "خانه پدرم | عسل بدیعی و حمید ابراهیمی | فیلم درام و خانوادگی ایرانی | Khaneh Pedaram - Full Movie",
+          "duration_seconds": 4282,
+          "view_count": 18368,
+          "upload_date": "20261102",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "HMSsnfXvOWA",
+          "video_url": "https://www.youtube.com/watch?v=HMSsnfXvOWA",
+          "title": "براده‌های خورشید | امین حیایی و حسین محجوب | فیلم جنگی ایرانی | Boradehaye Khorshid - Full Movie",
+          "duration_seconds": 5852,
+          "view_count": 7426,
+          "upload_date": "20261031",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "آموزه‌های وین دایر | پادکست فارسی",
+      "channel_url": "https://www.youtube.com/channel/UCLUoTCKSprwVvJEz4jni8Tg",
+      "channel_id": "UCLUoTCKSprwVvJEz4jni8Tg",
+      "uploader_id": "@WayneDyerFarsi",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "cJU3vpMy8_c",
+          "video_url": "https://www.youtube.com/watch?v=cJU3vpMy8_c",
+          "title": "چرا همیشه به تأیید دیگران نیاز داری؟ ریشه پنهان تأیید طلبی",
+          "duration_seconds": 1934,
+          "view_count": 174,
+          "upload_date": "20261101",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "vYR6wtmTYmI",
+          "video_url": "https://www.youtube.com/watch?v=vYR6wtmTYmI",
+          "title": "چرا از بعضی آدم‌ها بدمان می‌آید؟ حقیقتی پنهان درباره خودمان",
+          "duration_seconds": 2097,
+          "view_count": 201,
+          "upload_date": "20261028",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "hQhpVnYlkLM",
+          "video_url": "https://www.youtube.com/watch?v=hQhpVnYlkLM",
+          "title": "آرزوها چگونه برآورده می‌شوند؟ قدرت باور و تغییر تصویر ذهنی | وین دایر",
+          "duration_seconds": 1757,
+          "view_count": 289,
+          "upload_date": "20261026",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "xWOAdouKsbg",
+          "video_url": "https://www.youtube.com/watch?v=xWOAdouKsbg",
+          "title": "شکاف میان افکار چیست؟ راهنمای رسیدن به آرامش عمیق",
+          "duration_seconds": 1661,
+          "view_count": 285,
+          "upload_date": "20261024",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "TheFazel",
+      "channel_url": "https://www.youtube.com/channel/UCWFE9zXwfcxWgtkvTUEZYgg",
+      "channel_id": "UCWFE9zXwfcxWgtkvTUEZYgg",
+      "uploader_id": "@The_Fazel",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "1QgcwZyh_3c",
+          "video_url": "https://www.youtube.com/watch?v=1QgcwZyh_3c",
+          "title": "چرا نسل جدید از چیزی که فکرشو می‌کنی احمق‌تره",
+          "duration_seconds": 792,
+          "view_count": 23075,
+          "upload_date": "20261103",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "0-YanszI6CM",
+          "video_url": "https://www.youtube.com/watch?v=0-YanszI6CM",
+          "title": "چرا تو ایران هیچکس کنسل نمیشه؟",
+          "duration_seconds": 700,
+          "view_count": 26146,
+          "upload_date": "20261030",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "BeuVDpBvxKo",
+          "video_url": "https://www.youtube.com/watch?v=BeuVDpBvxKo",
+          "title": "چرا یوتوبر های ایرانی خلاقیت ندارن ؟",
+          "duration_seconds": 690,
+          "view_count": 22954,
+          "upload_date": "20261026",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "-5JQXx79-8s",
+          "video_url": "https://www.youtube.com/watch?v=-5JQXx79-8s",
+          "title": "چرا ایرانیا از افغانیا متنفرن ؟",
+          "duration_seconds": 720,
+          "view_count": 20596,
+          "upload_date": "20261022",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "Amin Farzad",
+      "channel_url": "https://www.youtube.com/channel/UCSZgL-njlMLbgacevhrREMA",
+      "channel_id": "UCSZgL-njlMLbgacevhrREMA",
+      "uploader_id": "@Amin.Farzad",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "LnrpiZ4_yn0",
+          "video_url": "https://www.youtube.com/watch?v=LnrpiZ4_yn0",
+          "title": "چطور درآمدزایی یوتیوب را فعال کنیم؟ نسخه 2027",
+          "duration_seconds": 511,
+          "view_count": 2435,
+          "upload_date": "20260828",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "So3YVJQ63vA",
+          "video_url": "https://www.youtube.com/watch?v=So3YVJQ63vA",
+          "title": "یوتوب نحوه شمارش بازدیدها را تغییر می دهد!",
+          "duration_seconds": 299,
+          "view_count": 4165,
+          "upload_date": "20260818",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "Uhuh_6-uZ-w",
+          "video_url": "https://www.youtube.com/watch?v=Uhuh_6-uZ-w",
+          "title": "یوتیوب شرایط درآمدزایی را سختتر کرد! ۸۰۰۰ ساعت واچ‌تایم و ۲۰ میلیون بازدید!",
+          "duration_seconds": 844,
+          "view_count": 4971,
+          "upload_date": "20260811",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "gSr43TJD_ao",
+          "video_url": "https://www.youtube.com/watch?v=gSr43TJD_ao",
+          "title": "به‌روزرسانی جدید یوتیوب - سال‌ها منتظر این بودید!",
+          "duration_seconds": 248,
+          "view_count": 944,
+          "upload_date": "20260810",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    },
+    {
+      "channel_title": "خنده بازی",
+      "channel_url": "https://www.youtube.com/channel/UCLZbXbV3g-YYpUpyDBg3SrA",
+      "channel_id": "UCLZbXbV3g-YYpUpyDBg3SrA",
+      "uploader_id": "@KhandeBazi",
+      "audited_videos_count": 4,
+      "manual_fa_cc_count": 0,
+      "manual_fa_cc_pct": 0.0,
+      "auto_fa_cc_count": 4,
+      "any_manual_cc": false,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "1byq_iBaLx0",
+          "video_url": "https://www.youtube.com/watch?v=1byq_iBaLx0",
+          "title": "جناب مشکات هیچ وارثی نداره؟ پس تکلیف اون همه ثروت چی می‌شه! | ویلای من",
+          "duration_seconds": 536,
+          "view_count": 600,
+          "upload_date": "20261105",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "fIu92JCooUM",
+          "video_url": "https://www.youtube.com/watch?v=fIu92JCooUM",
+          "title": "برای ساخت فیلم، با دو تا از بازیگراش ازدواج کرد! 😂 | شوخی کردم",
+          "duration_seconds": 480,
+          "view_count": 2550,
+          "upload_date": "20261104",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        },
+        {
+          "video_id": "Usc6M3pGI5k",
+          "video_url": "https://www.youtube.com/watch?v=Usc6M3pGI5k",
+          "title": "سریال نسخه آزمایشی قسمت دهم با بازی هومن برق نورد و رویا میرعلمی | پخش اختصاصی با بالاترین کیفیت 🎬",
+          "duration_seconds": 2132,
+          "view_count": 14696,
+          "upload_date": "20261103",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": [
+            "live_chat"
+          ]
+        },
+        {
+          "video_id": "1hEOdR4-Y7A",
+          "video_url": "https://www.youtube.com/watch?v=1hEOdR4-Y7A",
+          "title": "دکتر گفت جناب مشکات فقط ۴۴ روز زنده می‌مونه! 😂 | ویلای من",
+          "duration_seconds": 626,
+          "view_count": 1418,
+          "upload_date": "20261103",
+          "has_manual_fa_cc": false,
+          "has_auto_fa_cc": true,
+          "all_manual_sub_langs": []
+        }
+      ]
+    }
+  ]
+}

@@ -34,8 +34,9 @@ venv.bak/
 .coverage
 htmlcov/
 
-# Raw Vault Data
+# Raw Vault Data & Staging
 data/vault/
+data/staging/
 *.db
 *.db-wal
 *.db-shm
@@ -56,3 +57,4 @@ data/vault/
 .local/
 upload/
 raw_vault_setup_plan.md
+.agents/
