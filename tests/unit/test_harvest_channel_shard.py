@@ -483,6 +483,98 @@ def test_capping_multi_channel_independence(tmp_staging_dir: Path):
     assert res["items_cataloged"] == 16  # 8 from ChannelB + 8 from Bplus
 
 
+def test_prefer_manual_cc_sorting_and_cap(tmp_staging_dir: Path):
+    """Verify candidate videos with manual CC are selected first over auto CC when capping,
+    even when auto CC videos have vastly higher view counts, and vice versa when prefer_manual_cc=False."""
+    mock_vtt = "WEBVTT\n\n00:00:01.000 --> 00:00:05.000\nBonjour tout le monde\n"
+    videos = [
+        {"id": "v_auto_viral", "duration": 800, "view_count": 5_000_000, "has_manual_fr_cc": False, "subtitles": {}},
+        {"id": "v_auto_mid", "duration": 800, "view_count": 500_000, "has_manual_fr_cc": False, "subtitles": {}},
+        {"id": "v_man_low", "duration": 800, "view_count": 5_000, "has_manual_fr_cc": True, "subtitles": {"fr": [{"ext": "vtt", "url": "https://m.test/v_man_low.vtt"}]}},
+        {"id": "v_man_niche", "duration": 800, "view_count": 500, "has_manual_fr_cc": True, "subtitles": {"fr-CA": [{"ext": "vtt", "url": "https://m.test/v_man_niche.vtt"}]}},
+    ]
+
+    # 1. With prefer_manual_cc=True, cap=2: must select v_man_low and v_man_niche
+    res_pref = harvest_channel_shard(
+        shard_id=1,
+        channels=["@Legendmedia"],
+        staging_dir=tmp_staging_dir / "pref",
+        cap_per_channel=2,
+        prefer_manual_cc=True,
+        language_iso1="fr",
+        channel_video_provider=lambda ch: videos,
+        vtt_provider=lambda _v, _u: mock_vtt,
+    )
+    assert res_pref["items_cataloged"] == 2
+    conn = sqlite3.connect(str(tmp_staging_dir / "pref" / "shard_1.db"))
+    ids_pref = [r[0] for r in conn.execute("SELECT id FROM items;").fetchall()]
+    conn.close()
+    assert "yt:v_man_low" in ids_pref
+    assert "yt:v_man_niche" in ids_pref
+    assert "yt:v_auto_viral" not in ids_pref
+    assert "yt:v_auto_mid" not in ids_pref
+
+    # 2. With prefer_manual_cc=False, cap=2: must select top view_count (v_auto_viral, v_auto_mid)
+    res_nopref = harvest_channel_shard(
+        shard_id=1,
+        channels=["@Legendmedia"],
+        staging_dir=tmp_staging_dir / "nopref",
+        cap_per_channel=2,
+        prefer_manual_cc=False,
+        language_iso1="fr",
+        channel_video_provider=lambda ch: videos,
+        vtt_provider=lambda _v, _u: mock_vtt,
+    )
+    assert res_nopref["items_cataloged"] == 2
+    conn = sqlite3.connect(str(tmp_staging_dir / "nopref" / "shard_1.db"))
+    ids_nopref = [r[0] for r in conn.execute("SELECT id FROM items;").fetchall()]
+    conn.close()
+    assert "yt:v_auto_viral" in ids_nopref
+    assert "yt:v_auto_mid" in ids_nopref
+    assert "yt:v_man_low" not in ids_nopref
+    assert "yt:v_man_niche" not in ids_nopref
+
+    # 3. High-volume 150-video cap verification:
+    # 200 candidates: 100 manual CC (lower views) + 100 auto CC (higher views)
+    high_volume_videos = []
+    for i in range(1, 101):
+        high_volume_videos.append({
+            "id": f"v_man_{i}",
+            "duration": 800,
+            "view_count": i * 100,  # 100 to 10,000 views
+            "has_manual_fr_cc": True,
+            "subtitles": {"fr": [{"ext": "vtt", "url": f"https://m.test/v_man_{i}.vtt"}]},
+        })
+    for j in range(1, 101):
+        high_volume_videos.append({
+            "id": f"v_auto_{j}",
+            "duration": 800,
+            "view_count": 100_000 + j * 1000,  # 101,000 to 200,000 views
+            "has_manual_fr_cc": False,
+            "subtitles": {},
+        })
+
+    res_cap150 = harvest_channel_shard(
+        shard_id=1,
+        channels=["@Legendmedia"],
+        staging_dir=tmp_staging_dir / "cap150",
+        cap_per_channel=150,
+        prefer_manual_cc=True,
+        language_iso1="fr",
+        channel_video_provider=lambda ch: high_volume_videos,
+        vtt_provider=lambda _v, _u: mock_vtt,
+    )
+    assert res_cap150["items_cataloged"] == 150
+    conn = sqlite3.connect(str(tmp_staging_dir / "cap150" / "shard_1.db"))
+    man_count = conn.execute("SELECT COUNT(*) FROM items WHERE id LIKE 'yt:v_man_%';").fetchone()[0]
+    auto_count = conn.execute("SELECT COUNT(*) FROM items WHERE id LIKE 'yt:v_auto_%';").fetchone()[0]
+    conn.close()
+    assert man_count == 100, "All 100 manual CC videos must be prioritized"
+    assert auto_count == 50, "Remaining 50 slots filled by highest view auto CC videos"
+
+
+
+
 # =============================================================================
 # 6. Staging DB Isolation & Integrity Tests
 # =============================================================================
@@ -920,4 +1012,67 @@ def test_french_regional_subtitle_resolution_and_harvest(tmp_staging_dir: Path):
         assert payloads[0]["language_iso1"] == "fr"
         assert payloads[0]["locale"] == "fr-CA"
         assert json.loads(payloads[0]["metadata_json"])["track_name"] == "Français (Canada)"
+
+
+def test_french_teamwork_shard_options(tmp_staging_dir: Path):
+    """Verify harvest_channel_shard CLI and function interface correctly accept --lang fr,
+    --prefer-manual-cc, and --cap-per-channel 150, executing dry-run with code 0."""
+    # 1. CLI parser argument verification
+    parser = build_parser()
+    args = parser.parse_args([
+        "--shard-id", "1",
+        "--channels", "@Legendmedia",
+        "--lang", "fr",
+        "--prefer-manual-cc",
+        "--cap-per-channel", "150",
+        "--staging-dir", str(tmp_staging_dir),
+    ])
+    assert args.lang == "fr"
+    assert args.prefer_manual_cc is True
+    assert args.cap_per_channel == 150
+
+    # 2. Direct CLI entrypoint main() dry-run execution
+    code = main([
+        "--shard-id", "1",
+        "--channels", "@Legendmedia",
+        "--lang", "fr",
+        "--prefer-manual-cc",
+        "--cap-per-channel", "150",
+        "--staging-dir", str(tmp_staging_dir),
+        "--dry-run",
+    ])
+    assert code == 0
+
+    # 3. Subprocess CLI execution
+    cmd = [
+        sys.executable,
+        "scripts/harvest_channel_shard.py",
+        "--shard-id", "1",
+        "--channels", "@Legendmedia",
+        "--lang", "fr",
+        "--prefer-manual-cc",
+        "--cap-per-channel", "150",
+        "--staging-dir", str(tmp_staging_dir),
+        "--dry-run",
+    ]
+    proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+    assert proc.returncode == 0
+    data = json.loads(proc.stdout)
+    assert data["shard_id"] == 1
+    assert data["sources_processed"] == 1
+
+    # 4. Direct function interface execution
+    metrics = harvest_channel_shard(
+        shard_id=1,
+        channels=["@Legendmedia"],
+        staging_dir=tmp_staging_dir / "fn_run",
+        language_iso1="fr",
+        prefer_manual_cc=True,
+        cap_per_channel=150,
+        dry_run=True,
+    )
+    assert metrics["shard_id"] == 1
+    assert metrics["sources_processed"] == 1
+
+
 

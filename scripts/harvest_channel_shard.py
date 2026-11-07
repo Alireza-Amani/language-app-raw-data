@@ -365,11 +365,56 @@ def fetch_vtt_in_memory(
 # 4. Shard Harvesting Engine
 # =============================================================================
 
+def _video_priority_key(vid: Dict[str, Any], prefer_manual: bool = False) -> Tuple[int, int]:
+    """Compound sorting key: (manual_priority DESC, view_count DESC).
+
+    When prefer_manual is True:
+    - Priority 1: Has manual CC (from audited catalog flag or subtitles dict).
+    - Priority 0: Auto ASR captions or unknown subtitles.
+
+    Within each priority level, sorted by view_count DESC.
+    Videos with missing or None view_count sort last (-1).
+    """
+    if not isinstance(vid, dict):
+        return (0, -1)
+
+    def _is_truthy(val: Any) -> bool:
+        if isinstance(val, str):
+            return val.strip().lower() in ("true", "1", "yes")
+        return bool(val)
+
+    has_manual = _is_truthy(vid.get("has_manual_fr_cc")) or _is_truthy(vid.get("has_manual_cc"))
+    if not has_manual and isinstance(vid.get("subtitles"), dict):
+        for k, tracks in vid["subtitles"].items():
+            if not isinstance(k, str):
+                continue
+            k_lower = k.lower().strip()
+            if (
+                k_lower in ("fr", "fr-fr", "fr-ca", "fr-be", "fr-ch", "fra", "fre", "fa", "fa-ir", "fas")
+                or (k_lower.startswith("fr-") and not k_lower.endswith("-orig"))
+            ) and bool(tracks):
+                has_manual = True
+                break
+
+    manual_prio = 1 if (prefer_manual and has_manual) else 0
+
+    raw_views = vid.get("view_count")
+    if raw_views is not None:
+        try:
+            views = int(raw_views)
+        except (ValueError, TypeError):
+            views = -1
+    else:
+        views = -1
+
+    return (manual_prio, views)
+
+
 def harvest_channel_shard(
     shard_id: Union[int, str],
     channels: Union[str, List[Union[str, Dict[str, Any]]], Path],
     staging_dir: Union[str, Path] = "data/staging",
-    cap_per_channel: int = 25,
+    cap_per_channel: Optional[int] = 25,
     all_videos: bool = False,
     min_duration: int = 600,
     catalog_path: Optional[Union[str, Path]] = "data/persian_channels_catalog.json",
@@ -381,6 +426,7 @@ def harvest_channel_shard(
     vault_path: Optional[Union[str, Path]] = None,
     language_iso1: str = "fa",
     country_code: Optional[str] = None,
+    prefer_manual_cc: bool = False,
 ) -> Dict[str, Any]:
     """Execute harvesting for an isolated shard with genuine SQLite writes."""
     numeric_shard_id = int(shard_id) if str(shard_id).isdigit() else shard_id
@@ -550,6 +596,12 @@ def harvest_channel_shard(
             and catalog_videos_by_channel[norm_handle.lower()]
         ):
             videos = catalog_videos_by_channel[norm_handle.lower()]
+        elif (
+            not live_extraction
+            and norm_handle.lower() in channel_meta_by_handle
+            and channel_meta_by_handle[norm_handle.lower()].get("videos")
+        ):
+            videos = channel_meta_by_handle[norm_handle.lower()]["videos"]
         elif not dry_run:
             # Live flat playlist extraction with yt_dlp
             try:
@@ -561,6 +613,8 @@ def harvest_channel_shard(
                     "no_warnings": True,
                     "extractor_args": {"youtube": {"player_client": ["mweb", "web", "android"]}},
                 }
+                if not all_videos and cap_per_channel is not None and cap_per_channel > 0:
+                    ydl_opts["playlistend"] = max(cap_per_channel * 2, 300)
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     channel_url = f"https://www.youtube.com/{norm_handle}/videos"
                     try:
@@ -585,9 +639,9 @@ def harvest_channel_shard(
                 continue
             candidate_videos.append(vid)
 
-        # Sort candidate videos: view_count DESC (None sorts last)
+        # Sort candidate videos: manual CC first if requested, then view_count DESC (None sorts last)
         candidate_videos.sort(
-            key=lambda v: (v.get("view_count") if v.get("view_count") is not None else -1),
+            key=lambda v: _video_priority_key(v, prefer_manual=prefer_manual_cc),
             reverse=True,
         )
 
@@ -774,6 +828,12 @@ def build_parser() -> ShardHarvestArgumentParser:
         help="Maximum longform videos to harvest per channel.",
     )
     parser.add_argument(
+        "--prefer-manual-cc",
+        action="store_true",
+        default=False,
+        help="Prioritize candidate videos with manual CC ahead of auto CC.",
+    )
+    parser.add_argument(
         "--all-videos",
         action="store_true",
         default=False,
@@ -874,6 +934,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             vault_path=args.vault_path,
             language_iso1=args.lang,
             country_code=args.country,
+            prefer_manual_cc=args.prefer_manual_cc,
         )
         print(json.dumps(metrics, indent=2))
         return 0

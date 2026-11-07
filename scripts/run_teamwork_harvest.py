@@ -15,6 +15,7 @@ import json
 import logging
 import os
 import shutil
+import sqlite3
 import subprocess
 import sys
 import time
@@ -29,6 +30,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from scripts.merge_staging_to_vault import merge_staging_to_vault
 from scripts.partition_channels import load_catalog, partition_channels, save_partitions
+from scripts.partition_french_channels import (
+    load_french_catalog,
+    partition_by_shards,
+    partition_by_squads,
+)
 
 # Configure logging
 logger = logging.getLogger("run_teamwork_harvest")
@@ -39,6 +45,39 @@ if not logger.handlers:
 logger.setLevel(logging.INFO)
 
 GDRIVE_FOLDER_ID = "1eQt8Rux2WoLSsTRs9nXxgRKbIYIEd2xg"
+
+
+def resolve_language_defaults(
+    lang: str = "fa",
+    shards: Optional[int] = None,
+    catalog: Optional[str] = None,
+    staging_dir: Optional[str] = None,
+    cap_per_channel: Optional[int] = None,
+    prefer_manual_cc: Optional[bool] = None,
+) -> Tuple[str, int, str, str, int, bool]:
+    """Resolve language-specific defaults for orchestration parameters."""
+    lang = (lang or "fa").lower()
+    if lang == "fr":
+        shards = shards or 8
+        catalog = catalog or "data/french_channels_catalog.json"
+        staging_dir = staging_dir or "data/staging/french"
+        cap_per_channel = 150 if cap_per_channel is None else cap_per_channel
+        prefer_manual_cc = True if prefer_manual_cc is None else prefer_manual_cc
+    else:
+        shards = shards or 4
+        catalog = catalog or "data/persian_channels_catalog.json"
+        staging_dir = staging_dir or "data/staging"
+        cap_per_channel = 25 if cap_per_channel is None else cap_per_channel
+        prefer_manual_cc = False if prefer_manual_cc is None else prefer_manual_cc
+
+    return (
+        lang,
+        shards,
+        catalog,
+        staging_dir,
+        cap_per_channel,
+        prefer_manual_cc,
+    )
 
 
 def run_shard_worker(
@@ -52,6 +91,8 @@ def run_shard_worker(
     dry_run: bool,
     vault_path: str = "",
     live: bool = True,
+    lang: str = "fa",
+    prefer_manual_cc: bool = False,
 ) -> Tuple[int, int, float, str]:
     """Execute a single shard harvester in a subprocess.
 
@@ -77,6 +118,10 @@ def run_shard_worker(
         "--workers",
         str(workers),
     ]
+    if lang:
+        cmd.extend(["--lang", str(lang)])
+    if prefer_manual_cc:
+        cmd.append("--prefer-manual-cc")
     if all_videos:
         cmd.append("--all-videos")
     if live:
@@ -86,7 +131,7 @@ def run_shard_worker(
     if dry_run:
         cmd.append("--dry-run")
 
-    logger.info(f"[*] Starting Shard {shard_id} worker...")
+    logger.info(f"[*] Starting Shard {shard_id} worker ({lang})...")
     res = subprocess.run(cmd, capture_output=True, text=True)
     elapsed = time.time() - t0
     output = res.stdout + ("\n" + res.stderr if res.stderr else "")
@@ -140,10 +185,12 @@ def sync_vault_to_gdrive(vault_path: Path, folder_id: str = GDRIVE_FOLDER_ID) ->
 
 
 def run_orchestration(
-    shards: int = 4,
-    catalog: str = "data/persian_channels_catalog.json",
-    staging_dir: str = "data/staging",
-    cap_per_channel: int = 25,
+    shards: Optional[int] = None,
+    catalog: Optional[str] = None,
+    staging_dir: Optional[str] = None,
+    cap_per_channel: Optional[int] = None,
+    lang: str = "fa",
+    prefer_manual_cc: Optional[bool] = None,
     all_videos: bool = False,
     min_duration: int = 600,
     workers_per_shard: int = 2,
@@ -158,19 +205,39 @@ def run_orchestration(
 ) -> Dict[str, Any]:
     """Execute complete multi-agent harvest orchestration."""
     start_time = time.time()
+
+    (
+        lang,
+        shards,
+        catalog,
+        staging_dir,
+        cap_per_channel,
+        prefer_manual_cc,
+    ) = resolve_language_defaults(
+        lang=lang,
+        shards=shards,
+        catalog=catalog,
+        staging_dir=staging_dir,
+        cap_per_channel=cap_per_channel,
+        prefer_manual_cc=prefer_manual_cc,
+    )
+
     staging_p = Path(staging_dir).resolve()
     staging_p.mkdir(parents=True, exist_ok=True)
     catalog_p = Path(catalog).resolve()
     vault_p = Path(vault_path).resolve()
 
+    pipeline_name = "FRANCOPHONE" if lang == "fr" else "PERSIAN"
     print("=" * 70)
-    print("      TEAMWORK ORCHESTRATOR: SCALED PERSIAN HARVESTING PIPELINE")
+    print(f"      TEAMWORK ORCHESTRATOR: SCALED {pipeline_name} HARVESTING PIPELINE")
     print("=" * 70)
+    print(f"Language            : {lang.upper()}")
     print(f"Catalog Path        : {catalog_p}")
     print(f"Target Vault        : {vault_p}")
     print(f"Staging Directory   : {staging_p}")
     print(f"Worker Shards       : {shards}")
     print(f"Cap Per Channel     : {'All Videos' if all_videos else cap_per_channel}")
+    print(f"Prefer Manual CC    : {prefer_manual_cc}")
     print(f"Duration Threshold  : >= {min_duration}s (>= 10 minutes)")
     print(f"Execution Mode      : {'Parallel' if parallel else 'Sequential'}")
     print(f"Auto-Merge Enabled  : {auto_merge}")
@@ -180,11 +247,40 @@ def run_orchestration(
     # Step 1: Partition Channels
     logger.info("Step 1/3: Partitioning channels into balanced squads...")
     partitions_file = staging_p / "partitions.json"
-    channels = load_catalog(catalog_p)
-    partition_res = partition_channels(channels, shards_count=shards, balance_mode="domain")
-    save_partitions(partition_res, partitions_file)
-    total_channels = len(channels)
-    print(f"[+] Successfully partitioned {total_channels} channels across {shards} squads.")
+    squad_names: Dict[int, str] = {}
+
+    if lang == "fr":
+        channels = load_french_catalog(catalog_p)
+        if shards == 8:
+            squad_partitions = partition_by_squads(channels)
+        else:
+            squad_partitions = partition_by_shards(channels, num_shards=shards)
+
+        partition_data = {
+            "language_iso1": "fr",
+            "shards_count": len(squad_partitions),
+            "shards": squad_partitions,
+        }
+        with open(partitions_file, "w", encoding="utf-8") as f:
+            json.dump(partition_data, f, indent=2, ensure_ascii=False)
+
+        total_channels = len(channels)
+        print(f"[+] Successfully partitioned {total_channels} Francophone channels across {len(squad_partitions)} squads:")
+        for sq in squad_partitions:
+            s_id = int(sq["shard_id"])
+            s_name = sq.get("squad_name", f"Shard {s_id}")
+            squad_names[s_id] = s_name
+            cc = sq.get("country_code", "")
+            ch_count = sq.get("channel_count", len(sq.get("channels", [])))
+            v_count = sq.get("total_videos", 0)
+            man_cc = sq.get("total_manual_cc", 0)
+            print(f"  Squad {s_id} [{cc}]: {s_name} ({ch_count} channels, {v_count} audited videos, {man_cc} manual CC)")
+    else:
+        channels = load_catalog(catalog_p)
+        partition_res = partition_channels(channels, shards_count=shards, balance_mode="domain")
+        save_partitions(partition_res, partitions_file)
+        total_channels = len(channels)
+        print(f"[+] Successfully partitioned {total_channels} channels across {shards} squads.")
 
     # Step 2: Harvest Shards
     logger.info(f"Step 2/3: Launching {shards} worker shards...")
@@ -204,6 +300,8 @@ def run_orchestration(
                     dry_run=dry_run,
                     vault_path=str(vault_p),
                     live=live,
+                    lang=lang,
+                    prefer_manual_cc=prefer_manual_cc,
                 )
                 for i in range(1, shards + 1)
             ]
@@ -222,6 +320,8 @@ def run_orchestration(
                 dry_run=dry_run,
                 vault_path=str(vault_p),
                 live=live,
+                lang=lang,
+                prefer_manual_cc=prefer_manual_cc,
             )
             shard_results.append(res)
 
@@ -231,7 +331,11 @@ def run_orchestration(
     print("\n--- Worker Shards Execution Summary ---")
     for s_id, code, el, out in shard_results:
         status_str = "SUCCESS" if code == 0 else f"FAILED (code {code})"
-        print(f"  Shard {s_id}: {status_str:<18} | Time: {el:>6.2f}s")
+        squad_title = squad_names.get(s_id)
+        if squad_title:
+            print(f"  Shard {s_id} ({squad_title}): {status_str:<18} | Time: {el:>6.2f}s")
+        else:
+            print(f"  Shard {s_id}: {status_str:<18} | Time: {el:>6.2f}s")
     print("-" * 70)
 
     # Step 3: Atomic Merge
@@ -245,13 +349,66 @@ def run_orchestration(
             rebuild_fts=True,
             target_gdrive=target_gdrive,
         )
-        print("\n--- Canonical Vault Ingestion Manifest ---")
-        print(f"  Total Sources       : {manifest['total_sources']:,} (+{manifest['sources_added']})")
-        print(f"  Total Items         : {manifest['total_items']:,} (+{manifest['items_added']})")
-        print(f"  Total Payloads      : {manifest['total_payloads']:,} (+{manifest['payloads_added']})")
-        print(f"  Total Persian Words : {manifest['total_persian_words']:,}")
-        print(f"  Manifest Written To : {manifest.get('manifest_path', 'N/A')}")
-        print("-" * 70)
+        if lang == "fr":
+            print("\n--- Francophone Vault Ingestion Manifest ---")
+            print(f"  Total Sources       : {manifest['total_sources']:,} (+{manifest['sources_added']})")
+            print(f"  Total Items         : {manifest['total_items']:,} (+{manifest['items_added']})")
+            print(f"  Total Payloads      : {manifest['total_payloads']:,} (+{manifest['payloads_added']})")
+
+            # Retrieve detailed Francophone distribution if DB accessible
+            manual_cc = 0
+            auto_cc = 0
+            countries: Dict[str, int] = {}
+            locales: Dict[str, int] = {}
+            if vault_p.is_file():
+                try:
+                    with sqlite3.connect(str(vault_p)) as conn:
+                        manual_cc_row = conn.execute(
+                            "SELECT COUNT(*) FROM payloads WHERE language_iso1 = 'fr' AND (payload_type = 'manual_cc' OR origin_type = 'human_transcribed');"
+                        ).fetchone()
+                        manual_cc = manual_cc_row[0] if manual_cc_row else 0
+                        auto_cc_row = conn.execute(
+                            "SELECT COUNT(*) FROM payloads WHERE language_iso1 = 'fr' AND (payload_type = 'auto_cc' OR origin_type = 'machine_transcribed');"
+                        ).fetchone()
+                        auto_cc = auto_cc_row[0] if auto_cc_row else 0
+                        for c, count in conn.execute(
+                            "SELECT COALESCE(country_code, 'UNKNOWN'), COUNT(*) FROM sources WHERE language_iso1 = 'fr' GROUP BY country_code ORDER BY COUNT(*) DESC;"
+                        ).fetchall():
+                            countries[c] = count
+                        for loc, count in conn.execute(
+                            "SELECT COALESCE(locale, 'UNKNOWN'), COUNT(*) FROM payloads WHERE language_iso1 = 'fr' GROUP BY locale ORDER BY COUNT(*) DESC;"
+                        ).fetchall():
+                            locales[loc] = count
+                except Exception as exc:
+                    logger.debug(f"Could not read detailed Francophone metrics from vault: {exc}")
+
+            manifest["manual_cc_count"] = manual_cc
+            manifest["auto_cc_count"] = auto_cc
+            manifest["country_breakdown"] = countries
+            manifest["locale_distribution"] = locales
+
+            print(f"  Manual CC Tracks    : {manual_cc:,}")
+            print(f"  Auto CC Tracks      : {auto_cc:,}")
+            if countries:
+                country_str = ", ".join(f"{c}: {n}" for c, n in countries.items())
+                print(f"  Country Breakdown   : {country_str}")
+            else:
+                print("  Country Breakdown   : N/A")
+            if locales:
+                locale_str = ", ".join(f"{loc}: {n}" for loc, n in locales.items())
+                print(f"  Locale Distribution : {locale_str}")
+            else:
+                print("  Locale Distribution : N/A")
+            print(f"  Manifest Written To : {manifest.get('manifest_path', 'N/A')}")
+            print("-" * 70)
+        else:
+            print("\n--- Canonical Vault Ingestion Manifest ---")
+            print(f"  Total Sources       : {manifest['total_sources']:,} (+{manifest['sources_added']})")
+            print(f"  Total Items         : {manifest['total_items']:,} (+{manifest['items_added']})")
+            print(f"  Total Payloads      : {manifest['total_payloads']:,} (+{manifest['payloads_added']})")
+            print(f"  Total Persian Words : {manifest.get('total_persian_words', 0):,}")
+            print(f"  Manifest Written To : {manifest.get('manifest_path', 'N/A')}")
+            print("-" * 70)
 
         if sync_gdrive:
             sync_vault_to_gdrive(vault_p)
@@ -271,33 +428,45 @@ def run_orchestration(
     }
 
 
-def main() -> int:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Teamwork Orchestrator: Scaled Multi-Agent Persian Channel Harvesting."
+        description="Teamwork Orchestrator: Scaled Multi-Agent Channel Harvesting."
+    )
+    parser.add_argument(
+        "--lang",
+        choices=["fa", "fr"],
+        default="fa",
+        help="Target language code (choices: fa, fr; default: fa)",
     )
     parser.add_argument(
         "--shards",
         type=int,
-        default=4,
-        help="Number of worker shards / squads (default: 4)",
+        default=None,
+        help="Number of worker shards / squads (default: 4 for fa, 8 for fr)",
     )
     parser.add_argument(
         "--catalog",
         type=str,
-        default="data/persian_channels_catalog.json",
-        help="Path to Persian channels catalog JSON (default: data/persian_channels_catalog.json)",
+        default=None,
+        help="Path to channels catalog JSON (default: data/persian_channels_catalog.json for fa, data/french_channels_catalog.json for fr)",
     )
     parser.add_argument(
         "--staging-dir",
         type=str,
-        default="data/staging",
-        help="Directory for staging SQLite shard databases (default: data/staging)",
+        default=None,
+        help="Directory for staging SQLite shard databases (default: data/staging for fa, data/staging/french for fr)",
     )
     parser.add_argument(
         "--cap-per-channel",
         type=int,
-        default=25,
-        help="Maximum longform videos to harvest per channel (default: 25)",
+        default=None,
+        help="Maximum longform videos to harvest per channel (default: 25 for fa, 150 for fr)",
+    )
+    parser.add_argument(
+        "--prefer-manual-cc",
+        action="store_true",
+        default=None,
+        help="Prioritize candidate videos with manual CC ahead of auto CC (default: True for fr, False for fa)",
     )
     parser.add_argument(
         "--all-videos",
@@ -360,14 +529,37 @@ def main() -> int:
         default=True,
         help="Perform live flat playlist extraction from YouTube (default: True)",
     )
+    return parser
 
-    args = parser.parse_args()
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    (
+        lang,
+        shards,
+        catalog,
+        staging_dir,
+        cap_per_channel,
+        prefer_manual_cc,
+    ) = resolve_language_defaults(
+        lang=args.lang,
+        shards=args.shards,
+        catalog=args.catalog,
+        staging_dir=args.staging_dir,
+        cap_per_channel=args.cap_per_channel,
+        prefer_manual_cc=args.prefer_manual_cc,
+    )
+
     try:
         res = run_orchestration(
-            shards=args.shards,
-            catalog=args.catalog,
-            staging_dir=args.staging_dir,
-            cap_per_channel=args.cap_per_channel,
+            shards=shards,
+            catalog=catalog,
+            staging_dir=staging_dir,
+            cap_per_channel=cap_per_channel,
+            lang=lang,
+            prefer_manual_cc=prefer_manual_cc,
             all_videos=args.all_videos,
             min_duration=args.min_duration,
             workers_per_shard=args.workers_per_shard,

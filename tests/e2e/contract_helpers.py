@@ -424,9 +424,56 @@ def partition_channels(
     return result
 
 
+def partition_french_channels(
+    catalog_path: Union[str, Path] = "data/french_channels_catalog.json",
+    num_shards: int = 8,
+    output_path: Optional[Union[str, Path]] = None,
+) -> Dict[str, Any]:
+    """Partition French channels into regional/domain squads or balanced shards."""
+    try:
+        french_part_mod = importlib.import_module("scripts.partition_french_channels")
+        load_french_catalog = getattr(french_part_mod, "load_french_catalog")
+        partition_by_squads = getattr(french_part_mod, "partition_by_squads")
+        partition_by_shards = getattr(french_part_mod, "partition_by_shards")
+        channels = load_french_catalog(catalog_path)
+        if num_shards == 8:
+            squads = partition_by_squads(channels)
+        else:
+            squads = partition_by_shards(channels, num_shards=num_shards)
+    except (ImportError, AttributeError):
+        with open(catalog_path, "r", encoding="utf-8") as f:
+            cat = json.load(f)
+        channels = cat.get("channels", [])
+        squads = []
+        for i in range(1, num_shards + 1):
+            squads.append({
+                "shard_id": i,
+                "squad_name": f"French Shard {i}",
+                "country_code": "FR",
+                "channels": [],
+            })
+        for idx, ch in enumerate(channels):
+            squads[idx % num_shards]["channels"].append(ch)
+
+    result = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "language_iso1": "fr",
+        "total_channels": len(channels),
+        "shards_count": len(squads),
+        "shards": squads,
+    }
+    if output_path:
+        out_p = Path(output_path)
+        out_p.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_p, "w", encoding="utf-8") as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
+    return result
+
+
 # -----------------------------------------------------------------------------
 # 3. Persian Word Counting Helper
 # -----------------------------------------------------------------------------
+
 
 def count_persian_words_in_vtt(vtt_text: Optional[str]) -> int:
     """Accurately count Persian words in a WebVTT transcript payload using a state machine.
@@ -489,15 +536,18 @@ def count_persian_words_in_vtt(vtt_text: Optional[str]) -> int:
 
 def harvest_channel_shard(
     shard_id: int,
-    channels: List[str],
+    channels: Union[List[str], List[Dict[str, Any]], str, Path],
     staging_dir: Union[str, Path] = "data/staging",
-    cap_per_channel: int = 25,
+    cap_per_channel: Optional[int] = 25,
     all_videos: bool = False,
     min_duration: int = 600,
     catalog_path: Optional[Union[str, Path]] = None,
     dry_run: bool = False,
     vtt_provider: Optional[Callable[[str, str], Optional[str]]] = None,
     channel_video_provider: Optional[Callable[[str], List[Dict[str, Any]]]] = None,
+    language_iso1: str = "fa",
+    country_code: Optional[str] = None,
+    prefer_manual_cc: bool = False,
 ) -> Dict[str, Any]:
     """Execute harvesting for an isolated shard with genuine SQLite writes.
     
@@ -523,9 +573,13 @@ def harvest_channel_shard(
                 dry_run=dry_run,
                 vtt_provider=vtt_provider,
                 channel_video_provider=channel_video_provider,
+                language_iso1=language_iso1,
+                country_code=country_code,
+                prefer_manual_cc=prefer_manual_cc,
             )
     except (ImportError, ModuleNotFoundError):
         pass
+
 
     staging_p = Path(staging_dir)
     staging_p.mkdir(parents=True, exist_ok=True)
@@ -946,12 +1000,12 @@ def merge_staging_to_vault(
 # -----------------------------------------------------------------------------
 
 def run_teamwork_harvest(
-    shards: int = 4,
-    catalog: Union[str, Path] = "data/persian_channels_catalog.json",
-    cap_per_channel: int = 25,
+    shards: Optional[int] = None,
+    catalog: Optional[Union[str, Path]] = None,
+    cap_per_channel: Optional[int] = None,
     all_videos: bool = False,
     min_duration: int = 600,
-    staging_dir: Union[str, Path] = "data/staging",
+    staging_dir: Optional[Union[str, Path]] = None,
     vault_path: Union[str, Path] = "data/vault/language-app-raw-data/raw_vault.db",
     auto_merge: bool = True,
     target_gdrive: bool = False,
@@ -959,19 +1013,42 @@ def run_teamwork_harvest(
     dry_run: bool = False,
     channel_video_provider: Optional[Callable[[str], List[Dict[str, Any]]]] = None,
     vtt_provider: Optional[Callable[[str, str], Optional[str]]] = None,
+    lang: str = "fa",
+    prefer_manual_cc: Optional[bool] = None,
 ) -> Dict[str, Any]:
     """Execute end-to-end teamwork pipeline coordinating parallel worker shards and merge."""
+    lang = (lang or "fa").lower()
+    if lang == "fr":
+        shards = shards or 8
+        catalog = catalog or "data/french_channels_catalog.json"
+        staging_dir = staging_dir or "data/staging/french"
+        cap_per_channel = 150 if cap_per_channel is None else cap_per_channel
+        prefer_manual_cc = True if prefer_manual_cc is None else prefer_manual_cc
+    else:
+        shards = shards or 4
+        catalog = catalog or "data/persian_channels_catalog.json"
+        staging_dir = staging_dir or "data/staging"
+        cap_per_channel = 25 if cap_per_channel is None else cap_per_channel
+        prefer_manual_cc = False if prefer_manual_cc is None else prefer_manual_cc
+
     staging_p = Path(staging_dir)
     staging_p.mkdir(parents=True, exist_ok=True)
 
     # 1. Partition channels
-    partition_res = partition_channels(
-        catalog_path=catalog,
-        num_shards=shards,
-        dedup=True,
-        filter_empty=True,
-        output_path=staging_p / "partitions.json",
-    )
+    if lang == "fr":
+        partition_res = partition_french_channels(
+            catalog_path=catalog,
+            num_shards=shards,
+            output_path=staging_p / "partitions.json",
+        )
+    else:
+        partition_res = partition_channels(
+            catalog_path=catalog,
+            num_shards=shards,
+            dedup=True,
+            filter_empty=True,
+            output_path=staging_p / "partitions.json",
+        )
 
     shard_results: Dict[int, Any] = {}
     errors: Dict[int, str] = {}
@@ -981,14 +1058,19 @@ def run_teamwork_harvest(
 
     def _worker_runner(s_data: Dict[str, Any]):
         s_id = s_data["shard_id"]
-        handles = [c["handle"] for c in s_data["channels"]]
+        raw_channels = s_data.get("channels", [])
+        if raw_channels and isinstance(raw_channels[0], dict):
+            handles = [c.get("handle") or c.get("uploader_id") for c in raw_channels]
+        else:
+            handles = list(raw_channels)
+        country_code = s_data.get("country_code")
         log_file = staging_p / f"shard_{s_id}.log"
         try:
             with open(log_file, "w", encoding="utf-8") as log_f:
                 log_f.write(f"Starting Shard {s_id} for {len(handles)} channels\n")
                 res = harvest_channel_shard(
                     shard_id=s_id,
-                    channels=handles,
+                    channels=raw_channels,
                     staging_dir=staging_p,
                     cap_per_channel=cap_per_channel,
                     all_videos=all_videos,
@@ -997,6 +1079,9 @@ def run_teamwork_harvest(
                     dry_run=dry_run,
                     vtt_provider=vtt_provider,
                     channel_video_provider=channel_video_provider,
+                    language_iso1=lang,
+                    country_code=country_code,
+                    prefer_manual_cc=prefer_manual_cc,
                 )
                 shard_results[s_id] = res
                 log_f.write(f"Shard {s_id} completed successfully: {res}\n")
@@ -1030,3 +1115,4 @@ def run_teamwork_harvest(
         "merge_manifest": merge_manifest,
         "success": len(errors) == 0,
     }
+
