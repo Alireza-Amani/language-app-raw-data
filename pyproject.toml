@@ -3,12 +3,14 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "data-brochure"
+name = "raw-linguistic-vault"
 version = "0.1.0"
-description = "Raw Linguistic Vault and multi-register data collection framework"
+description = "Raw Linguistic Vault and scaled multi-agent Persian multi-register speech harvesting pipeline"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "yt-dlp>=2024.0.0",
+]
 
 [project.optional-dependencies]
 dev = [
