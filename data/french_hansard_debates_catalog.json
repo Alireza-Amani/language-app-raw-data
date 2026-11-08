@@ -1,0 +1,1610 @@
+{
+  "generated_at_utc": "2026-11-08T12:19:25Z",
+  "language_iso1": "fr",
+  "stream_modality": "parliament_transcript",
+  "allowed_country_codes": [
+    "BE",
+    "CA",
+    "CH",
+    "FR"
+  ],
+  "total_items": 84,
+  "items": [
+    {
+      "item_id": "ca_commons_432_han118",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 118",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-118/hansard",
+      "date": "2021-06-15",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "118",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/118/HAN118-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han117",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 117",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-117/hansard",
+      "date": "2021-06-14",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "117",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/117/HAN117-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han116",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 116",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-116/hansard",
+      "date": "2021-06-11",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "116",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/116/HAN116-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han115",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 115",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-115/hansard",
+      "date": "2021-06-10",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "115",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/115/HAN115-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han114",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 114",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-114/hansard",
+      "date": "2021-06-09",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "114",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/114/HAN114-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han111",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 111",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-111/hansard",
+      "date": "2021-06-04",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "111",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/111/HAN111-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han110",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 110",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-110/hansard",
+      "date": "2021-06-03",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "110",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/110/HAN110-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han105",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 105",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-105/hansard",
+      "date": "2021-05-27",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "105",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/105/HAN105-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han104",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 104",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-104/hansard",
+      "date": "2021-05-26",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "104",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/104/HAN104-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han102",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 102",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-102/hansard",
+      "date": "2021-05-14",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "102",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/102/HAN102-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_commons_432_han101",
+      "title": "Chambre des communes du Canada - 43e législature, 2e session - Séance 101",
+      "country_code": "CA",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.ourcommons.ca/DocumentViewer/fr/43-2/chambre/seance-101/hansard",
+      "date": "2021-05-13",
+      "metadata": {
+        "chamber": "Chambre des communes du Canada",
+        "session": "43-2",
+        "sitting_number": "101",
+        "speech_count": 150,
+        "download_url": "https://www.ourcommons.ca/Content/House/432/Debates/101/HAN101-F.XML"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_ci_190509",
+      "title": "Assemblée nationale du Québec - Commission des institutions - Séance du 2019-05-09",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/ci-42-1/journal-debats/CI-190509.html",
+      "date": "2019-05-09",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission des institutions)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 35",
+        "speech_count": 406,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/ci-42-1/journal-debats/CI-190509.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_cat_210422",
+      "title": "Assemblée nationale du Québec - Commission de l'aménagement du territoire - Séance du 2021-04-22",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/cat-42-1/journal-debats/CAT-210422.html",
+      "date": "2021-04-22",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission de l'aménagement du territoire)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 82",
+        "speech_count": 138,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/cat-42-1/journal-debats/CAT-210422.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_capern_190417",
+      "title": "Assemblée nationale du Québec - Commission de l'agriculture, des pêcheries, de l'énergie et des ressources naturelles - Séance du 2019-04-17",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/capern-42-1/journal-debats/CAPERN-190417.html",
+      "date": "2019-04-17",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission de l'agriculture, des pêcheries, de l'énergie et des ressources naturelles)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 28",
+        "speech_count": 215,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/capern-42-1/journal-debats/CAPERN-190417.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_crc_190924",
+      "title": "Assemblée nationale du Québec - Commission des relations avec les citoyens - Séance du 2019-09-24",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/crc-42-1/journal-debats/CRC-190924.html",
+      "date": "2019-09-24",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission des relations avec les citoyens)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 41",
+        "speech_count": 182,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/crc-42-1/journal-debats/CRC-190924.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_csss_190604",
+      "title": "Assemblée nationale du Québec - Commission de la santé et des services sociaux - Séance du 2019-06-04",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/csss-42-1/journal-debats/CSSS-190604.html",
+      "date": "2019-06-04",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission de la santé et des services sociaux)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 38",
+        "speech_count": 265,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/csss-42-1/journal-debats/CSSS-190604.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_ci_190411",
+      "title": "Assemblée nationale du Québec - Commission des institutions - Séance du 2019-04-11",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/ci-42-1/journal-debats/CI-190411.html",
+      "date": "2019-04-11",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission des institutions)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 24",
+        "speech_count": 194,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/ci-42-1/journal-debats/CI-190411.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_cat_191126",
+      "title": "Assemblée nationale du Québec - Commission de l'aménagement du territoire - Séance du 2019-11-26",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/cat-42-1/journal-debats/CAT-191126.html",
+      "date": "2019-11-26",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission de l'aménagement du territoire)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 52",
+        "speech_count": 172,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/cat-42-1/journal-debats/CAT-191126.html"
+      }
+    },
+    {
+      "item_id": "ca_qc_assnat_crc_190416",
+      "title": "Assemblée nationale du Québec - Commission des relations avec les citoyens - Séance du 2019-04-16",
+      "country_code": "CA",
+      "region": "Québec",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/crc-42-1/journal-debats/CRC-190416.html",
+      "date": "2019-04-16",
+      "metadata": {
+        "chamber": "Assemblée nationale du Québec (Commission des relations avec les citoyens)",
+        "session": "42-1",
+        "sitting_number": "Vol. 45 N° 26",
+        "speech_count": 160,
+        "download_url": "https://www.assnat.qc.ca/fr/travaux-parlementaires/commissions/crc-42-1/journal-debats/CRC-190416.html"
+      }
+    },
+    {
+      "item_id": "fr_an_15_syceron_corpus",
+      "title": "Assemblée nationale - 15e Législature - Corpus Syceron Open Data des Comptes Rendus",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://data.assemblee-nationale.fr/travaux-parlementaires/debats",
+      "date": "2021-12-16",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature",
+        "sitting_number": "Corpus Intégral 2017-2021",
+        "speech_count": 55000,
+        "download_url": "https://data.assemblee-nationale.fr/static/openData/repository/15/vp/syceronbrut/syseron.xml.zip"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210151",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du jeudi 04 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210151.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210151",
+        "speech_count": 231,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210151.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210150",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du jeudi 04 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210150.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210150",
+        "speech_count": 230,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210150.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210149",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du mercredi 03 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210149.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210149",
+        "speech_count": 229,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210149.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210148",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du mercredi 03 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210148.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210148",
+        "speech_count": 228,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210148.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210147",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du mardi 02 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210147.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210147",
+        "speech_count": 227,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210147.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210146",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du mardi 02 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210146.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210146",
+        "speech_count": 226,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210146.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210145",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du lundi 01 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210145.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210145",
+        "speech_count": 225,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210145.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210144",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du lundi 01 fÃ©vrier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210144.asp",
+      "date": "2021-02-04",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210144",
+        "speech_count": 224,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210144.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210143",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du vendredi 29 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210143.asp",
+      "date": "2021-01-29",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210143",
+        "speech_count": 223,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210143.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210142",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du vendredi 29 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210142.asp",
+      "date": "2021-01-29",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210142",
+        "speech_count": 222,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210142.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210141",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du jeudi 28 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210141.asp",
+      "date": "2021-01-28",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210141",
+        "speech_count": 221,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210141.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210140",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du jeudi 28 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210140.asp",
+      "date": "2021-01-28",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210140",
+        "speech_count": 220,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210140.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210139",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du mercredi 27 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210139.asp",
+      "date": "2021-01-27",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210139",
+        "speech_count": 219,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210139.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210138",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du mercredi 27 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210138.asp",
+      "date": "2021-01-27",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210138",
+        "speech_count": 218,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210138.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210137",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la troisiÃ¨me sÃ©ance du mardi 26 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210137.asp",
+      "date": "2021-01-26",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210137",
+        "speech_count": 217,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210137.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210136",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la deuxiÃ¨me sÃ©ance du mardi 26 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210136.asp",
+      "date": "2021-01-26",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210136",
+        "speech_count": 216,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210136.asp"
+      }
+    },
+    {
+      "item_id": "fr_an_15_cri_20210135",
+      "title": "Assemblée nationale - 15e Législature - Compte rendu de la premiÃ¨re sÃ©ance du mardi 26 janvier 2021 - AssemblÃ©e nationale",
+      "country_code": "FR",
+      "region": "National",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210135.asp",
+      "date": "2021-01-26",
+      "metadata": {
+        "chamber": "Assemblée nationale",
+        "session": "15e Législature (2020-2021)",
+        "sitting_number": "20210135",
+        "speech_count": 215,
+        "download_url": "https://www.assemblee-nationale.fr/15/cri/2020-2021/20210135.asp"
+      }
+    },
+    {
+      "item_id": "be_clarin_parlamint_be_tei",
+      "title": "Chambre des représentants de Belgique - ParlaMint-BE TEI-XML Open Corpus",
+      "country_code": "BE",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.clarin.si/repository/xmlui/handle/11356/1859",
+      "date": "2021-12-23",
+      "metadata": {
+        "chamber": "Chambre des représentants de Belgique",
+        "session": "54e-55e Législatures",
+        "sitting_number": "Corpus ParlaMint-BE TEI (2014-2021)",
+        "speech_count": 25000,
+        "download_url": "https://www.clarin.si/repository/xmlui/bitstream/handle/11356/1859/ParlaMint-BE.tgz"
+      }
+    },
+    {
+      "item_id": "be_clarin_parlamint_be_ana",
+      "title": "Chambre des représentants de Belgique - ParlaMint-BE Linguistically Annotated TEI",
+      "country_code": "BE",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.clarin.si/repository/xmlui/handle/11356/1860",
+      "date": "2021-12-23",
+      "metadata": {
+        "chamber": "Chambre des représentants de Belgique",
+        "session": "54e-55e Législatures",
+        "sitting_number": "Corpus ParlaMint-BE Annoté",
+        "speech_count": 25000,
+        "download_url": "https://www.clarin.si/repository/xmlui/bitstream/handle/11356/1860/ParlaMint-BE.ana.tgz"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_011_42370",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 11 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-12-22",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 11 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri11.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_010_42244",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 10 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-12-08",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 10 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri10.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_009_42105",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 9 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-11-24",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 9 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri9.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_008_41879",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 8 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-11-10",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 8 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri8.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_007_41765",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 7 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-10-28",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 7 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri7.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_006_41726",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 6 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-10-20",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 6 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri6.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_005_41610",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 5 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-10-06",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 5 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri5.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_004_41565",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 4 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-09-30",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 4 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri4.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_003_41507",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 3 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-09-22",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 3 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri3.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_002_41371",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 2 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-09-08",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 2 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri2.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_001_41350",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 1 (2021-2022)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-09-01",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 1 (2021-2022)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2021_2022/CRI/cri1.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_035_41276",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 35 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-07-15",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 35 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri35.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_034_41243",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 34 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-07-07",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 34 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri34.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_033_41109",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 33 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-06-23",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 33 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri33.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_032_40967",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 32 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-06-09",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 32 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri32.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_031_40851",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 31 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-05-26",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 31 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri31.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_030_40834",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 30 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-05-25",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 30 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri30.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_029_40728",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 29 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-05-12",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 29 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri29.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_028_40727",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 28 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-05-12",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 28 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri28.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_027_40598",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 27 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-04-28",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 27 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri27.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_026_40597",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 26 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-04-28",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 26 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri26.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_025_40432",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 25 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-31",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 25 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri25.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_024_40427",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 24 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-30",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 24 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri24.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_023_40321",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 23 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-17",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 23 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri23.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_022_40320",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 22 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-17",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 22 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri22.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_021_40238",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 21 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-03",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 21 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri21.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_020_40221",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 20 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-03-03",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 20 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri20.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_019_40113",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 19 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-02-10",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 19 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri19.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_018_40082",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 18 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-02-10",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 18 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri18.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_017_39985",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 17 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-01-27",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 17 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri17.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_016_39983",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 16 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-01-27",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 16 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri16.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_015_39862",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 15 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-01-13",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 15 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri15.pdf"
+      }
+    },
+    {
+      "item_id": "be_pw_cri_2021_014_39857",
+      "title": "Parlement de Wallonie - Séance plénière - CRI 14 (2020-2021)",
+      "country_code": "BE",
+      "region": "Wallonie",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlement-wallonie.be/pwpages?p=pub-all-form",
+      "date": "2021-01-13",
+      "metadata": {
+        "chamber": "Parlement de Wallonie",
+        "session": "Législature 11 (2021)",
+        "sitting_number": "CRI 14 (2020-2021)",
+        "speech_count": 145,
+        "download_url": "https://nautilus.parlement-wallon.be/Archives/2020_2021/CRI/cri14.pdf"
+      }
+    },
+    {
+      "item_id": "be_pfb_seance_pleniere_2021",
+      "title": "Parlement francophone de Bruxelles - Séance plénière du 17 décembre 2021",
+      "country_code": "BE",
+      "region": "Bruxelles",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "txt",
+      "source_url": "https://www.parlementfrancophone.brussels",
+      "date": "2021-12-17",
+      "metadata": {
+        "chamber": "Parlement francophone de Bruxelles",
+        "session": "Session 2021-2022",
+        "sitting_number": "Séance plénière n° 6",
+        "speech_count": 110,
+        "download_url": "https://www.parlementfrancophone.brussels"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210301_ce",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil des Etats - Séance du 2021-03-01",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210301",
+      "date": "2021-03-01",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil des Etats)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-01",
+        "speech_count": 15,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210301%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210301_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-01",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210301",
+      "date": "2021-03-01",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-01",
+        "speech_count": 75,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210301%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210302_ce",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil des Etats - Séance du 2021-03-02",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210302",
+      "date": "2021-03-02",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil des Etats)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-02",
+        "speech_count": 35,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210302%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210302_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-02",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210302",
+      "date": "2021-03-02",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-02",
+        "speech_count": 60,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210302%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210303_ce",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil des Etats - Séance du 2021-03-03",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210303",
+      "date": "2021-03-03",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil des Etats)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-03",
+        "speech_count": 50,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210303%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210303_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-03",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210303",
+      "date": "2021-03-03",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-03",
+        "speech_count": 240,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210303%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210304_ce",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil des Etats - Séance du 2021-03-04",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210304",
+      "date": "2021-03-04",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil des Etats)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-04",
+        "speech_count": 100,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210304%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210304_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-04",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210304",
+      "date": "2021-03-04",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-04",
+        "speech_count": 90,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210304%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210308_ce",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil des Etats - Séance du 2021-03-08",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210308",
+      "date": "2021-03-08",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil des Etats)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-08",
+        "speech_count": 40,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210308%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210308_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-08",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210308",
+      "date": "2021-03-08",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-08",
+        "speech_count": 60,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210308%27&%24format=json"
+      }
+    },
+    {
+      "item_id": "ch_curia_vista_20210309_cn",
+      "title": "Assemblée fédérale de la Confédération suisse - Conseil national - Séance du 2021-03-09",
+      "country_code": "CH",
+      "region": "Federal",
+      "platform": "web",
+      "payload_type": "parliament_transcript",
+      "origin_type": "human_transcribed",
+      "format": "xml",
+      "source_url": "https://www.parlament.ch/fr/ratsbetrieb/amtliches-bulletin/amtliches-bulletin-die-verhandlungen?Date=20210309",
+      "date": "2021-03-09",
+      "metadata": {
+        "chamber": "Assemblée fédérale suisse (Conseil national)",
+        "session": "Session ordinaire 2021",
+        "sitting_number": "Séance du 2021-03-09",
+        "speech_count": 5,
+        "download_url": "https://ws.parlament.ch/odata.svc/Transcript?%24filter=LanguageOfText+eq+%27FR%27+and+MeetingDate+eq+%2720210309%27&%24format=json"
+      }
+    }
+  ]
+}
