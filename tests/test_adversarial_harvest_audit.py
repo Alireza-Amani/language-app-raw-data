@@ -2,11 +2,11 @@
 """Adversarial stress-testing suite for French Constructicon vault harvest.
 
 Tests:
-1. Boundary Constraints: Duration >= 600s, max 150 items/channel, positive values.
-2. Geographic Invariance: Language == 'fr', country_code in {FR, CA, BE, CH}, zero African/Maghreb.
+1. Boundary Constraints: Video duration >= 600s, max 150 items/channel, positive values, non-empty multi-modal payloads.
+2. Geographic Invariance: Language == 'fr', country_code in {FR, CA, BE, CH}, zero African/Maghreb across all sources.
 3. FTS5 Index Consistency: 100% row parity, exact text matching, FTS5 integrity-check, adversarial search.
-4. Shard Disjointness: Zero cross-shard source, item, or payload overlap across staging & vault.
-5. Subtitle Prioritization: Manual CC prioritized ahead of auto CC, valid VTT structure.
+4. Shard Disjointness: Zero cross-shard source, item, or payload overlap; unique video URLs and entity IDs.
+5. Multi-Source Format & Subtitle Prioritization: Manual CC prioritized ahead of auto CC, valid VTT, SRT, JSON, XML/TXT formats.
 6. Referential & Database Integrity: PRAGMA integrity_check, foreign_key_check, zero orphans.
 """
 
@@ -66,7 +66,7 @@ def test_database_pragmas_and_schema():
 
 
 def test_boundary_constraints():
-    """Verify item duration >= 600s, max 150 items per channel, and validity."""
+    """Verify item duration >= 600s for video items, max 150 items per channel, and validity."""
     print("\n--- [TEST 2] Boundary Constraints ---")
     conn = sqlite3.connect(str(VAULT_PATH))
     cur = conn.cursor()
@@ -77,29 +77,44 @@ def test_boundary_constraints():
     assert total_items > 0, "No items found in vault!"
     print(f"  [INFO] Total vault items: {total_items}")
 
-    # Sub-600s check: ANY item < 600s must fail
-    cur.execute("SELECT id, source_id, duration_seconds FROM items WHERE duration_seconds < 600;")
+    # Sub-600s check: ANY video item (duration_seconds IS NOT NULL) < 600s must fail
+    cur.execute("SELECT id, source_id, duration_seconds FROM items WHERE duration_seconds IS NOT NULL AND duration_seconds < 600;")
     sub_600 = cur.fetchall()
-    assert len(sub_600) == 0, f"Violation: Found {len(sub_600)} items with duration < 600s: {sub_600[:5]}"
-    print("  [PASS] Zero items with duration_seconds < 600s")
+    assert len(sub_600) == 0, f"Violation: Found {len(sub_600)} video items with duration < 600s: {sub_600[:5]}"
+    print("  [PASS] Zero video items with duration_seconds < 600s")
 
-    # Check for NULL or negative duration
-    cur.execute("SELECT count(*) FROM items WHERE duration_seconds IS NULL OR duration_seconds <= 0;")
+    # Check for negative or zero duration among video items
+    cur.execute("SELECT count(*) FROM items WHERE duration_seconds IS NOT NULL AND duration_seconds <= 0;")
     invalid_dur = cur.fetchone()[0]
-    assert invalid_dur == 0, f"Violation: Found {invalid_dur} items with NULL or <=0 duration"
-    print("  [PASS] Zero items with NULL or <=0 duration")
+    assert invalid_dur == 0, f"Violation: Found {invalid_dur} items with <=0 duration"
+    print("  [PASS] Zero video items with <=0 duration")
 
-    # Min, Max, Avg duration
-    cur.execute("SELECT MIN(duration_seconds), MAX(duration_seconds), AVG(duration_seconds) FROM items;")
+    # Min, Max, Avg duration for video items
+    cur.execute("SELECT MIN(duration_seconds), MAX(duration_seconds), AVG(duration_seconds) FROM items WHERE duration_seconds IS NOT NULL;")
     min_dur, max_dur, avg_dur = cur.fetchone()
     assert min_dur >= 600, f"Min duration {min_dur} is less than 600s!"
-    print(f"  [PASS] Min duration: {min_dur}s (>= 600s), Max duration: {max_dur}s, Avg duration: {avg_dur:.1f}s")
+    print(f"  [PASS] Video duration: min={min_dur}s (>= 600s), max={max_dur}s, avg={avg_dur:.1f}s")
 
-    # Channel cap constraint: <= 150 items per channel
-    cur.execute("SELECT source_id, count(*) FROM items GROUP BY source_id HAVING count(*) > 150;")
+    # Verify tri-source items without duration (comments, subtitles, parliamentary debates) have valid payloads with non-zero characters
+    cur.execute("""
+        SELECT p.payload_type, count(*), min(length(p.raw_content)), avg(length(p.raw_content))
+        FROM items i
+        JOIN payloads p ON p.item_id = i.id
+        WHERE i.duration_seconds IS NULL
+        GROUP BY p.payload_type;
+    """)
+    null_dur_payloads = cur.fetchall()
+    assert len(null_dur_payloads) > 0, "No payloads found for non-video items!"
+    for p_type, count, min_len, avg_len in null_dur_payloads:
+        assert count > 0, f"No payloads for {p_type}"
+        assert min_len > 0, f"Found empty raw_content for payload type {p_type}!"
+        print(f"  [PASS] Non-video modality '{p_type}': {count} items, min_chars={min_len}, avg_chars={avg_len:.1f}")
+
+    # Channel cap constraint: <= 150 videos per channel
+    cur.execute("SELECT source_id, count(*) FROM items WHERE duration_seconds IS NOT NULL GROUP BY source_id HAVING count(*) > 150;")
     over_capped = cur.fetchall()
-    assert len(over_capped) == 0, f"Violation: Channels exceeding 150 items cap: {over_capped}"
-    print("  [PASS] Channel cap constraint: All channels have <= 150 items")
+    assert len(over_capped) == 0, f"Violation: Channels exceeding 150 video items cap: {over_capped}"
+    print("  [PASS] Channel cap constraint: All channels have <= 150 video items")
 
     # Verify no blank titles or URLs
     cur.execute("SELECT count(*) FROM items WHERE TRIM(title) = '' OR TRIM(url) = '';")
@@ -116,19 +131,25 @@ def test_geographic_invariance():
     conn = sqlite3.connect(str(VAULT_PATH))
     cur = conn.cursor()
 
-    # Sources count
+    # Sources count: 80 YouTube channels + 11 tri-source discovery sources = 91 sources
     cur.execute("SELECT count(*) FROM sources;")
     total_sources = cur.fetchone()[0]
-    assert total_sources == 80, f"Expected 80 sources, got {total_sources}"
-    print(f"  [PASS] Exactly 80 sources in vault")
+    assert total_sources >= 80, f"Expected at least 80 sources, got {total_sources}"
+    assert total_sources == 91, f"Expected exactly 91 sources (80 YT + 4 cinema + 7 hansard), got {total_sources}"
+    print(f"  [PASS] Exactly {total_sources} sources in vault (80 YouTube, 4 cinema, 7 parliamentary)")
 
-    # Language constraint
+    # Language constraint: strictly French across all sources and payloads
     cur.execute("SELECT DISTINCT language_iso1 FROM sources;")
     languages = {r[0] for r in cur.fetchall()}
     assert languages == {"fr"}, f"Violation: Non-French languages found in sources: {languages}"
     print(f"  [PASS] Source language strictly 'fr': {languages}")
 
-    # Country codes constraint
+    cur.execute("SELECT DISTINCT language_iso1 FROM payloads;")
+    payload_languages = {r[0] for r in cur.fetchall()}
+    assert payload_languages == {"fr"}, f"Violation: Non-French languages found in payloads: {payload_languages}"
+    print(f"  [PASS] Payload language strictly 'fr': {payload_languages}")
+
+    # Country codes constraint: only FR, CA, BE, CH
     cur.execute("SELECT DISTINCT country_code FROM sources;")
     observed_countries = {r[0] for r in cur.fetchall()}
     unexpected_countries = observed_countries - ALLOWED_COUNTRY_CODES
@@ -141,7 +162,7 @@ def test_geographic_invariance():
     assert not african_maghreb_found, f"Violation: African/Maghreb sources found: {african_maghreb_found}"
     print("  [PASS] Zero African/Maghreb country codes present")
 
-    # Verify 1-to-1 matching with audited catalog
+    # Verify 1-to-1 matching with audited YouTube catalog
     assert CATALOG_PATH.is_file(), f"Catalog not found at {CATALOG_PATH}"
     with open(CATALOG_PATH, "r", encoding="utf-8") as f:
         catalog_data = json.load(f)
@@ -149,10 +170,10 @@ def test_geographic_invariance():
         (ch.get("handle") or ch.get("uploader_id") or "").lstrip("@").lower()
         for ch in catalog_data.get("channels", [])
     }
-    cur.execute("SELECT id FROM sources;")
+    cur.execute("SELECT id FROM sources WHERE platform = 'youtube';")
     vault_handles = {r[0].replace("yt:@", "").replace("yt:", "").lower() for r in cur.fetchall()}
     assert vault_handles == catalog_handles, f"Catalog mismatch! Missing: {catalog_handles - vault_handles}, Extra: {vault_handles - catalog_handles}"
-    print(f"  [PASS] Vault sources match 80 catalog channels with 100% 1-to-1 correspondence")
+    print(f"  [PASS] Vault YouTube sources match 80 catalog channels with 100% 1-to-1 correspondence")
 
     conn.close()
 
@@ -314,25 +335,34 @@ def test_shard_disjointness():
         print(f"  [FAIL] VAULT COMPLETENESS DEFECT: {len(unmerged_items)} items in staging are missing from raw_vault.db!")
         raise AssertionError(f"Staging-to-Vault Desynchronization: {len(unmerged_items)} items in staging were not merged into raw_vault.db")
 
-    # Check for duplicate item URLs in vault
-    cur.execute("SELECT url, count(*) FROM items GROUP BY url HAVING count(*) > 1;")
-    dup_urls = cur.fetchall()
-    assert not dup_urls, f"Duplicate URLs found in vault items: {dup_urls}"
-    print(f"  [PASS] Staging to Vault Ingestion: 100% of staging entities present in vault, zero duplicate URLs")
+    # Check for duplicate item IDs / (source_id, id) in vault
+    cur.execute("SELECT id, count(*) FROM items GROUP BY id HAVING count(*) > 1;")
+    dup_ids = cur.fetchall()
+    assert not dup_ids, f"Duplicate item IDs found in vault: {dup_ids}"
+
+    cur.execute("SELECT source_id, id, count(*) FROM items GROUP BY source_id, id HAVING count(*) > 1;")
+    dup_source_items = cur.fetchall()
+    assert not dup_source_items, f"Duplicate (source_id, item_id) found in vault: {dup_source_items}"
+
+    # Check for duplicate item URLs among video items (YouTube videos must have unique URLs)
+    cur.execute("SELECT url, count(*) FROM items WHERE duration_seconds IS NOT NULL GROUP BY url HAVING count(*) > 1;")
+    dup_video_urls = cur.fetchall()
+    assert not dup_video_urls, f"Duplicate video URLs found in vault items: {dup_video_urls}"
+    print(f"  [PASS] Staging to Vault Ingestion: 100% of staging entities present in vault, zero duplicate IDs, zero duplicate video URLs")
 
     conn.close()
 
 
 def test_subtitle_prioritization():
-    """Verify subtitle prioritization: manual CC vs auto CC, VTT integrity."""
-    print("\n--- [TEST 6] Subtitle Prioritization & Transcript Integrity ---")
+    """Verify subtitle prioritization: manual CC vs auto CC, format integrity across modalities."""
+    print("\n--- [TEST 6] Subtitle Prioritization & Multi-Source Transcript Integrity ---")
     conn = sqlite3.connect(str(VAULT_PATH))
     cur = conn.cursor()
 
     # Breakdown by payload_type and origin_type
     cur.execute("SELECT payload_type, origin_type, count(*) FROM payloads GROUP BY payload_type, origin_type;")
     breakdown = cur.fetchall()
-    print("  [INFO] Subtitle breakdown:")
+    print("  [INFO] Subtitle and transcript breakdown:")
     total_manual = 0
     total_auto = 0
     for p_type, o_type, cnt in breakdown:
@@ -342,35 +372,68 @@ def test_subtitle_prioritization():
         elif p_type == "auto_cc" or o_type == "machine_transcribed":
             total_auto += cnt
 
-    assert total_manual > 0, "No manual CC payloads found!"
+    assert total_manual > 0, "No manual CC / transcribed payloads found!"
     assert total_auto > 0, "No auto CC payloads found!"
-    print(f"  [PASS] Manual CC payloads: {total_manual} ({total_manual / (total_manual + total_auto):.1%}), Auto CC payloads: {total_auto}")
+    print(f"  [PASS] Manual/transcribed payloads: {total_manual} ({total_manual / (total_manual + total_auto):.1%}), Auto CC payloads: {total_auto}")
 
-    # Check that format is 'vtt' and raw_content contains WEBVTT
-    cur.execute("SELECT id, format, length(raw_content), substr(raw_content, 1, 30) FROM payloads;")
+    # Check payload types and formats
+    cur.execute("SELECT id, payload_type, format, length(raw_content), substr(raw_content, 1, 30) FROM payloads;")
     payload_samples = cur.fetchall()
     assert len(payload_samples) > 0
 
-    invalid_formats = [p for p in payload_samples if p[1] != "vtt"]
-    assert not invalid_formats, f"Non-vtt format payloads found: {invalid_formats[:5]}"
-
-    empty_payloads = [p for p in payload_samples if p[2] == 0]
+    # Verify no empty payloads
+    empty_payloads = [p for p in payload_samples if p[3] == 0]
     assert not empty_payloads, f"Empty raw_content payloads found: {empty_payloads}"
 
-    # Check VTT headers
-    cur.execute("SELECT count(*) FROM payloads WHERE raw_content NOT LIKE '%WEBVTT%';")
-    non_webvtt = cur.fetchone()[0]
-    assert non_webvtt == 0, f"Found {non_webvtt} payloads without WEBVTT header!"
-    print(f"  [PASS] 100% of payloads have format='vtt' and valid WEBVTT header (0 non-WEBVTT)")
+    # Verify formats per modality:
+    # 1. auto_cc must be format='vtt' and contain WEBVTT
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'auto_cc' AND format != 'vtt';")
+    invalid_auto_cc = cur.fetchone()[0]
+    assert invalid_auto_cc == 0, f"Found {invalid_auto_cc} auto_cc payloads with format != 'vtt'"
 
-    # Verify sha256 id matches content hash
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'auto_cc' AND raw_content NOT LIKE '%WEBVTT%';")
+    non_webvtt_auto = cur.fetchone()[0]
+    assert non_webvtt_auto == 0, f"Found {non_webvtt_auto} auto_cc payloads without WEBVTT header"
+    print("  [PASS] 100% of auto_cc payloads have format='vtt' and valid WEBVTT header")
+
+    # 2. manual_cc must be format in ('vtt', 'srt')
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'manual_cc' AND format NOT IN ('vtt', 'srt');")
+    invalid_manual_cc = cur.fetchone()[0]
+    assert invalid_manual_cc == 0, f"Found {invalid_manual_cc} manual_cc payloads with invalid format"
+
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'manual_cc' AND format = 'vtt' AND raw_content NOT LIKE '%WEBVTT%';")
+    non_webvtt_manual = cur.fetchone()[0]
+    assert non_webvtt_manual == 0, f"Found {non_webvtt_manual} manual_cc VTT payloads without WEBVTT header"
+
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'manual_cc' AND format = 'srt' AND raw_content NOT LIKE '%-->%';")
+    non_srt_cues = cur.fetchone()[0]
+    assert non_srt_cues == 0, f"Found {non_srt_cues} manual_cc SRT payloads without timing cues"
+    print("  [PASS] 100% of manual_cc payloads have format in ('vtt', 'srt') and valid timing structure")
+
+    # 3. comment_thread must be format='json' and valid JSON
+    cur.execute("SELECT id, format, raw_content FROM payloads WHERE payload_type = 'comment_thread';")
+    comments = cur.fetchall()
+    assert len(comments) > 0, "No comment_thread payloads found!"
+    for cid, fmt, raw in comments:
+        assert fmt == "json", f"Comment payload {cid} has non-json format: {fmt}"
+        parsed = json.loads(raw)
+        assert isinstance(parsed, list) and len(parsed) > 0, f"Comment payload {cid} is empty or not a list"
+    print(f"  [PASS] 100% of comment_thread payloads ({len(comments)}) have format='json' and parseable comment trees")
+
+    # 4. parliament_transcript must be format in ('xml', 'txt') and non-empty
+    cur.execute("SELECT count(*) FROM payloads WHERE payload_type = 'parliament_transcript' AND format NOT IN ('xml', 'txt');")
+    invalid_hansard = cur.fetchone()[0]
+    assert invalid_hansard == 0, f"Found {invalid_hansard} parliament_transcript payloads with invalid format"
+    print("  [PASS] 100% of parliament_transcript payloads have format in ('xml', 'txt')")
+
+    # Verify sha256 id matches content hash across sample payloads
     import hashlib
-    cur.execute("SELECT id, raw_content FROM payloads LIMIT 50;")
+    cur.execute("SELECT id, raw_content FROM payloads LIMIT 100;")
     for pid, content in cur.fetchall():
         expected_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
         assert pid == expected_hash, f"Payload ID hash mismatch: id={pid} vs hash={expected_hash}"
 
-    print("  [PASS] Payload SHA-256 ID integrity verified on samples")
+    print("  [PASS] Payload SHA-256 ID integrity verified on sample payloads")
     conn.close()
 
 

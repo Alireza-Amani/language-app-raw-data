@@ -37,6 +37,7 @@ htmlcov/
 # Raw Vault Data & Staging
 data/vault/
 data/staging/
+data/cache/
 *.db
 *.db-wal
 *.db-shm

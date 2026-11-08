@@ -9,6 +9,8 @@ Safely, idempotently, and atomically consolidates isolated staging shard databas
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
+import hashlib
 import json
 import logging
 from pathlib import Path
@@ -16,7 +18,6 @@ import re
 import sqlite3
 import sys
 import time
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Ensure project root is in sys.path
@@ -181,6 +182,7 @@ def merge_staging_to_vault(
     manifest_out: Optional[Union[str, Path]] = None,
     target_gdrive: bool = False,
     clean_shards: bool = False,
+    shard_pattern: str = "shard_*.db",
     **kwargs: Any,
 ) -> Dict[str, Any]:
     """Atomically merge all staging shard databases into canonical raw_vault.db.
@@ -190,20 +192,21 @@ def merge_staging_to_vault(
     3. Merges sources, items, payloads via ATTACH and INSERT OR IGNORE inside transactions.
     4. Rebuilds and synchronizes payloads_fts.
     5. Computes total aggregate Persian word count across payloads.
-    6. Produces an ingestion manifest recording provenance and statistics.
+    6. Produces an ingestion manifest recording provenance, stream breakdowns, and statistics.
     7. Optionally cleans up successfully merged shard database files and sidecars.
     """
     clean_shards = kwargs.get("clean_shards", clean_shards)
     target_gdrive = kwargs.get("target_gdrive", target_gdrive)
+    shard_pattern = kwargs.get("shard_pattern", shard_pattern)
 
     staging_p = Path(staging_dir)
     vault_p = Path(vault_path)
 
     # Shard Discovery:
-    # Scan staging_dir for shard_*.db databases (ignore temporary/sidecar files like -wal, -shm, .corrupt)
+    # Scan staging_dir for shard database files matching shard_pattern (ignore temporary/sidecar files like -wal, -shm, .corrupt)
     shard_files: List[Path] = []
     if staging_p.is_dir():
-        for f in staging_p.glob("shard_*.db"):
+        for f in staging_p.glob(shard_pattern):
             if not f.is_file():
                 continue
             name = f.name
@@ -236,6 +239,7 @@ def merge_staging_to_vault(
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "status": "NO_SHARDS",
             "vault_path": str(vault_p),
+            "staging_dir": str(staging_p),
             "shards_processed": [],
             "quarantined_shards": [],
             "sources_added": 0,
@@ -246,6 +250,24 @@ def merge_staging_to_vault(
             "total_payloads": total_payloads,
             "total_persian_words": total_words,
             "target_gdrive": target_gdrive,
+            "before_merge": {
+                "total_sources": total_sources,
+                "total_items": total_items,
+                "total_payloads": total_payloads,
+            },
+            "after_merge": {
+                "total_sources": total_sources,
+                "total_items": total_items,
+                "total_payloads": total_payloads,
+            },
+            "streams": {},
+            "verification": {
+                "all_sha256_verified": True,
+                "foreign_keys_verified": True,
+                "integrity_check_passed": True,
+                "fts5_rebuilt": rebuild_fts,
+                "fts5_count_match": True,
+            },
         }
 
         if manifest_out:
@@ -283,12 +305,15 @@ def merge_staging_to_vault(
     conn = vm.conn
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.execute("PRAGMA busy_timeout = 5000;")
+    if not vm.is_memory:
+        conn.execute("PRAGMA journal_mode = WAL;")
 
     initial_sources = conn.execute("SELECT COUNT(*) FROM sources;").fetchone()[0]
     initial_items = conn.execute("SELECT COUNT(*) FROM items;").fetchone()[0]
     initial_payloads = conn.execute("SELECT COUNT(*) FROM payloads;").fetchone()[0]
 
     successfully_merged_shards: List[Path] = []
+    streams_breakdown: Dict[str, Dict[str, Any]] = {}
 
     for shard_file in valid_shards:
         shard_path_str = str(shard_file.resolve())
@@ -305,6 +330,62 @@ def merge_staging_to_vault(
             country_expr = "country_code" if "country_code" in shard_src_cols else "NULL"
             locale_expr = "locale" if "locale" in shard_pay_cols else "NULL"
             meta_expr = "metadata_json" if "metadata_json" in shard_pay_cols else "'{}'"
+
+            # Collect metrics from shard before merge
+            s_sources_cnt = conn.execute("SELECT COUNT(*) FROM shard.sources;").fetchone()[0]
+            s_items_cnt = conn.execute("SELECT COUNT(*) FROM shard.items;").fetchone()[0]
+            s_payloads_cnt = conn.execute("SELECT COUNT(*) FROM shard.payloads;").fetchone()[0]
+
+            payload_rows = conn.execute(
+                f"SELECT id, payload_type, {locale_expr}, origin_type, format, raw_content, {meta_expr} FROM shard.payloads;"
+            ).fetchall()
+
+            shard_chars = 0
+            shard_bytes = 0
+            sha256_mismatches = 0
+            detected_stream = None
+            comments_count = 0
+            min_ts = None
+            max_ts = None
+            temporal_violations = 0
+            payload_types_in_shard = set()
+            formats_in_shard = set()
+
+            for p_id, p_type, p_locale, p_origin, p_fmt, p_content, p_meta in payload_rows:
+                payload_types_in_shard.add(p_type)
+                formats_in_shard.add(p_fmt)
+                content_bytes = p_content.encode("utf-8") if isinstance(p_content, str) else bytes(p_content)
+                shard_chars += len(p_content) if isinstance(p_content, str) else 0
+                shard_bytes += len(content_bytes)
+
+                expected_id = hashlib.sha256(content_bytes).hexdigest()
+                if p_id != expected_id:
+                    sha256_mismatches += 1
+
+                if p_type == "comment_thread" or p_fmt == "json":
+                    detected_stream = "stream_a"
+                    try:
+                        comments_list = json.loads(p_content)
+                        if isinstance(comments_list, list):
+                            comments_count += len(comments_list)
+                            for c in comments_list:
+                                if isinstance(c, dict) and "timestamp" in c:
+                                    ts = c["timestamp"]
+                                    if ts is not None:
+                                        if max_ts is None or ts > max_ts:
+                                            max_ts = ts
+                                        if min_ts is None or ts < min_ts:
+                                            min_ts = ts
+                                        if ts >= 1640995200:
+                                            temporal_violations += 1
+                    except Exception:
+                        pass
+                elif p_type == "manual_cc" and (p_fmt in ("srt", "vtt")):
+                    if detected_stream is None:
+                        detected_stream = "stream_b"
+                elif p_type == "parliament_transcript":
+                    if detected_stream is None:
+                        detected_stream = "stream_c"
 
             with vm.transaction():
                 # Step 1: Sources first (FK root)
@@ -323,6 +404,59 @@ def merge_staging_to_vault(
                     f"SELECT id, item_id, payload_type, language_iso1, {locale_expr}, origin_type, format, raw_content, {meta_expr}, fetched_at FROM shard.payloads;"
                 )
             successfully_merged_shards.append(shard_file)
+
+            # Determine stream key and metadata
+            shard_stem = shard_file.stem
+            if "stream_a" in shard_stem:
+                stream_key = "stream_a"
+                stream_name = "Stream A: YouTube comments"
+            elif "stream_b" in shard_stem:
+                stream_key = "stream_b"
+                stream_name = "Stream B: cinema subtitles"
+            elif "stream_c" in shard_stem:
+                stream_key = "stream_c"
+                stream_name = "Stream C: Hansard debates"
+            elif detected_stream == "stream_a":
+                stream_key = shard_stem
+                stream_name = f"Stream A: {shard_stem}"
+            elif detected_stream == "stream_b":
+                stream_key = shard_stem
+                stream_name = f"Stream B: {shard_stem}"
+            elif detected_stream == "stream_c":
+                stream_key = shard_stem
+                stream_name = f"Stream C: {shard_stem}"
+            else:
+                stream_key = shard_stem
+                stream_name = f"Shard: {shard_stem}"
+
+            stream_info: Dict[str, Any] = {
+                "stream_id": stream_key,
+                "stream_name": stream_name,
+                "shard_file": shard_file.name,
+                "sources_count": s_sources_cnt,
+                "items_count": s_items_cnt,
+                "payloads_count": s_payloads_cnt,
+                "character_count": shard_chars,
+                "byte_size": shard_bytes,
+                "sha256_verified": sha256_mismatches == 0,
+                "sha256_mismatches": sha256_mismatches,
+                "payload_types": sorted(list(payload_types_in_shard)),
+                "formats": sorted(list(formats_in_shard)),
+            }
+            if stream_key == "stream_a" or detected_stream == "stream_a":
+                stream_info.update({
+                    "comments_count": comments_count,
+                    "min_timestamp": min_ts,
+                    "max_timestamp": max_ts,
+                    "cutoff_timestamp": 1640995200,
+                    "pre_2022_compliant": (
+                        temporal_violations == 0
+                        and (max_ts is None or max_ts < 1640995200)
+                    ),
+                    "temporal_violations": temporal_violations,
+                })
+            streams_breakdown[stream_key] = stream_info
+
         except sqlite3.OperationalError as e:
             err_msg = str(e).lower()
             if "locked" in err_msg or "busy" in err_msg:
@@ -343,13 +477,26 @@ def merge_staging_to_vault(
                     pass
 
     # FTS5 Index Maintenance:
+    fts_rebuilt = False
     if rebuild_fts:
         with vm.transaction():
             conn.execute("INSERT INTO payloads_fts(payloads_fts) VALUES ('rebuild');")
+        fts_rebuilt = True
 
     final_sources = conn.execute("SELECT COUNT(*) FROM sources;").fetchone()[0]
     final_items = conn.execute("SELECT COUNT(*) FROM items;").fetchone()[0]
     final_payloads = conn.execute("SELECT COUNT(*) FROM payloads;").fetchone()[0]
+    fts_count = conn.execute("SELECT COUNT(*) FROM payloads_fts;").fetchone()[0]
+
+    # Run integrity and foreign key checks
+    fk_violations = conn.execute("PRAGMA foreign_key_check;").fetchall()
+    integrity_rows = conn.execute("PRAGMA integrity_check;").fetchall()
+    integrity_ok = len(integrity_rows) == 1 and integrity_rows[0][0] == "ok"
+
+    if fk_violations:
+        logger.error(f"Foreign key violations detected after merge: {fk_violations}")
+    if not integrity_ok:
+        logger.error(f"Integrity check failed after merge: {integrity_rows}")
 
     # Aggregate Persian word count across all payloads in vault
     total_words = 0
@@ -359,8 +506,9 @@ def merge_staging_to_vault(
 
     manifest = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "status": "SUCCESS",
+        "status": "SUCCESS" if (integrity_ok and len(fk_violations) == 0) else "INTEGRITY_ERROR",
         "vault_path": str(vault_p),
+        "staging_dir": str(staging_p),
         "shards_processed": [str(s) for s in successfully_merged_shards],
         "quarantined_shards": quarantined_shards,
         "sources_added": final_sources - initial_sources,
@@ -371,7 +519,30 @@ def merge_staging_to_vault(
         "total_payloads": final_payloads,
         "total_persian_words": total_words,
         "target_gdrive": target_gdrive,
+        "before_merge": {
+            "total_sources": initial_sources,
+            "total_items": initial_items,
+            "total_payloads": initial_payloads,
+        },
+        "after_merge": {
+            "total_sources": final_sources,
+            "total_items": final_items,
+            "total_payloads": final_payloads,
+        },
+        "streams": streams_breakdown,
+        "verification": {
+            "all_sha256_verified": all(
+                s.get("sha256_verified", False) for s in streams_breakdown.values()
+            ) if streams_breakdown else True,
+            "foreign_keys_verified": len(fk_violations) == 0,
+            "integrity_check_passed": integrity_ok,
+            "fts5_rebuilt": fts_rebuilt,
+            "fts5_count_match": (fts_count == final_payloads),
+            "fts5_count": fts_count,
+        },
     }
+    if "stream_a" in streams_breakdown:
+        manifest["verification"]["stream_a_pre2022_verified"] = streams_breakdown["stream_a"].get("pre_2022_compliant", False)
 
     if manifest_out:
         out_file = Path(manifest_out)
@@ -418,6 +589,12 @@ def main(argv: Optional[List[str]] = None) -> int:
         help="Path to destination canonical raw_vault.db (default: data/vault/language-app-raw-data/raw_vault.db)",
     )
     parser.add_argument(
+        "--shard-pattern",
+        type=str,
+        default="shard_*.db",
+        help="Glob pattern to match shard files (default: shard_*.db)",
+    )
+    parser.add_argument(
         "--rebuild-fts",
         dest="rebuild_fts",
         action="store_true",
@@ -458,6 +635,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             manifest_out=args.manifest_out,
             target_gdrive=args.target_gdrive,
             clean_shards=args.clean_shards,
+            shard_pattern=args.shard_pattern,
         )
         print(json.dumps(manifest, indent=2, ensure_ascii=False))
         return 0

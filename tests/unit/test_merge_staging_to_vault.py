@@ -756,3 +756,287 @@ def test_24_contract_helpers_delegation(
     assert manifest["status"] == "SUCCESS"
     assert manifest["total_items"] == 1
     assert "manifest_path" in manifest
+
+
+# =============================================================================
+# French Tri-Source Unit Tests (25 to 28)
+# =============================================================================
+
+def _populate_french_tri_source_shards(staging_dir: Path) -> Dict[str, Path]:
+    """Helper to create realistic temporary shards for French Stream A, B, and C."""
+    # Shard Stream A: Pre-2022 YouTube Comments (JSON)
+    shard_a = staging_dir / "shard_stream_a.db"
+    comments_json = json.dumps([
+        {
+            "comment_id": "comment_1",
+            "text": "Excellente analyse syntaxique du français parlé !",
+            "timestamp": 1600000000,  # September 2020 (< 1640995200)
+            "author": "linguiste_fr",
+        },
+        {
+            "comment_id": "comment_2",
+            "text": "Tout à fait d'accord avec cette explication dialectale.",
+            "timestamp": 1620000000,  # May 2021 (< 1640995200)
+            "author": "francophone_ca",
+        },
+    ], ensure_ascii=False)
+
+    vm_a = VaultManager(db_path=shard_a)
+    vm_a.init_db()
+    with vm_a.transaction():
+        vm_a.upsert_source(
+            id="yt:@FrenchGrammar",
+            platform="youtube",
+            language_iso1="fr",
+            name="French Grammar",
+            url="https://youtube.com/@FrenchGrammar",
+            country_code="FR",
+        )
+        vm_a.upsert_item(
+            id="yt_comment_vid_fr_01",
+            source_id="yt:@FrenchGrammar",
+            title="Les temps simples en français",
+            url="https://youtube.com/watch?v=vid_fr_01",
+        )
+        vm_a.insert_payload(
+            item_id="yt_comment_vid_fr_01",
+            payload_type="comment_thread",
+            language_iso1="fr",
+            origin_type="human_written",
+            format="json",
+            raw_content=comments_json,
+            locale="fr-FR",
+        )
+    vm_a.close()
+
+    # Shard Stream B: Cinema Subtitles (.srt)
+    shard_b = staging_dir / "shard_stream_b.db"
+    srt_content = (
+        "1\n00:00:01,000 --> 00:00:04,000\nC'est à moi que tu parles ?\n\n"
+        "2\n00:00:05,000 --> 00:00:08,000\nJusqu'ici tout va bien dans cette banlieue.\n"
+    )
+    vm_b = VaultManager(db_path=shard_b)
+    vm_b.init_db()
+    with vm_b.transaction():
+        vm_b.upsert_source(
+            id="sub:la_haine_1995",
+            platform="subtitle",
+            language_iso1="fr",
+            name="La Haine (1995)",
+            url="https://opensubtitles.org/sub/3283706",
+            country_code="FR",
+        )
+        vm_b.upsert_item(
+            id="sub_opensubtitles_3283706",
+            source_id="sub:la_haine_1995",
+            title="La Haine - Mathieu Kassovitz",
+            url="https://opensubtitles.org/sub/3283706",
+        )
+        vm_b.insert_payload(
+            item_id="sub_opensubtitles_3283706",
+            payload_type="manual_cc",
+            language_iso1="fr",
+            origin_type="human_transcribed",
+            format="srt",
+            raw_content=srt_content,
+            locale="fr-FR",
+        )
+    vm_b.close()
+
+    # Shard Stream C: Parliamentary Hansard Debates (.xml)
+    shard_c = staging_dir / "shard_stream_c.db"
+    hansard_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<Hansard language="fr">\n'
+        '  <Debate>\n'
+        '    <Speech speaker="M. Dupont">\n'
+        '      Monsieur le Président, nous abordons aujourd\'hui la question primordiale de la politique linguistique.\n'
+        '    </Speech>\n'
+        '  </Debate>\n'
+        '</Hansard>'
+    )
+    vm_c = VaultManager(db_path=shard_c)
+    vm_c.init_db()
+    with vm_c.transaction():
+        vm_c.upsert_source(
+            id="web:ca_commons",
+            platform="web",
+            language_iso1="fr",
+            name="Chambre des communes du Canada",
+            url="https://ourcommons.ca",
+            country_code="CA",
+        )
+        vm_c.upsert_item(
+            id="ca_commons_432_han100",
+            source_id="web:ca_commons",
+            title="Débats parlementaires séance 100",
+            url="https://ourcommons.ca/hansard/100",
+        )
+        vm_c.insert_payload(
+            item_id="ca_commons_432_han100",
+            payload_type="parliament_transcript",
+            language_iso1="fr",
+            origin_type="human_transcribed",
+            format="xml",
+            raw_content=hansard_xml,
+            locale="fr-CA",
+        )
+    vm_c.close()
+
+    return {"a": shard_a, "b": shard_b, "c": shard_c}
+
+
+def test_25_french_tri_source_merge_simulation(tmp_staging_dir: Path, tmp_vault_path: Path):
+    """Test 25: Simulated merge of French Tri-Source shards (Streams A, B, C) with full verification."""
+    _populate_french_tri_source_shards(tmp_staging_dir)
+    custom_manifest = tmp_staging_dir / "ingestion_manifest.json"
+
+    manifest = merge_staging_to_vault(
+        staging_dir=tmp_staging_dir,
+        vault_path=tmp_vault_path,
+        manifest_out=custom_manifest,
+        rebuild_fts=True,
+    )
+
+    assert manifest["status"] == "SUCCESS"
+    assert len(manifest["shards_processed"]) == 3
+    assert manifest["total_sources"] == 3
+    assert manifest["total_items"] == 3
+    assert manifest["total_payloads"] == 3
+
+    # Streams breakdown verification
+    streams = manifest.get("streams", {})
+    assert "stream_a" in streams
+    assert "stream_b" in streams
+    assert "stream_c" in streams
+
+    # Stream A: Comments
+    sa = streams["stream_a"]
+    assert sa["sources_count"] == 1
+    assert sa["items_count"] == 1
+    assert sa["payloads_count"] == 1
+    assert sa["comments_count"] == 2
+    assert sa["pre_2022_compliant"] is True
+    assert sa["temporal_violations"] == 0
+    assert sa["max_timestamp"] < 1640995200
+    assert sa["sha256_verified"] is True
+    assert sa["character_count"] > 0
+    assert sa["byte_size"] > 0
+
+    # Stream B: Cinema Subtitles
+    sb = streams["stream_b"]
+    assert sb["sources_count"] == 1
+    assert sb["items_count"] == 1
+    assert sb["payloads_count"] == 1
+    assert sb["sha256_verified"] is True
+    assert sb["character_count"] > 0
+
+    # Stream C: Hansard Debates
+    sc = streams["stream_c"]
+    assert sc["sources_count"] == 1
+    assert sc["items_count"] == 1
+    assert sc["payloads_count"] == 1
+    assert sc["sha256_verified"] is True
+    assert sc["character_count"] > 0
+
+    # Verification block
+    verif = manifest.get("verification", {})
+    assert verif["all_sha256_verified"] is True
+    assert verif["foreign_keys_verified"] is True
+    assert verif["integrity_check_passed"] is True
+    assert verif["fts5_rebuilt"] is True
+    assert verif["fts5_count_match"] is True
+
+    # Searchability across all three streams in vault
+    vm = VaultManager(db_path=tmp_vault_path)
+    # Search Stream A content
+    res_a = vm.search_text("syntaxique")
+    assert len(res_a) >= 1
+    assert res_a[0]["item_id"] == "yt_comment_vid_fr_01"
+
+    # Search Stream B content
+    res_b = vm.search_text("banlieue")
+    assert len(res_b) >= 1
+    assert res_b[0]["item_id"] == "sub_opensubtitles_3283706"
+
+    # Search Stream C content
+    res_c = vm.search_text("linguistique")
+    assert len(res_c) >= 1
+    assert res_c[0]["item_id"] == "ca_commons_432_han100"
+    vm.close()
+
+
+def test_26_stream_a_post2022_timestamp_violation_flagged(tmp_staging_dir: Path, tmp_vault_path: Path):
+    """Test 26: If Stream A contains comments >= 1640995200, manifest flags pre_2022_compliant=False."""
+    shard_a = tmp_staging_dir / "shard_stream_a.db"
+    post2022_comments = json.dumps([
+        {
+            "comment_id": "comment_bad",
+            "text": "Commentaire post-2022 invalide pour le corpus historique.",
+            "timestamp": 1650000000,  # April 2022 (VIOLATION >= 1640995200)
+        }
+    ])
+
+    vm_a = VaultManager(db_path=shard_a)
+    vm_a.init_db()
+    with vm_a.transaction():
+        vm_a.upsert_source("yt:@BadChannel", "youtube", "fr", "Bad Channel", "https://youtube.com/@bad")
+        vm_a.upsert_item("yt_bad_item", "yt:@BadChannel", "Bad Video", "https://youtube.com/watch?v=bad")
+        vm_a.insert_payload("yt_bad_item", "comment_thread", "fr", "human_written", "json", post2022_comments)
+    vm_a.close()
+
+    manifest = merge_staging_to_vault(staging_dir=tmp_staging_dir, vault_path=tmp_vault_path)
+    assert manifest["status"] == "SUCCESS"
+    stream_a = manifest["streams"]["stream_a"]
+    assert stream_a["pre_2022_compliant"] is False
+    assert stream_a["temporal_violations"] == 1
+    assert manifest["verification"]["stream_a_pre2022_verified"] is False
+
+
+def test_27_sha256_checksum_mismatch_detected(tmp_staging_dir: Path, tmp_vault_path: Path):
+    """Test 27: Shard with tampered payload id is flagged with sha256_verified=False."""
+    shard_corrupt = tmp_staging_dir / "shard_tampered.db"
+    vm = VaultManager(db_path=shard_corrupt)
+    vm.init_db()
+    with vm.transaction():
+        vm.upsert_source("yt:@Tamper", "youtube", "fr", "Tamper", "https://youtube.com/@tamper")
+        vm.upsert_item("yt_tamper_item", "yt:@Tamper", "Tampered Title", "https://youtube.com/watch?v=tamper")
+        # Direct SQL insert with forged ID
+        vm.conn.execute(
+            "INSERT INTO payloads (id, item_id, payload_type, language_iso1, origin_type, format, raw_content, fetched_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+            (
+                "FORGED_HASH_THAT_DOES_NOT_MATCH_CONTENT",
+                "yt_tamper_item",
+                "manual_cc",
+                "fr",
+                "human_transcribed",
+                "vtt",
+                "Authentic text content",
+                "2026-11-08T00:00:00Z",
+            ),
+        )
+    vm.close()
+
+    manifest = merge_staging_to_vault(staging_dir=tmp_staging_dir, vault_path=tmp_vault_path)
+    shard_info = manifest["streams"]["shard_tampered"]
+    assert shard_info["sha256_verified"] is False
+    assert shard_info["sha256_mismatches"] == 1
+    assert manifest["verification"]["all_sha256_verified"] is False
+
+
+def test_28_foreign_keys_and_wal_enforced(tmp_staging_dir: Path, tmp_vault_path: Path):
+    """Test 28: Merge enforces PRAGMA foreign_keys and PRAGMA journal_mode = WAL."""
+    _populate_french_tri_source_shards(tmp_staging_dir)
+    merge_staging_to_vault(staging_dir=tmp_staging_dir, vault_path=tmp_vault_path)
+
+    conn = sqlite3.connect(str(tmp_vault_path))
+    fk_violations = conn.execute("PRAGMA foreign_key_check;").fetchall()
+    integrity = conn.execute("PRAGMA integrity_check;").fetchall()
+    journal = conn.execute("PRAGMA journal_mode;").fetchone()[0]
+    conn.close()
+
+    assert len(fk_violations) == 0
+    assert len(integrity) == 1 and integrity[0][0] == "ok"
+    assert journal.lower() == "wal"
+
