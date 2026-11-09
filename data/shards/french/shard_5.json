@@ -1,12 +1,12 @@
 {
-  "generated_at_utc": "2026-11-07T22:02:50.143106+00:00",
+  "generated_at_utc": "2026-11-09T11:29:55.498460+00:00",
   "language_iso1": "fr",
   "shard_id": 5,
   "squad_name": "CA - Québec Podcasts & Spoken Joual",
   "country_code": "CA",
   "description": "Québécois comedy podcasts, longform discussions, and authentic spoken Joual",
-  "total_channels_audited": 8,
-  "total_videos_audited": 24,
+  "total_channels_audited": 9,
+  "total_videos_audited": 27,
   "total_manual_fr_cc_videos": 0,
   "channels": [
     {
@@ -440,6 +440,53 @@
         }
       ],
       "handle": "@LaPocheBleue"
+    },
+    {
+      "channel_title": "Thomas Levac",
+      "channel_url": "https://www.youtube.com/@ThomasLevac",
+      "channel_id": "UCLh1OdBxqJ9b60Uqz79pbIQ",
+      "uploader_id": "@ThomasLevac",
+      "country_code": "CA",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "dialogue",
+      "domain": "comedy_podcast",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "BDFW4SxxAAc",
+          "video_url": "https://www.youtube.com/watch?v=BDFW4SxxAAc",
+          "title": "Couple Ouvert - Cédric Bergeron du podcast Au Parloir LIVE à Saint-Eustache",
+          "duration_seconds": 6887,
+          "view_count": 38000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "nOiUOiPF8OI",
+          "video_url": "https://www.youtube.com/watch?v=nOiUOiPF8OI",
+          "title": "Meilleurs Gars - Thomas fait le clown dans un CHSLD et P-O passe à Tout Le Monde En Parle",
+          "duration_seconds": 3998,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "9CL6V-smoZ0",
+          "video_url": "https://www.youtube.com/watch?v=9CL6V-smoZ0",
+          "title": "Couple Ouvert Date - Le fantôme de son ex (lue avec Félix Turcotte)",
+          "duration_seconds": 956,
+          "view_count": 8500,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@ThomasLevac"
     }
   ]
 }

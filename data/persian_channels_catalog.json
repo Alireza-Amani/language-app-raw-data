@@ -1,9 +1,9 @@
 {
   "generated_at_utc": "2026-11-05T21:14:28.605578+00:00",
-  "total_channels_audited": 25,
+  "total_channels_audited": 32,
   "channels_with_any_manual_fa_cc": 5,
   "channels_with_all_manual_fa_cc": 4,
-  "total_videos_audited": 84,
+  "total_videos_audited": 105,
   "total_manual_fa_cc_videos": 19,
   "channels": [
     {
@@ -1339,6 +1339,321 @@
           "all_manual_sub_langs": []
         }
       ]
+    },
+    {
+      "channel_title": "Rokh Podcast",
+      "channel_url": "https://www.youtube.com/@RokhPodcast",
+      "channel_id": "UCeb1M62YnyUwA-nN02NriGA",
+      "uploader_id": "@RokhPodcast",
+      "country_code": "IR",
+      "region": "National",
+      "register": "narrative",
+      "interaction_type": "monologue",
+      "domain": "biography_history",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "bdpqD6bPgKI",
+          "video_url": "https://www.youtube.com/watch?v=bdpqD6bPgKI",
+          "title": "A History of Human Stupidity Through Time",
+          "duration_seconds": 3818,
+          "view_count": 274,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "TlC73b3soRI",
+          "video_url": "https://www.youtube.com/watch?v=TlC73b3soRI",
+          "title": "Japanese Atrocities in the Nanking Massacre",
+          "duration_seconds": 824,
+          "view_count": 15000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "d3ubwNwiMKA",
+          "video_url": "https://www.youtube.com/watch?v=d3ubwNwiMKA",
+          "title": "China's Century of Humiliation",
+          "duration_seconds": 1052,
+          "view_count": 27000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Jadi Mirmirani",
+      "channel_url": "https://www.youtube.com/@JadiMirmirani",
+      "channel_id": "UCgKePkWtPuF36bJy0n2cEMQ",
+      "uploader_id": "@JadiMirmirani",
+      "country_code": "IR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "technology_culture",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "hfFPjCqacT4",
+          "video_url": "https://www.youtube.com/watch?v=hfFPjCqacT4",
+          "title": "How OpenSSH prevents the \"save today, open later\" quantum attack",
+          "duration_seconds": 1303,
+          "view_count": 32000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "Iy0jN7JrDlk",
+          "video_url": "https://www.youtube.com/watch?v=Iy0jN7JrDlk",
+          "title": "Jadi Net Radio Jadi 267: Computers Used to Obey Us",
+          "duration_seconds": 5026,
+          "view_count": 52000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "l6zflbTGNFQ",
+          "video_url": "https://www.youtube.com/watch?v=l6zflbTGNFQ",
+          "title": "Ryoku",
+          "duration_seconds": 1301,
+          "view_count": 48000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Sekke Podcast | پادکست سکه",
+      "channel_url": "https://www.youtube.com/@SekkePodcast",
+      "channel_id": "UC7f7UfhM_4xnVVR_Uwp-lgQ",
+      "uploader_id": "@SekkePodcast",
+      "country_code": "IR",
+      "region": "National",
+      "register": "formal",
+      "interaction_type": "dialogue",
+      "domain": "economics_analysis",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "9NWw-g-mVWw",
+          "video_url": "https://www.youtube.com/watch?v=9NWw-g-mVWw",
+          "title": "۱۰۴: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش چهارم)",
+          "duration_seconds": 4588,
+          "view_count": 876,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "WqZYAUhAHVo",
+          "video_url": "https://www.youtube.com/watch?v=WqZYAUhAHVo",
+          "title": "قسمت ۱۰۳: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش سوم)",
+          "duration_seconds": 6816,
+          "view_count": 656,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "uEIcvqDidtE",
+          "video_url": "https://www.youtube.com/watch?v=uEIcvqDidtE",
+          "title": "قسمت ۱۰۲: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش دوم)",
+          "duration_seconds": 5378,
+          "view_count": 641,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Farshad Silent",
+      "channel_url": "https://www.youtube.com/@FarshadSilent",
+      "channel_id": "UCYnsnFMvYFhYaDNFNQbGGHQ",
+      "uploader_id": "@FarshadSilent",
+      "country_code": "IR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "monologue",
+      "domain": "youth_banter",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "Sz2SvZ_Bz1I",
+          "video_url": "https://www.youtube.com/watch?v=Sz2SvZ_Bz1I",
+          "title": "باورم نمیشه همچین چیزایی تو اکسپلور دیدم 🤣 Explore Instagram",
+          "duration_seconds": 663,
+          "view_count": 104000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "ANhAWVUbt7A",
+          "video_url": "https://www.youtube.com/watch?v=ANhAWVUbt7A",
+          "title": "سعی کن نخندی بمب با پارسالیپ 🤣 مجازات سنگین",
+          "duration_seconds": 684,
+          "view_count": 266000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "aQoEhSxYzS8",
+          "video_url": "https://www.youtube.com/watch?v=aQoEhSxYzS8",
+          "title": "با آیناز رفتیم خفن ترین شهر آمریکا 😱 NewYork نیویورک",
+          "duration_seconds": 806,
+          "view_count": 156000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "ARIA KEOXER",
+      "channel_url": "https://www.youtube.com/@AriaKeOxer",
+      "channel_id": "UCDvxToLVx545jFXCgThOtTw",
+      "uploader_id": "@AriaKeOxer",
+      "country_code": "IR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "monologue",
+      "domain": "youth_banter",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "CsahAnVCQHw",
+          "video_url": "https://www.youtube.com/watch?v=CsahAnVCQHw",
+          "title": "We Have To Eat Whatever The Previous Customer Ordered 😂",
+          "duration_seconds": 4102,
+          "view_count": 430000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "IFCYHVNdA-c",
+          "video_url": "https://www.youtube.com/watch?v=IFCYHVNdA-c",
+          "title": "HalloweenPNE",
+          "duration_seconds": 3553,
+          "view_count": 291000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "dal-XzelMKY",
+          "video_url": "https://www.youtube.com/watch?v=dal-XzelMKY",
+          "title": "I Gave My Gaming Room a Halloween Makeover 😂 It Cost 300 Million",
+          "duration_seconds": 3511,
+          "view_count": 301000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Dr. Pouyan Moghaddam دکتر پویان مقدم",
+      "channel_url": "https://www.youtube.com/@dr.pouyan.moghaddam",
+      "channel_id": "UCBv1sc516xafsnYRhJGISQA",
+      "uploader_id": "@dr.pouyan.moghaddam",
+      "country_code": "IR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "psychology_philosophy",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "j4uJatkoDTk",
+          "video_url": "https://www.youtube.com/watch?v=j4uJatkoDTk",
+          "title": "چرا گوست می‌شوم؟ / یا  چرا وارد رابطه با فردی می شوم که گوست می کند؟/  دکتر پویان مقدم",
+          "duration_seconds": 770,
+          "view_count": 834,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "F5Vma0BYO_g",
+          "video_url": "https://www.youtube.com/watch?v=F5Vma0BYO_g",
+          "title": "تحلیل روانکاوانه فیلم ویل هانتینگ نابغه / دکتر پویان مقدم",
+          "duration_seconds": 2161,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "5XZv07OIF2c",
+          "video_url": "https://www.youtube.com/watch?v=5XZv07OIF2c",
+          "title": "تحلیل روانکاوانه فیلم دعوت 2026 / دکتر پویان مقدم",
+          "duration_seconds": 1737,
+          "view_count": 10000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Learn Persian with Chai and Conversation",
+      "channel_url": "https://www.youtube.com/@chai_and_conversation",
+      "channel_id": "UCxV5ZfGJjJhrzy_9am-S4QQ",
+      "uploader_id": "@chai_and_conversation",
+      "country_code": "US",
+      "region": "National",
+      "register": "instructional",
+      "interaction_type": "monologue",
+      "domain": "pedagogy_language",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "tA5iG-lKxXk",
+          "video_url": "https://www.youtube.com/watch?v=tA5iG-lKxXk",
+          "title": "What Does a Painting Sound Like? | Ali Banisadr",
+          "duration_seconds": 3566,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "tIzsS4ISGYA",
+          "video_url": "https://www.youtube.com/watch?v=tIzsS4ISGYA",
+          "title": "Attar's Conference of the Birds, Part 1Attar Conference of the Birds Part 1",
+          "duration_seconds": 1768,
+          "view_count": 2300,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "ALEY2yvaS48",
+          "video_url": "https://www.youtube.com/watch?v=ALEY2yvaS48",
+          "title": "The Crown Prince of Lubbock: Reza Pahlavi's Lost Year in Texas | Growing Up Irooni",
+          "duration_seconds": 4282,
+          "view_count": 949,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
     }
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "generated_at_utc": "2026-11-07T22:02:50.139827+00:00",
+  "generated_at_utc": "2026-11-09T11:29:55.494873+00:00",
   "language_iso1": "fr",
   "shard_id": 1,
   "squad_name": "FR - Interviews & Deep Dialogue",
   "country_code": "FR",
   "description": "Longform interviews, deep dialogues, intellectual and entrepreneurship talk shows",
-  "total_channels_audited": 3,
-  "total_videos_audited": 9,
+  "total_channels_audited": 5,
+  "total_videos_audited": 15,
   "total_manual_fr_cc_videos": 0,
   "channels": [
     {
@@ -170,6 +170,100 @@
         }
       ],
       "handle": "@LouieMedia"
+    },
+    {
+      "channel_title": "Matthieu Stefani - Génération Do It Yourself",
+      "channel_url": "https://www.youtube.com/@mattstefani",
+      "channel_id": "UCQ1ffXBtmuSbSxmaM363-eA",
+      "uploader_id": "@mattstefani",
+      "country_code": "FR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "interview_entrepreneurship",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "gZHTgL8lmHk",
+          "video_url": "https://www.youtube.com/watch?v=gZHTgL8lmHk",
+          "title": "« Tu n’es pas assez bon » : il leur a prouvé le contraire",
+          "duration_seconds": 8856,
+          "view_count": 6200,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "91d0FtrrB2k",
+          "video_url": "https://www.youtube.com/watch?v=91d0FtrrB2k",
+          "title": "The Future of European Defense - Hadrien Canter, Alta Ares Drones",
+          "duration_seconds": 1159,
+          "view_count": 3200,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "f1XZjkeCDq0",
+          "video_url": "https://www.youtube.com/watch?v=f1XZjkeCDq0",
+          "title": "How Europe can finally act like a SUPERPOWER",
+          "duration_seconds": 1125,
+          "view_count": 5200,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@mattstefani"
+    },
+    {
+      "channel_title": "Binge Audio",
+      "channel_url": "https://www.youtube.com/@BingeAudio",
+      "channel_id": "UCT_vT5yKDtkcQKocp0YGrGQ",
+      "uploader_id": "@BingeAudio",
+      "country_code": "FR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "panel",
+      "domain": "society_podcast",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "OqW2XdTNugY",
+          "video_url": "https://www.youtube.com/watch?v=OqW2XdTNugY",
+          "title": "Marie Trintignant, le dernier crime passionnel ? | 3/3",
+          "duration_seconds": 1807,
+          "view_count": 904,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "cnw925sogV8",
+          "video_url": "https://www.youtube.com/watch?v=cnw925sogV8",
+          "title": "Marie Trintignant, le dernier crime passionnel ? | 2/3",
+          "duration_seconds": 1761,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "J5IenvL-2jk",
+          "video_url": "https://www.youtube.com/watch?v=J5IenvL-2jk",
+          "title": "Les favorites de Monsieur H I Reprendre son nom (4/4)",
+          "duration_seconds": 2363,
+          "view_count": 2300,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@BingeAudio"
     }
   ]
 }

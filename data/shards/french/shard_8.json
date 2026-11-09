@@ -1,12 +1,12 @@
 {
-  "generated_at_utc": "2026-11-07T22:02:50.144614+00:00",
+  "generated_at_utc": "2026-11-09T11:29:55.500319+00:00",
   "language_iso1": "fr",
   "shard_id": 8,
   "squad_name": "CH - Switzerland Romandy & RTS Culture",
   "country_code": "CH",
   "description": "Swiss Romand public broadcasting, satire, standup comedy, and youth culture",
-  "total_channels_audited": 6,
-  "total_videos_audited": 16,
+  "total_channels_audited": 7,
+  "total_videos_audited": 19,
   "total_manual_fr_cc_videos": 0,
   "channels": [
     {
@@ -310,6 +310,53 @@
         }
       ],
       "handle": "@CharlesNouveau"
+    },
+    {
+      "channel_title": "Passe-moi les jumelles",
+      "channel_url": "https://www.youtube.com/@Passemoilesjumelles",
+      "channel_id": "UCW3--jh4FUnSxw-gofzKnqg",
+      "uploader_id": "@Passemoilesjumelles",
+      "country_code": "CH",
+      "region": "National",
+      "register": "narrative",
+      "interaction_type": "monologue",
+      "domain": "documentary_culture",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "yrHTPiznHvg",
+          "video_url": "https://www.youtube.com/watch?v=yrHTPiznHvg",
+          "title": "Lost in the Bernese Jura, this mountain farm stands the test of time",
+          "duration_seconds": 1460,
+          "view_count": 36000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "7q0C_B7zttg",
+          "video_url": "https://www.youtube.com/watch?v=7q0C_B7zttg",
+          "title": "A la frontière franco-suisse, ces passionnés cultivent la nostalgie du Solex",
+          "duration_seconds": 856,
+          "view_count": 36000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "z0jxqQKotAU",
+          "video_url": "https://www.youtube.com/watch?v=z0jxqQKotAU",
+          "title": "Philippe, the cooper reviving the crafts of the past",
+          "duration_seconds": 1553,
+          "view_count": 124000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@Passemoilesjumelles"
     }
   ]
 }

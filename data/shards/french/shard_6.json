@@ -1,12 +1,12 @@
 {
-  "generated_at_utc": "2026-11-07T22:02:50.143621+00:00",
+  "generated_at_utc": "2026-11-09T11:29:55.499101+00:00",
   "language_iso1": "fr",
   "shard_id": 6,
   "squad_name": "CA - Québec Media, Science & Vlogs",
   "country_code": "CA",
   "description": "Québécois public broadcasting, journalism, popular science, and cultural vlogs",
-  "total_channels_audited": 7,
-  "total_videos_audited": 19,
+  "total_channels_audited": 9,
+  "total_videos_audited": 25,
   "total_manual_fr_cc_videos": 0,
   "channels": [
     {
@@ -364,6 +364,100 @@
         }
       ],
       "handle": "@RadioCanada"
+    },
+    {
+      "channel_title": "L'Histoire nous le dira",
+      "channel_url": "https://www.youtube.com/@Lhistoirenousledira",
+      "channel_id": "UCN4TCCaX-gqBNkrUqXdgGRA",
+      "uploader_id": "@Lhistoirenousledira",
+      "country_code": "CA",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "monologue",
+      "domain": "history_quebec",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "3kDhljz-dUQ",
+          "video_url": "https://www.youtube.com/watch?v=3kDhljz-dUQ",
+          "title": "The real Game of Thrones existed (and it was worse) | History will tell #347",
+          "duration_seconds": 1310,
+          "view_count": 94000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "K6-xylD1T2o",
+          "video_url": "https://www.youtube.com/watch?v=K6-xylD1T2o",
+          "title": "When Tuberculosis Filled Montreal's Hospitals L'Histoire nous le dira # 346",
+          "duration_seconds": 723,
+          "view_count": 29000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "eVdwkhPgmGk",
+          "video_url": "https://www.youtube.com/watch?v=eVdwkhPgmGk",
+          "title": "Was settling down humanity's worst idea? | History Will Tell Us # 345",
+          "duration_seconds": 903,
+          "view_count": 64000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@Lhistoirenousledira"
+    },
+    {
+      "channel_title": "Rad",
+      "channel_url": "https://www.youtube.com/@radpointca",
+      "channel_id": "UCVBA7-PfzHIkfPfZ3UiqWdg",
+      "uploader_id": "@radpointca",
+      "country_code": "CA",
+      "region": "National",
+      "register": "broadcast",
+      "interaction_type": "dialogue",
+      "domain": "journalism_urban",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "-FEacVAUCxw",
+          "video_url": "https://www.youtube.com/watch?v=-FEacVAUCxw",
+          "title": "Qui se cache derrière la vente illégale des peptides injectables, ces « médicaments miracle » ?",
+          "duration_seconds": 770,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "R4e755dGNJo",
+          "video_url": "https://www.youtube.com/watch?v=R4e755dGNJo",
+          "title": "Drama Qc: I spent a year investigating the toxic world of TikTok live streams in Quebec | Rad",
+          "duration_seconds": 4355,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "-5MVwxKqG3g",
+          "video_url": "https://www.youtube.com/watch?v=-5MVwxKqG3g",
+          "title": "Une semaine dans un Texas divisé à l'approche des élections de mi-mandat américaines | Rad",
+          "duration_seconds": 860,
+          "view_count": 305000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0,
+      "handle": "@radpointca"
     }
   ]
 }

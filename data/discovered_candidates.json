@@ -1,0 +1,911 @@
+{
+  "fr": [
+    {
+      "channel_title": "I'm sleeping over tonight",
+      "channel_url": "https://www.youtube.com/@Jiraidormirchezvous_Officielle",
+      "channel_id": "UCIZFCxVs-h1nP6OzJwGeIRQ",
+      "uploader_id": "@Jiraidormirchezvous_Officielle",
+      "country_code": "FR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "street_interview",
+      "domain": "street_travel_dialogue",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "ZVqi3Mviy4A",
+          "video_url": "https://www.youtube.com/watch?v=ZVqi3Mviy4A",
+          "title": "I'll Sleep in Your House | Morocco [Full Episode]",
+          "duration_seconds": 3119,
+          "view_count": 59000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "69rQpP0QSlA",
+          "video_url": "https://www.youtube.com/watch?v=69rQpP0QSlA",
+          "title": "I'll Sleep in Your Bed | Switzerland [Full Episode]",
+          "duration_seconds": 3156,
+          "view_count": 60000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "FeJvvSkbNA8",
+          "video_url": "https://www.youtube.com/watch?v=FeJvvSkbNA8",
+          "title": "J'irai dormir chez vous | Le meilleur des déserts [Compilation]",
+          "duration_seconds": 8501,
+          "view_count": 57000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Matthieu Stefani - Génération Do It Yourself",
+      "channel_url": "https://www.youtube.com/@mattstefani",
+      "channel_id": "UCQ1ffXBtmuSbSxmaM363-eA",
+      "uploader_id": "@mattstefani",
+      "country_code": "FR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "interview_entrepreneurship",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "gZHTgL8lmHk",
+          "video_url": "https://www.youtube.com/watch?v=gZHTgL8lmHk",
+          "title": "« Tu n’es pas assez bon » : il leur a prouvé le contraire",
+          "duration_seconds": 8856,
+          "view_count": 6200,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "91d0FtrrB2k",
+          "video_url": "https://www.youtube.com/watch?v=91d0FtrrB2k",
+          "title": "The Future of European Defense - Hadrien Canter, Alta Ares Drones",
+          "duration_seconds": 1159,
+          "view_count": 3200,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "f1XZjkeCDq0",
+          "video_url": "https://www.youtube.com/watch?v=f1XZjkeCDq0",
+          "title": "How Europe can finally act like a SUPERPOWER",
+          "duration_seconds": 1125,
+          "view_count": 5200,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Binge Audio",
+      "channel_url": "https://www.youtube.com/@BingeAudio",
+      "channel_id": "UCT_vT5yKDtkcQKocp0YGrGQ",
+      "uploader_id": "@BingeAudio",
+      "country_code": "FR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "panel",
+      "domain": "society_podcast",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "OqW2XdTNugY",
+          "video_url": "https://www.youtube.com/watch?v=OqW2XdTNugY",
+          "title": "Marie Trintignant, le dernier crime passionnel ? | 3/3",
+          "duration_seconds": 1807,
+          "view_count": 904,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "cnw925sogV8",
+          "video_url": "https://www.youtube.com/watch?v=cnw925sogV8",
+          "title": "Marie Trintignant, le dernier crime passionnel ? | 2/3",
+          "duration_seconds": 1761,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "J5IenvL-2jk",
+          "video_url": "https://www.youtube.com/watch?v=J5IenvL-2jk",
+          "title": "Les favorites de Monsieur H I Reprendre son nom (4/4)",
+          "duration_seconds": 2363,
+          "view_count": 2300,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Clique TV",
+      "channel_url": "https://www.youtube.com/@CliqueTV",
+      "channel_id": "UCmHfCD8c8CmjlyWa8d4GObg",
+      "uploader_id": "@CliqueTV",
+      "country_code": "FR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "dialogue",
+      "domain": "culture_interview",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "EOhSI9A0o_w",
+          "video_url": "https://www.youtube.com/watch?v=EOhSI9A0o_w",
+          "title": "Philippe Katerine hasn't had his last word: his children, Trump, Mbappé, and cuteness.",
+          "duration_seconds": 2989,
+          "view_count": 38000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "WkoV3uUXM3Y",
+          "video_url": "https://www.youtube.com/watch?v=WkoV3uUXM3Y",
+          "title": "Paul Seixas : le seul Français qui fait peur à Pogačar - CANAL+",
+          "duration_seconds": 3112,
+          "view_count": 157000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "VCFO1apauE4",
+          "video_url": "https://www.youtube.com/watch?v=VCFO1apauE4",
+          "title": "[Title to be changed] - CANAL+",
+          "duration_seconds": 3203,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Collège de France",
+      "channel_url": "https://www.youtube.com/@College-de-France",
+      "channel_id": "UCzZiy3EANVAx7h2XYqXsVbw",
+      "uploader_id": "@College-de-France",
+      "country_code": "FR",
+      "region": "National",
+      "register": "academic",
+      "interaction_type": "monologue",
+      "domain": "academic_lecture",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "6LwagVU1X9Y",
+          "video_url": "https://www.youtube.com/watch?v=6LwagVU1X9Y",
+          "title": "Faire mieux - Claire Denis (2026)",
+          "duration_seconds": 2434,
+          "view_count": 5200,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "1Qmsp22dO-o",
+          "video_url": "https://www.youtube.com/watch?v=1Qmsp22dO-o",
+          "title": "Pourquoi et comment innover aujourd'hui ? - 2026-27 (8)",
+          "duration_seconds": 955,
+          "view_count": 3000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "QG3u1aQznq0",
+          "video_url": "https://www.youtube.com/watch?v=QG3u1aQznq0",
+          "title": "Pourquoi et comment innover aujourd'hui ? - 2026-27 (7)",
+          "duration_seconds": 2404,
+          "view_count": 1700,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Heu?reka",
+      "channel_url": "https://www.youtube.com/@Heu7reka",
+      "channel_id": "UC7sXGI8p8PvKosLWagkK9wQ",
+      "uploader_id": "@Heu7reka",
+      "country_code": "FR",
+      "region": "National",
+      "register": "academic",
+      "interaction_type": "monologue",
+      "domain": "economics_analysis",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "MFy5VnJ2PPE",
+          "video_url": "https://www.youtube.com/watch?v=MFy5VnJ2PPE",
+          "title": "10 YEARS OF MACRON: TIME TO TAKE STOCK [MAGIC MONEY]",
+          "duration_seconds": 2139,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "P3j4eK6Zlvw",
+          "video_url": "https://www.youtube.com/watch?v=P3j4eK6Zlvw",
+          "title": "What is capitalism? Where does it come from? What was there before?",
+          "duration_seconds": 2498,
+          "view_count": 278000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "5p4J97mQHo8",
+          "video_url": "https://www.youtube.com/watch?v=5p4J97mQHo8",
+          "title": "CAN WE TRUST OUR MEDIA [MAGIC MONEY]",
+          "duration_seconds": 2234,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "C'est une autre histoire",
+      "channel_url": "https://www.youtube.com/@manonbrilcuah",
+      "channel_id": "UCKjDY4joMPcoRMmd-G1yz1Q",
+      "uploader_id": "@manonbrilcuah",
+      "country_code": "FR",
+      "region": "National",
+      "register": "narrative",
+      "interaction_type": "monologue",
+      "domain": "history_humor",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "mgc4lS-fOdI",
+          "video_url": "https://www.youtube.com/watch?v=mgc4lS-fOdI",
+          "title": "Une année de tournée de mon spectacle, complet tous les soirs",
+          "duration_seconds": 8406,
+          "view_count": 80000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "D-jf7IJpBcw",
+          "video_url": "https://www.youtube.com/watch?v=D-jf7IJpBcw",
+          "title": "J'ai doublé mon festival en 1 an - le Culture Fest",
+          "duration_seconds": 4813,
+          "view_count": 30000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "tiHnYvrcwWA",
+          "video_url": "https://www.youtube.com/watch?v=tiHnYvrcwWA",
+          "title": "L'enfer d'Instagram en voyage",
+          "duration_seconds": 5367,
+          "view_count": 425000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Fouloscopie",
+      "channel_url": "https://www.youtube.com/@Fouloscopie",
+      "channel_id": "UCLXDNUOO3EQ80VmD9nQBHPg",
+      "uploader_id": "@Fouloscopie",
+      "country_code": "FR",
+      "region": "National",
+      "register": "academic",
+      "interaction_type": "monologue",
+      "domain": "science_psychology",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "uoovOlxmNqc",
+          "video_url": "https://www.youtube.com/watch?v=uoovOlxmNqc",
+          "title": "The Strange Science of Baby Name Trends",
+          "duration_seconds": 1473,
+          "view_count": 807000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "8J1opDS1otY",
+          "video_url": "https://www.youtube.com/watch?v=8J1opDS1otY",
+          "title": "Expérience sociale : qui faut-il sauver ?",
+          "duration_seconds": 1509,
+          "view_count": 410000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "zRpcpzs7bDI",
+          "video_url": "https://www.youtube.com/watch?v=zRpcpzs7bDI",
+          "title": "The science of crowds in EXTREME conditions",
+          "duration_seconds": 1270,
+          "view_count": 383000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Chef Michel Dumas et Jean-Pierre Dumas",
+      "channel_url": "https://www.youtube.com/@ChefMichelDumas",
+      "channel_id": "UCSLyEx8ISkp567AjOAHYN5Q",
+      "uploader_id": "@ChefMichelDumas",
+      "country_code": "FR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "monologue",
+      "domain": "culinary_instructional",
+      "audited_videos_count": 2,
+      "manual_cc_count": 0,
+      "auto_cc_count": 2,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "H6v9sxzS7qw",
+          "video_url": "https://www.youtube.com/watch?v=H6v9sxzS7qw",
+          "title": "Gratin de légumes costaud au fromage | Recette facile au four",
+          "duration_seconds": 642,
+          "view_count": 54000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "yETl0_Njwa8",
+          "video_url": "https://www.youtube.com/watch?v=yETl0_Njwa8",
+          "title": "Joues de Bœuf Ultra Fondantes | La Recette d’Hiver Facile, Riche et Économique",
+          "duration_seconds": 789,
+          "view_count": 86000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 2,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "L'Histoire nous le dira",
+      "channel_url": "https://www.youtube.com/@Lhistoirenousledira",
+      "channel_id": "UCN4TCCaX-gqBNkrUqXdgGRA",
+      "uploader_id": "@Lhistoirenousledira",
+      "country_code": "CA",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "monologue",
+      "domain": "history_quebec",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "3kDhljz-dUQ",
+          "video_url": "https://www.youtube.com/watch?v=3kDhljz-dUQ",
+          "title": "The real Game of Thrones existed (and it was worse) | History will tell #347",
+          "duration_seconds": 1310,
+          "view_count": 94000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "K6-xylD1T2o",
+          "video_url": "https://www.youtube.com/watch?v=K6-xylD1T2o",
+          "title": "When Tuberculosis Filled Montreal's Hospitals L'Histoire nous le dira # 346",
+          "duration_seconds": 723,
+          "view_count": 29000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "eVdwkhPgmGk",
+          "video_url": "https://www.youtube.com/watch?v=eVdwkhPgmGk",
+          "title": "Was settling down humanity's worst idea? | History Will Tell Us # 345",
+          "duration_seconds": 903,
+          "view_count": 64000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Thomas Levac",
+      "channel_url": "https://www.youtube.com/@ThomasLevac",
+      "channel_id": "UCLh1OdBxqJ9b60Uqz79pbIQ",
+      "uploader_id": "@ThomasLevac",
+      "country_code": "CA",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "dialogue",
+      "domain": "comedy_podcast",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "BDFW4SxxAAc",
+          "video_url": "https://www.youtube.com/watch?v=BDFW4SxxAAc",
+          "title": "Couple Ouvert - Cédric Bergeron du podcast Au Parloir LIVE à Saint-Eustache",
+          "duration_seconds": 6887,
+          "view_count": 38000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "nOiUOiPF8OI",
+          "video_url": "https://www.youtube.com/watch?v=nOiUOiPF8OI",
+          "title": "Meilleurs Gars - Thomas fait le clown dans un CHSLD et P-O passe à Tout Le Monde En Parle",
+          "duration_seconds": 3998,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "9CL6V-smoZ0",
+          "video_url": "https://www.youtube.com/watch?v=9CL6V-smoZ0",
+          "title": "Couple Ouvert Date - Le fantôme de son ex (lue avec Félix Turcotte)",
+          "duration_seconds": 956,
+          "view_count": 8500,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Rad",
+      "channel_url": "https://www.youtube.com/@radpointca",
+      "channel_id": "UCVBA7-PfzHIkfPfZ3UiqWdg",
+      "uploader_id": "@radpointca",
+      "country_code": "CA",
+      "region": "National",
+      "register": "broadcast",
+      "interaction_type": "dialogue",
+      "domain": "journalism_urban",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "-FEacVAUCxw",
+          "video_url": "https://www.youtube.com/watch?v=-FEacVAUCxw",
+          "title": "Qui se cache derrière la vente illégale des peptides injectables, ces « médicaments miracle » ?",
+          "duration_seconds": 770,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "R4e755dGNJo",
+          "video_url": "https://www.youtube.com/watch?v=R4e755dGNJo",
+          "title": "Drama Qc: I spent a year investigating the toxic world of TikTok live streams in Quebec | Rad",
+          "duration_seconds": 4355,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "-5MVwxKqG3g",
+          "video_url": "https://www.youtube.com/watch?v=-5MVwxKqG3g",
+          "title": "Une semaine dans un Texas divisé à l'approche des élections de mi-mandat américaines | Rad",
+          "duration_seconds": 860,
+          "view_count": 305000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    },
+    {
+      "channel_title": "Passe-moi les jumelles",
+      "channel_url": "https://www.youtube.com/@Passemoilesjumelles",
+      "channel_id": "UCW3--jh4FUnSxw-gofzKnqg",
+      "uploader_id": "@Passemoilesjumelles",
+      "country_code": "CH",
+      "region": "National",
+      "register": "narrative",
+      "interaction_type": "monologue",
+      "domain": "documentary_culture",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "yrHTPiznHvg",
+          "video_url": "https://www.youtube.com/watch?v=yrHTPiznHvg",
+          "title": "Lost in the Bernese Jura, this mountain farm stands the test of time",
+          "duration_seconds": 1460,
+          "view_count": 36000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "7q0C_B7zttg",
+          "video_url": "https://www.youtube.com/watch?v=7q0C_B7zttg",
+          "title": "A la frontière franco-suisse, ces passionnés cultivent la nostalgie du Solex",
+          "duration_seconds": 856,
+          "view_count": 36000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "z0jxqQKotAU",
+          "video_url": "https://www.youtube.com/watch?v=z0jxqQKotAU",
+          "title": "Philippe, the cooper reviving the crafts of the past",
+          "duration_seconds": 1553,
+          "view_count": 124000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fr_cc_count": 0,
+      "auto_fr_cc_count": 3,
+      "manual_fr_cc_pct": 0.0,
+      "any_manual_cc": false,
+      "soft_score": 5.0
+    }
+  ],
+  "fa": [
+    {
+      "channel_title": "Rokh Podcast",
+      "channel_url": "https://www.youtube.com/@RokhPodcast",
+      "channel_id": "UCeb1M62YnyUwA-nN02NriGA",
+      "uploader_id": "@RokhPodcast",
+      "country_code": "IR",
+      "region": "National",
+      "register": "narrative",
+      "interaction_type": "monologue",
+      "domain": "biography_history",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "bdpqD6bPgKI",
+          "video_url": "https://www.youtube.com/watch?v=bdpqD6bPgKI",
+          "title": "A History of Human Stupidity Through Time",
+          "duration_seconds": 3818,
+          "view_count": 274,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "TlC73b3soRI",
+          "video_url": "https://www.youtube.com/watch?v=TlC73b3soRI",
+          "title": "Japanese Atrocities in the Nanking Massacre",
+          "duration_seconds": 824,
+          "view_count": 15000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "d3ubwNwiMKA",
+          "video_url": "https://www.youtube.com/watch?v=d3ubwNwiMKA",
+          "title": "China's Century of Humiliation",
+          "duration_seconds": 1052,
+          "view_count": 27000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Jadi Mirmirani",
+      "channel_url": "https://www.youtube.com/@JadiMirmirani",
+      "channel_id": "UCgKePkWtPuF36bJy0n2cEMQ",
+      "uploader_id": "@JadiMirmirani",
+      "country_code": "IR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "technology_culture",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "hfFPjCqacT4",
+          "video_url": "https://www.youtube.com/watch?v=hfFPjCqacT4",
+          "title": "How OpenSSH prevents the \"save today, open later\" quantum attack",
+          "duration_seconds": 1303,
+          "view_count": 32000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "Iy0jN7JrDlk",
+          "video_url": "https://www.youtube.com/watch?v=Iy0jN7JrDlk",
+          "title": "Jadi Net Radio Jadi 267: Computers Used to Obey Us",
+          "duration_seconds": 5026,
+          "view_count": 52000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "l6zflbTGNFQ",
+          "video_url": "https://www.youtube.com/watch?v=l6zflbTGNFQ",
+          "title": "Ryoku",
+          "duration_seconds": 1301,
+          "view_count": 48000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Sekke Podcast | پادکست سکه",
+      "channel_url": "https://www.youtube.com/@SekkePodcast",
+      "channel_id": "UC7f7UfhM_4xnVVR_Uwp-lgQ",
+      "uploader_id": "@SekkePodcast",
+      "country_code": "IR",
+      "region": "National",
+      "register": "formal",
+      "interaction_type": "dialogue",
+      "domain": "economics_analysis",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "9NWw-g-mVWw",
+          "video_url": "https://www.youtube.com/watch?v=9NWw-g-mVWw",
+          "title": "۱۰۴: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش چهارم)",
+          "duration_seconds": 4588,
+          "view_count": 876,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "WqZYAUhAHVo",
+          "video_url": "https://www.youtube.com/watch?v=WqZYAUhAHVo",
+          "title": "قسمت ۱۰۳: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش سوم)",
+          "duration_seconds": 6816,
+          "view_count": 656,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "uEIcvqDidtE",
+          "video_url": "https://www.youtube.com/watch?v=uEIcvqDidtE",
+          "title": "قسمت ۱۰۲: روایت علی سرزعیم از اقتصاد سیاسی ایران (بخش دوم)",
+          "duration_seconds": 5378,
+          "view_count": 641,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Farshad Silent",
+      "channel_url": "https://www.youtube.com/@FarshadSilent",
+      "channel_id": "UCYnsnFMvYFhYaDNFNQbGGHQ",
+      "uploader_id": "@FarshadSilent",
+      "country_code": "IR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "monologue",
+      "domain": "youth_banter",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "Sz2SvZ_Bz1I",
+          "video_url": "https://www.youtube.com/watch?v=Sz2SvZ_Bz1I",
+          "title": "باورم نمیشه همچین چیزایی تو اکسپلور دیدم 🤣 Explore Instagram",
+          "duration_seconds": 663,
+          "view_count": 104000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "ANhAWVUbt7A",
+          "video_url": "https://www.youtube.com/watch?v=ANhAWVUbt7A",
+          "title": "سعی کن نخندی بمب با پارسالیپ 🤣 مجازات سنگین",
+          "duration_seconds": 684,
+          "view_count": 266000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "aQoEhSxYzS8",
+          "video_url": "https://www.youtube.com/watch?v=aQoEhSxYzS8",
+          "title": "با آیناز رفتیم خفن ترین شهر آمریکا 😱 NewYork نیویورک",
+          "duration_seconds": 806,
+          "view_count": 156000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "ARIA KEOXER",
+      "channel_url": "https://www.youtube.com/@AriaKeOxer",
+      "channel_id": "UCDvxToLVx545jFXCgThOtTw",
+      "uploader_id": "@AriaKeOxer",
+      "country_code": "IR",
+      "region": "National",
+      "register": "colloquial",
+      "interaction_type": "monologue",
+      "domain": "youth_banter",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "CsahAnVCQHw",
+          "video_url": "https://www.youtube.com/watch?v=CsahAnVCQHw",
+          "title": "We Have To Eat Whatever The Previous Customer Ordered 😂",
+          "duration_seconds": 4102,
+          "view_count": 430000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "IFCYHVNdA-c",
+          "video_url": "https://www.youtube.com/watch?v=IFCYHVNdA-c",
+          "title": "HalloweenPNE",
+          "duration_seconds": 3553,
+          "view_count": 291000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "dal-XzelMKY",
+          "video_url": "https://www.youtube.com/watch?v=dal-XzelMKY",
+          "title": "I Gave My Gaming Room a Halloween Makeover 😂 It Cost 300 Million",
+          "duration_seconds": 3511,
+          "view_count": 301000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Dr. Pouyan Moghaddam دکتر پویان مقدم",
+      "channel_url": "https://www.youtube.com/@dr.pouyan.moghaddam",
+      "channel_id": "UCBv1sc516xafsnYRhJGISQA",
+      "uploader_id": "@dr.pouyan.moghaddam",
+      "country_code": "IR",
+      "region": "National",
+      "register": "conversational",
+      "interaction_type": "dialogue",
+      "domain": "psychology_philosophy",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "j4uJatkoDTk",
+          "video_url": "https://www.youtube.com/watch?v=j4uJatkoDTk",
+          "title": "چرا گوست می‌شوم؟ / یا  چرا وارد رابطه با فردی می شوم که گوست می کند؟/  دکتر پویان مقدم",
+          "duration_seconds": 770,
+          "view_count": 834,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "F5Vma0BYO_g",
+          "video_url": "https://www.youtube.com/watch?v=F5Vma0BYO_g",
+          "title": "تحلیل روانکاوانه فیلم ویل هانتینگ نابغه / دکتر پویان مقدم",
+          "duration_seconds": 2161,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "5XZv07OIF2c",
+          "video_url": "https://www.youtube.com/watch?v=5XZv07OIF2c",
+          "title": "تحلیل روانکاوانه فیلم دعوت 2026 / دکتر پویان مقدم",
+          "duration_seconds": 1737,
+          "view_count": 10000,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    },
+    {
+      "channel_title": "Learn Persian with Chai and Conversation",
+      "channel_url": "https://www.youtube.com/@chai_and_conversation",
+      "channel_id": "UCxV5ZfGJjJhrzy_9am-S4QQ",
+      "uploader_id": "@chai_and_conversation",
+      "country_code": "US",
+      "region": "National",
+      "register": "instructional",
+      "interaction_type": "monologue",
+      "domain": "pedagogy_language",
+      "audited_videos_count": 3,
+      "manual_cc_count": 0,
+      "auto_cc_count": 3,
+      "status": "audited",
+      "videos": [
+        {
+          "video_id": "tA5iG-lKxXk",
+          "video_url": "https://www.youtube.com/watch?v=tA5iG-lKxXk",
+          "title": "What Does a Painting Sound Like? | Ali Banisadr",
+          "duration_seconds": 3566,
+          "view_count": 1000,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "tIzsS4ISGYA",
+          "video_url": "https://www.youtube.com/watch?v=tIzsS4ISGYA",
+          "title": "Attar's Conference of the Birds, Part 1Attar Conference of the Birds Part 1",
+          "duration_seconds": 1768,
+          "view_count": 2300,
+          "upload_date": "20240101"
+        },
+        {
+          "video_id": "ALEY2yvaS48",
+          "video_url": "https://www.youtube.com/watch?v=ALEY2yvaS48",
+          "title": "The Crown Prince of Lubbock: Reza Pahlavi's Lost Year in Texas | Growing Up Irooni",
+          "duration_seconds": 4282,
+          "view_count": 949,
+          "upload_date": "20240101"
+        }
+      ],
+      "manual_fa_cc_count": 0,
+      "auto_fa_cc_count": 3,
+      "manual_fa_cc_pct": 0.0,
+      "any_manual_cc": false
+    }
+  ]
+}
