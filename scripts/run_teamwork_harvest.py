@@ -135,14 +135,22 @@ def run_shard_worker(
     res = subprocess.run(cmd, capture_output=True, text=True)
     elapsed = time.time() - t0
     output = res.stdout + ("\n" + res.stderr if res.stderr else "")
-    logger.info(f"[+] Shard {shard_id} worker completed in {elapsed:.2f}s (Exit code: {res.returncode})")
+    log_file = Path(staging_dir) / f"shard_{shard_id}.log"
+    try:
+        with open(log_file, "w", encoding="utf-8") as f:
+            f.write(output)
+    except Exception as exc:
+        logger.warning(f"Failed to write shard log to {log_file}: {exc}")
+    logger.info(f"[+] Shard {shard_id} worker completed in {elapsed:.2f}s (Exit code: {res.returncode}) - log: {log_file.name}")
     return shard_id, res.returncode, elapsed, output
 
 
 def sync_vault_to_gdrive(vault_path: Path, folder_id: str = GDRIVE_FOLDER_ID) -> bool:
     """Upload or update database file in Google Drive via gdrive CLI."""
     gdrive_bin = None
+    app_data = os.environ.get("ANTIGRAVITY_APP_DATA_DIR", "/tmp/app_data")
     for candidate in [
+        f"{app_data}/bin/gdrive",
         "/tmp/antigravity/bin/gdrive",
         shutil.which("gdrive"),
         "/opt/antigravity/bin/gdrive",
@@ -157,8 +165,9 @@ def sync_vault_to_gdrive(vault_path: Path, folder_id: str = GDRIVE_FOLDER_ID) ->
 
     logger.info(f"[*] Syncing vault to Google Drive folder ({folder_id})...")
     env = os.environ.copy()
-    env["ANTIGRAVITY_APP_DATA_DIR"] = "/tmp/antigravity"
+    env["ANTIGRAVITY_APP_DATA_DIR"] = app_data
     env["HOME"] = str(Path.home())
+    env["PATH"] = f"{app_data}/bin:" + env.get("PATH", "")
 
     # Check if raw_vault.db already exists in the target Drive folder
     target_file_id = None
@@ -202,6 +211,7 @@ def run_orchestration(
     dry_run: bool = False,
     sync_gdrive: bool = False,
     live: bool = True,
+    max_parallel_shards: int = 2,
 ) -> Dict[str, Any]:
     """Execute complete multi-agent harvest orchestration."""
     start_time = time.time()
@@ -310,7 +320,8 @@ def run_orchestration(
     logger.info(f"Step 2/3: Launching {shards} worker shards...")
     shard_results = []
     if parallel and shards > 1:
-        with ThreadPoolExecutor(max_workers=shards) as executor:
+        effective_workers = min(shards, max(1, max_parallel_shards))
+        with ThreadPoolExecutor(max_workers=effective_workers) as executor:
             futures = [
                 executor.submit(
                     run_shard_worker,
@@ -553,6 +564,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=True,
         help="Perform live flat playlist extraction from YouTube (default: True)",
     )
+    parser.add_argument(
+        "--max-parallel-shards",
+        type=int,
+        default=2,
+        help="Maximum concurrent worker shards when running in parallel (default: 2)",
+    )
     return parser
 
 
@@ -595,6 +612,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             dry_run=args.dry_run,
             sync_gdrive=args.sync_gdrive,
             live=args.live,
+            max_parallel_shards=args.max_parallel_shards,
         )
         return 0 if res["status"] == "SUCCESS" else 1
     except Exception as e:

@@ -717,6 +717,7 @@ def harvest_channel_shard(
                             "quiet": True,
                             "no_warnings": True,
                             "ignore_no_formats_error": True,
+                            "extractor_args": {"youtube": {"player_client": ["android", "ios", "mweb", "web"]}},
                         }
                         for attempt in range(3):
                             try:
@@ -727,11 +728,20 @@ def harvest_channel_shard(
                                             full_info, language_iso1=ch_lang, country_code=ch_country
                                         )
                                 break
-                            except Exception:
-                                if attempt < 2:
-                                    time.sleep(1.0 * (attempt + 1))
-                    except Exception:
-                        pass
+                            except Exception as exc:
+                                err_msg = str(exc).lower()
+                                is_rate_limit = "429" in err_msg or "too many requests" in err_msg or "bot" in err_msg
+                                sleep_time = (10.0 * (attempt + 1)) if is_rate_limit else (2.0 * (attempt + 1))
+                                logger.warning(
+                                    "extract_info attempt %d/3 failed for %s (%s). Sleeping %.1fs...",
+                                    attempt + 1,
+                                    v_id_str,
+                                    exc,
+                                    sleep_time,
+                                )
+                                time.sleep(sleep_time)
+                    except Exception as exc:
+                        logger.warning("Subtitle extraction aborted for %s: %s", v_id_str, exc)
 
             if not vtt_url:
                 return
@@ -772,6 +782,9 @@ def harvest_channel_shard(
                         shard_payload_items.add(item_id)
                 except Exception as exc:
                     logger.warning("Failed to insert payload for %s: %s", item_id, exc)
+
+            # Polite pacing delay between video downloads
+            time.sleep(1.5)
 
         if workers > 1 and len(target_videos) > 1:
             with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
