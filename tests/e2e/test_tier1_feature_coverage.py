@@ -40,14 +40,14 @@ from tests.e2e.contract_helpers import (
 # =============================================================================
 
 def test_g1_catalog_acquisition_and_presence(canonical_catalog_path: Path):
-    """G1.1: Verify catalog file exists, parses as valid JSON, and contains 25 channels."""
+    """G1.1: Verify catalog file exists, parses as valid JSON, and contains 32 channels."""
     assert canonical_catalog_path.is_file()
     with open(canonical_catalog_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     assert "channels" in data
-    assert data["total_channels_audited"] == 25
-    assert len(data["channels"]) == 25
+    assert data["total_channels_audited"] == 32
+    assert len(data["channels"]) == 32
     assert data["channels_with_any_manual_fa_cc"] == 5
 
 

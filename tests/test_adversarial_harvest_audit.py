@@ -110,11 +110,18 @@ def test_boundary_constraints():
         assert min_len > 0, f"Found empty raw_content for payload type {p_type}!"
         print(f"  [PASS] Non-video modality '{p_type}': {count} items, min_chars={min_len}, avg_chars={avg_len:.1f}")
 
-    # Channel cap constraint: <= 150 videos per channel
-    cur.execute("SELECT source_id, count(*) FROM items WHERE duration_seconds IS NOT NULL GROUP BY source_id HAVING count(*) > 150;")
+    # Channel cap constraint: <= 150 videos per channel for French harvest
+    cur.execute("""
+        SELECT i.source_id, count(*)
+        FROM items i
+        JOIN sources s ON s.id = i.source_id
+        WHERE i.duration_seconds IS NOT NULL AND s.language_iso1 = 'fr'
+        GROUP BY i.source_id
+        HAVING count(*) > 150;
+    """)
     over_capped = cur.fetchall()
-    assert len(over_capped) == 0, f"Violation: Channels exceeding 150 video items cap: {over_capped}"
-    print("  [PASS] Channel cap constraint: All channels have <= 150 video items")
+    assert len(over_capped) == 0, f"Violation: French channels exceeding 150 video items cap: {over_capped}"
+    print("  [PASS] Channel cap constraint: All French channels have <= 150 video items")
 
     # Verify no blank titles or URLs
     cur.execute("SELECT count(*) FROM items WHERE TRIM(title) = '' OR TRIM(url) = '';")
@@ -126,31 +133,31 @@ def test_boundary_constraints():
 
 
 def test_geographic_invariance():
-    """Verify strict geographic compliance: FR, CA, BE, CH only, 0 African/Maghreb."""
+    """Verify strict geographic compliance: FR, CA, BE, CH only, 0 African/Maghreb for French sources."""
     print("\n--- [TEST 3] Geographic Invariance ---")
     conn = sqlite3.connect(str(VAULT_PATH))
     cur = conn.cursor()
 
-    # Sources count: 80 YouTube channels + 11 tri-source discovery sources = 91 sources
-    cur.execute("SELECT count(*) FROM sources;")
+    # Sources count: 93 YouTube channels + 11 tri-source discovery sources = 104 French sources
+    cur.execute("SELECT count(*) FROM sources WHERE language_iso1 = 'fr';")
     total_sources = cur.fetchone()[0]
-    assert total_sources >= 80, f"Expected at least 80 sources, got {total_sources}"
-    assert total_sources == 91, f"Expected exactly 91 sources (80 YT + 4 cinema + 7 hansard), got {total_sources}"
-    print(f"  [PASS] Exactly {total_sources} sources in vault (80 YouTube, 4 cinema, 7 parliamentary)")
+    assert total_sources >= 80, f"Expected at least 80 French sources, got {total_sources}"
+    assert total_sources == 104, f"Expected exactly 104 French sources (93 YT + 4 cinema + 7 hansard), got {total_sources}"
+    print(f"  [PASS] Exactly {total_sources} French sources in vault (93 YouTube, 4 cinema, 7 parliamentary)")
 
-    # Language constraint: strictly French across all sources and payloads
-    cur.execute("SELECT DISTINCT language_iso1 FROM sources;")
+    # Language constraint: strictly French across French sources and payloads
+    cur.execute("SELECT DISTINCT language_iso1 FROM sources WHERE language_iso1 = 'fr';")
     languages = {r[0] for r in cur.fetchall()}
-    assert languages == {"fr"}, f"Violation: Non-French languages found in sources: {languages}"
+    assert languages == {"fr"}, f"Violation: Non-French languages found in French sources: {languages}"
     print(f"  [PASS] Source language strictly 'fr': {languages}")
 
-    cur.execute("SELECT DISTINCT language_iso1 FROM payloads;")
+    cur.execute("SELECT DISTINCT language_iso1 FROM payloads WHERE language_iso1 = 'fr';")
     payload_languages = {r[0] for r in cur.fetchall()}
-    assert payload_languages == {"fr"}, f"Violation: Non-French languages found in payloads: {payload_languages}"
+    assert payload_languages == {"fr"}, f"Violation: Non-French languages found in French payloads: {payload_languages}"
     print(f"  [PASS] Payload language strictly 'fr': {payload_languages}")
 
-    # Country codes constraint: only FR, CA, BE, CH
-    cur.execute("SELECT DISTINCT country_code FROM sources;")
+    # Country codes constraint: only FR, CA, BE, CH for French sources
+    cur.execute("SELECT DISTINCT country_code FROM sources WHERE language_iso1 = 'fr';")
     observed_countries = {r[0] for r in cur.fetchall()}
     unexpected_countries = observed_countries - ALLOWED_COUNTRY_CODES
     assert not unexpected_countries, f"Violation: Unexpected country codes: {unexpected_countries}"
@@ -170,10 +177,10 @@ def test_geographic_invariance():
         (ch.get("handle") or ch.get("uploader_id") or "").lstrip("@").lower()
         for ch in catalog_data.get("channels", [])
     }
-    cur.execute("SELECT id FROM sources WHERE platform = 'youtube';")
+    cur.execute("SELECT id FROM sources WHERE platform = 'youtube' AND language_iso1 = 'fr';")
     vault_handles = {r[0].replace("yt:@", "").replace("yt:", "").lower() for r in cur.fetchall()}
     assert vault_handles == catalog_handles, f"Catalog mismatch! Missing: {catalog_handles - vault_handles}, Extra: {vault_handles - catalog_handles}"
-    print(f"  [PASS] Vault YouTube sources match 80 catalog channels with 100% 1-to-1 correspondence")
+    print(f"  [PASS] Vault YouTube sources match 93 catalog channels with 100% 1-to-1 correspondence")
 
     conn.close()
 

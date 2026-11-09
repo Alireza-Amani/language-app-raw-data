@@ -42,7 +42,7 @@ def test_catalog_file_exists_and_is_valid() -> None:
     assert isinstance(data, dict)
     assert "channels" in data
     assert isinstance(data["channels"], list)
-    assert len(data["channels"]) == 25
+    assert len(data["channels"]) == 32
 
 
 def test_load_catalog_missing_file_raises(tmp_path: Path) -> None:
@@ -124,15 +124,15 @@ def test_handle_leading_at_normalization() -> None:
 
 def test_fiction_podcast_deduplication() -> None:
     """Verify Fiction Podcast index 11 (seed) and 12 (search hit) deduplicate to canonical."""
-    # Without deduplication: 25 channels, 2 Fiction Podcasts
+    # Without deduplication: 32 channels, 2 Fiction Podcasts
     raw_channels = load_catalog(CATALOG_PATH, dedup=False, filter_empty=False)
-    assert len(raw_channels) == 25
+    assert len(raw_channels) == 32
     fiction_raw = [c for c in raw_channels if c["handle"].lower() == "@fictionpodcast"]
     assert len(fiction_raw) == 2
 
-    # With deduplication: 24 channels, exactly 1 canonical Fiction Podcast
+    # With deduplication: 31 channels, exactly 1 canonical Fiction Podcast
     deduped_channels = load_catalog(CATALOG_PATH, dedup=True, filter_empty=False)
-    assert len(deduped_channels) == 24
+    assert len(deduped_channels) == 31
     fiction_deduped = [c for c in deduped_channels if c["handle"].lower() == "@fictionpodcast"]
     assert len(fiction_deduped) == 1
 
@@ -148,15 +148,15 @@ def test_fiction_podcast_deduplication() -> None:
 
 def test_filter_empty_behavior() -> None:
     """Verify @navidkashani is retained by default and excluded when filter_empty=True."""
-    # Retained by default: 24 channels total
+    # Retained by default: 31 channels total
     channels_default = load_catalog(CATALOG_PATH, dedup=True, filter_empty=False)
-    assert len(channels_default) == 24
+    assert len(channels_default) == 31
     navid_matches = [c for c in channels_default if c["handle"].lower() == "@navidkashani"]
     assert len(navid_matches) == 1
 
-    # Excluded when filter_empty is True: 23 channels total
+    # Excluded when filter_empty is True: 30 channels total
     channels_filtered = load_catalog(CATALOG_PATH, dedup=True, filter_empty=True)
-    assert len(channels_filtered) == 23
+    assert len(channels_filtered) == 30
     navid_filtered = [c for c in channels_filtered if c["handle"].lower() == "@navidkashani"]
     assert len(navid_filtered) == 0
 
@@ -176,7 +176,7 @@ def test_domain_squad_allocations_default() -> None:
     channels = load_catalog(CATALOG_PATH, dedup=True, filter_empty=False)
     partitions = partition_channels(channels, shards_count=4, balance_mode="domain")
 
-    assert partitions["total_channels"] == 24
+    assert partitions["total_channels"] == 31
     assert partitions["shards_count"] == 4
     assert partitions["balance_mode"] == "domain"
 
@@ -187,6 +187,7 @@ def test_domain_squad_allocations_default() -> None:
         {
             "shard_id": 1,
             "squad_name": "Podcasts & Thought",
+            "channels_count": 8,
             "channels": [
                 "@Tabaghe16",
                 "@ChannelBPodcast",
@@ -194,11 +195,14 @@ def test_domain_squad_allocations_default() -> None:
                 "@FictionPodcast",
                 "@WayneDyerFarsi",
                 "@radio-marz",
+                "@RokhPodcast",
+                "@AriaKeOxer",
             ],
         },
         {
             "shard_id": 2,
             "squad_name": "Vlogs & Entertainment",
+            "channels_count": 8,
             "channels": [
                 "@MiaPlays",
                 "@Kouman",
@@ -206,11 +210,14 @@ def test_domain_squad_allocations_default() -> None:
                 "@Bahare",
                 "@IraniTanz",
                 "@KhandeBazi",
+                "@JadiMirmirani",
+                "@dr.pouyan.moghaddam",
             ],
         },
         {
             "shard_id": 3,
             "squad_name": "Narrative & Culture",
+            "channels_count": 8,
             "channels": [
                 "@Dastan_land",
                 "@ShahreFarangs",
@@ -218,11 +225,14 @@ def test_domain_squad_allocations_default() -> None:
                 "@Filmbaz",
                 "@Vistamediaa",
                 "@BBCNewsPersian",
+                "@SekkePodcast",
+                "@chai_and_conversation",
             ],
         },
         {
             "shard_id": 4,
             "squad_name": "Practical & Instructional",
+            "channels_count": 7,
             "channels": [
                 "@ChefJavadJavadi",
                 "@ECO_COOK",
@@ -230,6 +240,7 @@ def test_domain_squad_allocations_default() -> None:
                 "@Amin.Farzad",
                 "@MehranRowshan",
                 "@navidkashani",
+                "@FarshadSilent",
             ],
         },
     ]
@@ -237,23 +248,23 @@ def test_domain_squad_allocations_default() -> None:
     for shard, expected in zip(shards, expected_squads):
         assert shard["shard_id"] == expected["shard_id"]
         assert shard["squad_name"] == expected["squad_name"]
-        assert shard["channels_count"] == 6
+        assert shard["channels_count"] == expected["channels_count"]
         handles = [ch["handle"] for ch in shard["channels"]]
         assert handles == expected["channels"]
         assert shard["cli_args"] == f"--shard-id {expected['shard_id']} --channels {','.join(expected['channels'])}"
 
 
 def test_domain_squad_allocations_with_filter_empty() -> None:
-    """Verify Squad 4 has 5 channels when filter_empty=True (Navid Kashani excluded)."""
+    """Verify Squad allocations when filter_empty=True (30 channels partitioned [8, 8, 7, 7])."""
     channels = load_catalog(CATALOG_PATH, dedup=True, filter_empty=True)
     partitions = partition_channels(channels, shards_count=4, balance_mode="domain")
 
-    assert partitions["total_channels"] == 23
+    assert partitions["total_channels"] == 30
     shards = partitions["shards"]
-    assert shards[0]["channels_count"] == 6
-    assert shards[1]["channels_count"] == 6
-    assert shards[2]["channels_count"] == 6
-    assert shards[3]["channels_count"] == 5
+    assert shards[0]["channels_count"] == 8
+    assert shards[1]["channels_count"] == 8
+    assert shards[2]["channels_count"] == 7
+    assert shards[3]["channels_count"] == 7
 
     squad4_handles = [ch["handle"] for ch in shards[3]["channels"]]
     assert squad4_handles == [
@@ -262,10 +273,12 @@ def test_domain_squad_allocations_with_filter_empty() -> None:
         "@SkillVid",
         "@Amin.Farzad",
         "@MehranRowshan",
+        "@RokhPodcast",
+        "@AriaKeOxer",
     ]
     assert (
         shards[3]["cli_args"]
-        == "--shard-id 4 --channels @ChefJavadJavadi,@ECO_COOK,@SkillVid,@Amin.Farzad,@MehranRowshan"
+        == "--shard-id 4 --channels @ChefJavadJavadi,@ECO_COOK,@SkillVid,@Amin.Farzad,@MehranRowshan,@RokhPodcast,@AriaKeOxer"
     )
 
 
@@ -281,8 +294,9 @@ def test_count_balance_mode_explicit() -> None:
 
     assert partitions["balance_mode"] == "count"
     assert partitions["shards_count"] == 4
-    for shard in partitions["shards"]:
-        assert shard["channels_count"] == 6
+    counts = [shard["channels_count"] for shard in partitions["shards"]]
+    assert counts == [8, 8, 8, 7]
+    assert sum(counts) == 31
 
 
 def test_count_balance_mode_arbitrary_shards() -> None:
@@ -291,8 +305,9 @@ def test_count_balance_mode_arbitrary_shards() -> None:
     partitions = partition_channels(channels, shards_count=3, balance_mode="count")
 
     assert partitions["shards_count"] == 3
-    for shard in partitions["shards"]:
-        assert shard["channels_count"] == 8
+    counts = [shard["channels_count"] for shard in partitions["shards"]]
+    assert counts == [11, 10, 10]
+    assert sum(counts) == 31
 
 
 def test_domain_fallback_to_count_when_shards_not_four() -> None:
@@ -301,8 +316,9 @@ def test_domain_fallback_to_count_when_shards_not_four() -> None:
     partitions = partition_channels(channels, shards_count=2, balance_mode="domain")
 
     assert partitions["shards_count"] == 2
-    for shard in partitions["shards"]:
-        assert shard["channels_count"] == 12
+    counts = [shard["channels_count"] for shard in partitions["shards"]]
+    assert counts == [16, 15]
+    assert sum(counts) == 31
 
 
 def test_invalid_parameters_raise_value_error() -> None:
@@ -354,7 +370,7 @@ def test_format_partitions_json() -> None:
     output = format_partitions(partitions, format_type="json")
 
     data = json.loads(output)
-    assert data["total_channels"] == 24
+    assert data["total_channels"] == 31
     assert len(data["shards"]) == 4
 
 
@@ -407,7 +423,7 @@ def test_save_partitions_to_disk(tmp_path: Path) -> None:
     assert result_path.exists()
     with open(result_path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    assert data["total_channels"] == 24
+    assert data["total_channels"] == 31
     assert len(data["shards"]) == 4
 
 
@@ -508,13 +524,14 @@ def test_cli_shards_and_balance_mode_matrix() -> None:
             data = json.loads(proc.stdout)
             assert data["shards_count"] == shards
             assert len(data["shards"]) == shards
-            expected_per_shard = 24 // shards
+            assert data["total_channels"] == 31
+            assert sum(s["channels_count"] for s in data["shards"]) == 31
             for s in data["shards"]:
-                assert s["channels_count"] == expected_per_shard
+                assert s["channels_count"] in (31 // shards, 31 // shards + 1)
 
 
 def test_cli_no_dedup_flag() -> None:
-    """Verify --no-dedup retains duplicates resulting in 25 channels."""
+    """Verify --no-dedup retains duplicates resulting in 32 channels."""
     proc = subprocess.run(
         [sys.executable, "scripts/partition_channels.py", "--no-dedup", "--format", "json"],
         capture_output=True,
@@ -523,13 +540,13 @@ def test_cli_no_dedup_flag() -> None:
     )
     assert proc.returncode == 0
     data = json.loads(proc.stdout)
-    assert data["total_channels"] == 25
+    assert data["total_channels"] == 32
     fiction_entries = [c for s in data["shards"] for c in s["channels"] if "fiction" in c["handle"].lower()]
     assert len(fiction_entries) == 2
 
 
 def test_cli_filter_empty_flag() -> None:
-    """Verify --filter-empty drops 0-video channels resulting in 23 channels."""
+    """Verify --filter-empty drops 0-video channels resulting in 30 channels."""
     proc = subprocess.run(
         [sys.executable, "scripts/partition_channels.py", "--filter-empty", "--format", "json"],
         capture_output=True,
@@ -538,7 +555,7 @@ def test_cli_filter_empty_flag() -> None:
     )
     assert proc.returncode == 0
     data = json.loads(proc.stdout)
-    assert data["total_channels"] == 23
+    assert data["total_channels"] == 30
     assert not any("navidkashani" in c["handle"].lower() for s in data["shards"] for c in s["channels"])
 
 
@@ -555,7 +572,7 @@ def test_cli_output_nested_nonexistent_dir(tmp_path: Path) -> None:
     assert nested_out.is_file()
     with open(nested_out, "r", encoding="utf-8") as f:
         disk_data = json.load(f)
-    assert disk_data["total_channels"] == 24
+    assert disk_data["total_channels"] == 31
     assert len(disk_data["shards"]) == 4
 
 

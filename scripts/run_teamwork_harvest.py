@@ -66,7 +66,7 @@ def resolve_language_defaults(
     else:
         shards = shards or 4
         catalog = catalog or "data/persian_channels_catalog.json"
-        staging_dir = staging_dir or "data/staging"
+        staging_dir = staging_dir or "staging/persian"
         cap_per_channel = 25 if cap_per_channel is None else cap_per_channel
         prefer_manual_cc = False if prefer_manual_cc is None else prefer_manual_cc
 
@@ -276,11 +276,35 @@ def run_orchestration(
             man_cc = sq.get("total_manual_cc", 0)
             print(f"  Squad {s_id} [{cc}]: {s_name} ({ch_count} channels, {v_count} audited videos, {man_cc} manual CC)")
     else:
-        channels = load_catalog(catalog_p)
-        partition_res = partition_channels(channels, shards_count=shards, balance_mode="domain")
-        save_partitions(partition_res, partitions_file)
-        total_channels = len(channels)
-        print(f"[+] Successfully partitioned {total_channels} channels across {shards} squads.")
+        persian_part_p = PROJECT_ROOT / "data" / "shards" / "persian_partitions.json"
+        if (
+            catalog_p.name == "persian_channels_catalog.json"
+            and persian_part_p.is_file()
+            and shards == 4
+        ):
+            logger.info(f"Loading pre-existing Persian partitions from {persian_part_p}...")
+            with open(persian_part_p, "r", encoding="utf-8") as pf:
+                partition_res = json.load(pf)
+            with open(partitions_file, "w", encoding="utf-8") as f:
+                json.dump(partition_res, f, indent=2, ensure_ascii=False)
+            total_channels = partition_res.get("total_channels", len(partition_res.get("shards", [])))
+            print(f"[+] Successfully loaded {total_channels} Persian channels across {shards} squads from {persian_part_p.name}:")
+            for sq in partition_res.get("shards", []):
+                s_id = int(sq["shard_id"])
+                s_name = sq.get("squad_name", f"Shard {s_id}")
+                squad_names[s_id] = s_name
+                ch_count = sq.get("channels_count", len(sq.get("channels", [])))
+                print(f"  Squad {s_id}: {s_name} ({ch_count} channels)")
+        else:
+            channels = load_catalog(catalog_p, filter_empty=True)
+            partition_res = partition_channels(channels, shards_count=shards, balance_mode="domain")
+            save_partitions(partition_res, partitions_file)
+            total_channels = len(channels)
+            for sq in partition_res.get("shards", []):
+                s_id = int(sq["shard_id"])
+                s_name = sq.get("squad_name", f"Shard {s_id}")
+                squad_names[s_id] = s_name
+            print(f"[+] Successfully partitioned {total_channels} channels across {shards} squads.")
 
     # Step 2: Harvest Shards
     logger.info(f"Step 2/3: Launching {shards} worker shards...")
